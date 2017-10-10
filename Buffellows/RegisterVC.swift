@@ -10,6 +10,24 @@ import UIKit
 
 class RegisterVC: UIViewController {
 
+    @IBOutlet weak var usernameReg: UITextField!
+    @IBOutlet weak var passwordReg: UITextField!
+    @IBOutlet weak var firstName: UITextField!
+    @IBOutlet weak var lastName: UITextField!
+    @IBOutlet weak var age: UITextField!
+    
+    @IBOutlet weak var registerButton: UIButton!
+    @IBAction func registerButton(_ sender: UIButton) {
+        let homeVC = HomeViewController(nibName: "HomeViewController", bundle: nil)
+        self.navigationController?.pushViewController(homeVC, animated: false)
+        self.navigationController?.navigationBar.isHidden = false
+        if(firstName.text != nil && lastName.text != nil) {
+            homeVC.getFirst = firstName.text
+            homeVC.getLast = lastName.text
+        }
+    }
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 

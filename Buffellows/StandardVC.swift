@@ -9,13 +9,18 @@
 import UIKit
 
 class StandardVC: UIViewController {
+    
+//    var backgroundColor: UIColor = UIColor(red: 0.2, green: 0.2, blue: 0.2, alpha: 1.0)
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+//        self.view.backgroundColor = backgroundColor
         // Do any additional setup after loading the view.
     }
-
+    
+    
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.

@@ -8,11 +8,19 @@
 
 import UIKit
 
-class HomeViewController: UIViewController {
+class HomeViewController: StandardVC {
 
+    var getFirst: String!
+    var getLast: String!
+    @IBOutlet weak var firstName: UILabel!
+    @IBOutlet weak var lastName: UILabel!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        firstName.text = getFirst
+        lastName.text = getLast
+        
         // Do any additional setup after loading the view.
     }
 
@@ -21,7 +29,8 @@ class HomeViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-
+    
+    
     /*
     // MARK: - Navigation
 

@@ -7,23 +7,35 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C37BCEBF1F8D63C60052022E /* RegisterVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C37BCEBD1F8D63C60052022E /* RegisterVC.swift */; };
+		C37BCEC01F8D63C60052022E /* RegisterVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = C37BCEBE1F8D63C60052022E /* RegisterVC.xib */; };
 		C3A897E81F2312A100665783 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3A897E71F2312A100665783 /* AppDelegate.swift */; };
-		C3A897EA1F2312A100665783 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3A897E91F2312A100665783 /* ViewController.swift */; };
-		C3A897ED1F2312A100665783 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C3A897EB1F2312A100665783 /* Main.storyboard */; };
 		C3A897F01F2312A100665783 /* Buffellows.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C3A897EE1F2312A100665783 /* Buffellows.xcdatamodeld */; };
 		C3A897F21F2312A100665783 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C3A897F11F2312A100665783 /* Assets.xcassets */; };
 		C3A897F51F2312A100665783 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C3A897F31F2312A100665783 /* LaunchScreen.storyboard */; };
+		C3A897FE1F23141700665783 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3A897FC1F23141700665783 /* HomeViewController.swift */; };
+		C3A897FF1F23141700665783 /* HomeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C3A897FD1F23141700665783 /* HomeViewController.xib */; };
+		C3A898041F32938800665783 /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3A898021F32938800665783 /* LoginVC.swift */; };
+		C3A898051F32938800665783 /* LoginVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = C3A898031F32938800665783 /* LoginVC.xib */; };
+		C3A898091F329A8000665783 /* StandardVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3A898071F329A8000665783 /* StandardVC.swift */; };
+		C3A8980A1F329A8000665783 /* StandardVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = C3A898081F329A8000665783 /* StandardVC.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		C37BCEBD1F8D63C60052022E /* RegisterVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterVC.swift; sourceTree = "<group>"; };
+		C37BCEBE1F8D63C60052022E /* RegisterVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RegisterVC.xib; sourceTree = "<group>"; };
 		C3A897E41F2312A100665783 /* Buffellows.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Buffellows.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C3A897E71F2312A100665783 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		C3A897E91F2312A100665783 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		C3A897EC1F2312A100665783 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		C3A897EF1F2312A100665783 /* Buffellows.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Buffellows.xcdatamodel; sourceTree = "<group>"; };
 		C3A897F11F2312A100665783 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C3A897F41F2312A100665783 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C3A897F61F2312A100665783 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C3A897FC1F23141700665783 /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		C3A897FD1F23141700665783 /* HomeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HomeViewController.xib; sourceTree = "<group>"; };
+		C3A898021F32938800665783 /* LoginVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginVC.swift; sourceTree = "<group>"; };
+		C3A898031F32938800665783 /* LoginVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoginVC.xib; sourceTree = "<group>"; };
+		C3A898071F329A8000665783 /* StandardVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StandardVC.swift; sourceTree = "<group>"; };
+		C3A898081F329A8000665783 /* StandardVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StandardVC.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -37,6 +49,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		C37BCEBC1F8D63A00052022E /* RegisterVC */ = {
+			isa = PBXGroup;
+			children = (
+				C37BCEBD1F8D63C60052022E /* RegisterVC.swift */,
+				C37BCEBE1F8D63C60052022E /* RegisterVC.xib */,
+			);
+			name = RegisterVC;
+			sourceTree = "<group>";
+		};
 		C3A897DB1F2312A000665783 = {
 			isa = PBXGroup;
 			children = (
@@ -56,15 +77,52 @@
 		C3A897E61F2312A100665783 /* Buffellows */ = {
 			isa = PBXGroup;
 			children = (
+				C37BCEBC1F8D63A00052022E /* RegisterVC */,
+				C3A898061F329A6F00665783 /* StandardVC */,
+				C3A898001F231CAC00665783 /* HomeVC */,
+				C3A898011F32935800665783 /* LoginVC */,
+				C3A898101F54BB5D00665783 /* Additional */,
+			);
+			path = Buffellows;
+			sourceTree = "<group>";
+		};
+		C3A898001F231CAC00665783 /* HomeVC */ = {
+			isa = PBXGroup;
+			children = (
+				C3A897FC1F23141700665783 /* HomeViewController.swift */,
+				C3A897FD1F23141700665783 /* HomeViewController.xib */,
+			);
+			name = HomeVC;
+			sourceTree = "<group>";
+		};
+		C3A898011F32935800665783 /* LoginVC */ = {
+			isa = PBXGroup;
+			children = (
+				C3A898021F32938800665783 /* LoginVC.swift */,
+				C3A898031F32938800665783 /* LoginVC.xib */,
+			);
+			name = LoginVC;
+			sourceTree = "<group>";
+		};
+		C3A898061F329A6F00665783 /* StandardVC */ = {
+			isa = PBXGroup;
+			children = (
+				C3A898071F329A8000665783 /* StandardVC.swift */,
+				C3A898081F329A8000665783 /* StandardVC.xib */,
+			);
+			name = StandardVC;
+			sourceTree = "<group>";
+		};
+		C3A898101F54BB5D00665783 /* Additional */ = {
+			isa = PBXGroup;
+			children = (
 				C3A897E71F2312A100665783 /* AppDelegate.swift */,
-				C3A897E91F2312A100665783 /* ViewController.swift */,
-				C3A897EB1F2312A100665783 /* Main.storyboard */,
 				C3A897F11F2312A100665783 /* Assets.xcassets */,
 				C3A897F31F2312A100665783 /* LaunchScreen.storyboard */,
 				C3A897F61F2312A100665783 /* Info.plist */,
 				C3A897EE1F2312A100665783 /* Buffellows.xcdatamodeld */,
 			);
-			path = Buffellows;
+			name = Additional;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -128,8 +186,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				C3A897F51F2312A100665783 /* LaunchScreen.storyboard in Resources */,
+				C3A8980A1F329A8000665783 /* StandardVC.xib in Resources */,
 				C3A897F21F2312A100665783 /* Assets.xcassets in Resources */,
-				C3A897ED1F2312A100665783 /* Main.storyboard in Resources */,
+				C37BCEC01F8D63C60052022E /* RegisterVC.xib in Resources */,
+				C3A898051F32938800665783 /* LoginVC.xib in Resources */,
+				C3A897FF1F23141700665783 /* HomeViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -140,23 +201,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C3A897EA1F2312A100665783 /* ViewController.swift in Sources */,
 				C3A897E81F2312A100665783 /* AppDelegate.swift in Sources */,
+				C3A898091F329A8000665783 /* StandardVC.swift in Sources */,
 				C3A897F01F2312A100665783 /* Buffellows.xcdatamodeld in Sources */,
+				C37BCEBF1F8D63C60052022E /* RegisterVC.swift in Sources */,
+				C3A898041F32938800665783 /* LoginVC.swift in Sources */,
+				C3A897FE1F23141700665783 /* HomeViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		C3A897EB1F2312A100665783 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				C3A897EC1F2312A100665783 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		C3A897F31F2312A100665783 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -306,6 +362,7 @@
 				C3A897FB1F2312A100665783 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 
