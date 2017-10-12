@@ -7,5 +7,8 @@ target 'Buffellows' do
   
   # Pods for Buffellows
 
+  pod 'Firebase'
+  pod 'Firebase/Database'
   pod 'Firebase/Core'
+  pod 'Firebase/Auth'
 end

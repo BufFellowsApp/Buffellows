@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		26EF8E28ABF227F4E38D6130 /* Pods_Buffellows.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D55820BDC9E89433D967512 /* Pods_Buffellows.framework */; };
 		C37BCEBF1F8D63C60052022E /* RegisterVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C37BCEBD1F8D63C60052022E /* RegisterVC.swift */; };
 		C37BCEC01F8D63C60052022E /* RegisterVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = C37BCEBE1F8D63C60052022E /* RegisterVC.xib */; };
 		C3A897E81F2312A100665783 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3A897E71F2312A100665783 /* AppDelegate.swift */; };
@@ -22,6 +23,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1D55820BDC9E89433D967512 /* Pods_Buffellows.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Buffellows.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		61FEFA075D505208088C30A2 /* Pods-Buffellows.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Buffellows.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Buffellows/Pods-Buffellows.debug.xcconfig"; sourceTree = "<group>"; };
 		C37BCEBD1F8D63C60052022E /* RegisterVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterVC.swift; sourceTree = "<group>"; };
 		C37BCEBE1F8D63C60052022E /* RegisterVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RegisterVC.xib; sourceTree = "<group>"; };
 		C3A897E41F2312A100665783 /* Buffellows.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Buffellows.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -36,6 +39,7 @@
 		C3A898031F32938800665783 /* LoginVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoginVC.xib; sourceTree = "<group>"; };
 		C3A898071F329A8000665783 /* StandardVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StandardVC.swift; sourceTree = "<group>"; };
 		C3A898081F329A8000665783 /* StandardVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StandardVC.xib; sourceTree = "<group>"; };
+		E32143505C8C3F2365982189 /* Pods-Buffellows.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Buffellows.release.xcconfig"; path = "Pods/Target Support Files/Pods-Buffellows/Pods-Buffellows.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -43,12 +47,30 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				26EF8E28ABF227F4E38D6130 /* Pods_Buffellows.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		87A26113C47BBF61787BD482 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1D55820BDC9E89433D967512 /* Pods_Buffellows.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		9EC28577EEFA4A567C60B231 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				61FEFA075D505208088C30A2 /* Pods-Buffellows.debug.xcconfig */,
+				E32143505C8C3F2365982189 /* Pods-Buffellows.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		C37BCEBC1F8D63A00052022E /* RegisterVC */ = {
 			isa = PBXGroup;
 			children = (
@@ -63,6 +85,8 @@
 			children = (
 				C3A897E61F2312A100665783 /* Buffellows */,
 				C3A897E51F2312A100665783 /* Products */,
+				9EC28577EEFA4A567C60B231 /* Pods */,
+				87A26113C47BBF61787BD482 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -132,9 +156,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = C3A897F91F2312A100665783 /* Build configuration list for PBXNativeTarget "Buffellows" */;
 			buildPhases = (
+				38EC393DC6014BD1ACC4885C /* [CP] Check Pods Manifest.lock */,
 				C3A897E01F2312A100665783 /* Sources */,
 				C3A897E11F2312A100665783 /* Frameworks */,
 				C3A897E21F2312A100665783 /* Resources */,
+				DE270FB2DF97690AB3720A60 /* [CP] Embed Pods Frameworks */,
+				59B20EA7F3B6B360691CB7CE /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -195,6 +222,66 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		38EC393DC6014BD1ACC4885C /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Buffellows-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		59B20EA7F3B6B360691CB7CE /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Buffellows/Pods-Buffellows-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		DE270FB2DF97690AB3720A60 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-Buffellows/Pods-Buffellows-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
+				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
+				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Buffellows/Pods-Buffellows-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		C3A897E01F2312A100665783 /* Sources */ = {
@@ -319,6 +406,7 @@
 		};
 		C3A897FA1F2312A100665783 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 61FEFA075D505208088C30A2 /* Pods-Buffellows.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = LDA8VUS6TR;
@@ -332,6 +420,7 @@
 		};
 		C3A897FB1F2312A100665783 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E32143505C8C3F2365982189 /* Pods-Buffellows.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = LDA8VUS6TR;
