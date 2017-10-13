@@ -1,5 +1,5 @@
 //
-//  userDatabase.swift
+//  userDB.swift
 //  Buffellows
 //
 //  Created by Eric Gambetta-Guglielmana on 10/12/17.
@@ -9,27 +9,16 @@
 import UIKit
 import Firebase
 
-class userDatabase  {
+class userDB  {
     
-    public static let instance = userDatabase()
+    public static let instance = userDB()
     private init(){
         FirebaseApp.configure()
     }
     
     let rootRef =  Database.database().reference()
     
-    public func getUSerData(userID: String) -> Dictionary<String, Any> {
-        var userData = [String: AnyObject]()
-        let getDataRef = rootRef.child("Users").child(userID)
-        
-        getDataRef.observe(.value){
-            (snap: DataSnapshot) in
-            userData = (snap.value as? [String: AnyObject])!
-                
 
-        }
-        return userData
-    }
     public func addUser(userData: [String: AnyObject]) {
         
         let userID = userData["userID"] as! String
@@ -63,6 +52,18 @@ class userDatabase  {
     public func deleteUser(userID: String){
         
         rootRef.child(userID).removeValue()
+    }
+    public func getUSerData(userID: String) -> Dictionary<String, Any> {
+        var userData = [String: AnyObject]()
+        let getDataRef = rootRef.child("Users").child(userID)
+        
+        getDataRef.observe(.value){
+            (snap: DataSnapshot) in
+            userData = (snap.value as? [String: AnyObject])!
+            
+            
+        }
+        return userData
     }
     
 }

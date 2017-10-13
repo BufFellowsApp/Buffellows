@@ -20,7 +20,7 @@
 		C3A898051F32938800665783 /* LoginVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = C3A898031F32938800665783 /* LoginVC.xib */; };
 		C3A898091F329A8000665783 /* StandardVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3A898071F329A8000665783 /* StandardVC.swift */; };
 		C3A8980A1F329A8000665783 /* StandardVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = C3A898081F329A8000665783 /* StandardVC.xib */; };
-		EE5DD64E1F90445D00F6AFE4 /* userDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE5DD64D1F90445D00F6AFE4 /* userDatabase.swift */; };
+		EE5DD64E1F90445D00F6AFE4 /* userDB.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE5DD64D1F90445D00F6AFE4 /* userDB.swift */; };
 		EE5DD6501F90595000F6AFE4 /* challengeDB.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE5DD64F1F90595000F6AFE4 /* challengeDB.swift */; };
 /* End PBXBuildFile section */
 
@@ -42,7 +42,7 @@
 		C3A898071F329A8000665783 /* StandardVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StandardVC.swift; sourceTree = "<group>"; };
 		C3A898081F329A8000665783 /* StandardVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StandardVC.xib; sourceTree = "<group>"; };
 		E32143505C8C3F2365982189 /* Pods-Buffellows.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Buffellows.release.xcconfig"; path = "Pods/Target Support Files/Pods-Buffellows/Pods-Buffellows.release.xcconfig"; sourceTree = "<group>"; };
-		EE5DD64D1F90445D00F6AFE4 /* userDatabase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = userDatabase.swift; sourceTree = "<group>"; };
+		EE5DD64D1F90445D00F6AFE4 /* userDB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = userDB.swift; sourceTree = "<group>"; };
 		EE5DD64F1F90595000F6AFE4 /* challengeDB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = challengeDB.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -110,7 +110,7 @@
 				C3A898001F231CAC00665783 /* HomeVC */,
 				C3A898011F32935800665783 /* LoginVC */,
 				C3A898101F54BB5D00665783 /* Additional */,
-				EE5DD64D1F90445D00F6AFE4 /* userDatabase.swift */,
+				EE5DD64D1F90445D00F6AFE4 /* userDB.swift */,
 				EE5DD64F1F90595000F6AFE4 /* challengeDB.swift */,
 			);
 			path = Buffellows;
@@ -294,7 +294,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EE5DD64E1F90445D00F6AFE4 /* userDatabase.swift in Sources */,
+				EE5DD64E1F90445D00F6AFE4 /* userDB.swift in Sources */,
 				C3A897E81F2312A100665783 /* AppDelegate.swift in Sources */,
 				C3A898091F329A8000665783 /* StandardVC.swift in Sources */,
 				C3A897F01F2312A100665783 /* Buffellows.xcdatamodeld in Sources */,
