@@ -10,12 +10,14 @@ import UIKit
 import Firebase
 
 class userDatabase  {
-    let rootRef =  Database.database().reference()
+    
     public static let instance = userDatabase()
     private init(){
         FirebaseApp.configure()
     }
-
+    
+    let rootRef =  Database.database().reference()
+    
     public func getUSerData(userID: String) -> Dictionary<String, Any> {
         var userData = [String: AnyObject]()
         let getDataRef = rootRef.child("Users").child(userID)
@@ -57,4 +59,10 @@ class userDatabase  {
         
     
     }
+    
+    public func deleteUser(userID: String){
+        
+        rootRef.child(userID).removeValue()
+    }
+    
 }

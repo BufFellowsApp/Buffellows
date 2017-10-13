@@ -44,4 +44,16 @@ class challengeDB {
         rootRef.child(challengeID).updateChildValues(["Status": updateInfo])
     }
     
+    public func getUSerData(challengeID: String) -> Dictionary<String, Any> {
+        var challengeData = [String: AnyObject]()
+        let getDataRef = rootRef.child(challengeID)
+        
+        getDataRef.observe(.value){
+            (snap: DataSnapshot) in
+            challengeData = (snap.value as? [String: AnyObject])!
+            
+            
+        }
+        return challengeData
+    }
 }
