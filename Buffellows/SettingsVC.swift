@@ -1,42 +1,37 @@
 //
-//  HomeViewController.swift
+//  SettingsVC.swift
 //  Buffellows
 //
-//  Created by Ashish Chatterjee on 7/21/17.
+//  Created by Ashish Chatterjee on 10/22/17.
 //  Copyright © 2017 Ashish Chatterjee. All rights reserved.
 //
 
 import UIKit
 
-class HomeViewController: StandardVC {
+class SettingsVC: UIViewController {
 
-    @IBOutlet weak var firstName: UILabel!
-    @IBOutlet weak var lastName: UILabel!
-    @IBOutlet weak var username: UILabel!
-    @IBOutlet weak var age: UILabel!
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        loadInfo()
-        
+
+        setupNavBar()
         // Do any additional setup after loading the view.
     }
-    
-    func loadInfo() {
-        firstName.text = UserDefaults.standard.value(forKey: "firstName") as! String
-        lastName.text = UserDefaults.standard.value(forKey: "lastName") as! String
-        username.text = UserDefaults.standard.value(forKey: "username") as! String
-        age.text = UserDefaults.standard.value(forKey: "age") as! String
-    }
 
+    func setupNavBar() {
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Sign Out", style: UIBarButtonItemStyle.plain, target: self, action: #selector(handleSignout))
+    }
+    
+    func handleSignout() {
+        let loginVC = LoginVC(nibName: "LoginVC", bundle: nil)
+        self.navigationController?.pushViewController(loginVC, animated: false)
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
-    
-    
+
     /*
     // MARK: - Navigation
 
