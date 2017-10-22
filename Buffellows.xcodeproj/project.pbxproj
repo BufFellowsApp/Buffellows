@@ -20,6 +20,14 @@
 		C3A898051F32938800665783 /* LoginVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = C3A898031F32938800665783 /* LoginVC.xib */; };
 		C3A898091F329A8000665783 /* StandardVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3A898071F329A8000665783 /* StandardVC.swift */; };
 		C3A8980A1F329A8000665783 /* StandardVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = C3A898081F329A8000665783 /* StandardVC.xib */; };
+		C3FE27061F9C853900C896B0 /* TabBarVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3FE27041F9C853900C896B0 /* TabBarVC.swift */; };
+		C3FE27071F9C853900C896B0 /* TabBarVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = C3FE27051F9C853900C896B0 /* TabBarVC.xib */; };
+		C3FE270C1F9C93B000C896B0 /* FriendsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3FE270A1F9C93B000C896B0 /* FriendsVC.swift */; };
+		C3FE270D1F9C93B000C896B0 /* FriendsVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = C3FE270B1F9C93B000C896B0 /* FriendsVC.xib */; };
+		C3FE27101F9C93C200C896B0 /* ExercisesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3FE270E1F9C93C200C896B0 /* ExercisesVC.swift */; };
+		C3FE27111F9C93C200C896B0 /* ExercisesVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = C3FE270F1F9C93C200C896B0 /* ExercisesVC.xib */; };
+		C3FE27141F9CA78300C896B0 /* SettingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3FE27121F9CA78300C896B0 /* SettingsVC.swift */; };
+		C3FE27151F9CA78300C896B0 /* SettingsVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = C3FE27131F9CA78300C896B0 /* SettingsVC.xib */; };
 		EE5DD64E1F90445D00F6AFE4 /* userDB.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE5DD64D1F90445D00F6AFE4 /* userDB.swift */; };
 		EE5DD6501F90595000F6AFE4 /* challengeDB.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE5DD64F1F90595000F6AFE4 /* challengeDB.swift */; };
 /* End PBXBuildFile section */
@@ -41,6 +49,14 @@
 		C3A898031F32938800665783 /* LoginVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoginVC.xib; sourceTree = "<group>"; };
 		C3A898071F329A8000665783 /* StandardVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StandardVC.swift; sourceTree = "<group>"; };
 		C3A898081F329A8000665783 /* StandardVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StandardVC.xib; sourceTree = "<group>"; };
+		C3FE27041F9C853900C896B0 /* TabBarVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarVC.swift; sourceTree = "<group>"; };
+		C3FE27051F9C853900C896B0 /* TabBarVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TabBarVC.xib; sourceTree = "<group>"; };
+		C3FE270A1F9C93B000C896B0 /* FriendsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsVC.swift; sourceTree = "<group>"; };
+		C3FE270B1F9C93B000C896B0 /* FriendsVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FriendsVC.xib; sourceTree = "<group>"; };
+		C3FE270E1F9C93C200C896B0 /* ExercisesVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExercisesVC.swift; sourceTree = "<group>"; };
+		C3FE270F1F9C93C200C896B0 /* ExercisesVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ExercisesVC.xib; sourceTree = "<group>"; };
+		C3FE27121F9CA78300C896B0 /* SettingsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsVC.swift; sourceTree = "<group>"; };
+		C3FE27131F9CA78300C896B0 /* SettingsVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SettingsVC.xib; sourceTree = "<group>"; };
 		E32143505C8C3F2365982189 /* Pods-Buffellows.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Buffellows.release.xcconfig"; path = "Pods/Target Support Files/Pods-Buffellows/Pods-Buffellows.release.xcconfig"; sourceTree = "<group>"; };
 		EE5DD64D1F90445D00F6AFE4 /* userDB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = userDB.swift; sourceTree = "<group>"; };
 		EE5DD64F1F90595000F6AFE4 /* challengeDB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = challengeDB.swift; sourceTree = "<group>"; };
@@ -105,10 +121,14 @@
 		C3A897E61F2312A100665783 /* Buffellows */ = {
 			isa = PBXGroup;
 			children = (
+				C3FE27091F9C939A00C896B0 /* ExercisesVC */,
+				C3FE27081F9C939200C896B0 /* FriendsVC */,
+				C3FE27031F9C851100C896B0 /* TabBarVC */,
 				C37BCEBC1F8D63A00052022E /* RegisterVC */,
+				C3A898011F32935800665783 /* LoginVC */,
+				C3FE27161F9CA78E00C896B0 /* SettingsVC */,
 				C3A898061F329A6F00665783 /* StandardVC */,
 				C3A898001F231CAC00665783 /* HomeVC */,
-				C3A898011F32935800665783 /* LoginVC */,
 				C3A898101F54BB5D00665783 /* Additional */,
 				EE5DD64D1F90445D00F6AFE4 /* userDB.swift */,
 				EE5DD64F1F90595000F6AFE4 /* challengeDB.swift */,
@@ -155,6 +175,42 @@
 			name = Additional;
 			sourceTree = "<group>";
 		};
+		C3FE27031F9C851100C896B0 /* TabBarVC */ = {
+			isa = PBXGroup;
+			children = (
+				C3FE27041F9C853900C896B0 /* TabBarVC.swift */,
+				C3FE27051F9C853900C896B0 /* TabBarVC.xib */,
+			);
+			name = TabBarVC;
+			sourceTree = "<group>";
+		};
+		C3FE27081F9C939200C896B0 /* FriendsVC */ = {
+			isa = PBXGroup;
+			children = (
+				C3FE270A1F9C93B000C896B0 /* FriendsVC.swift */,
+				C3FE270B1F9C93B000C896B0 /* FriendsVC.xib */,
+			);
+			name = FriendsVC;
+			sourceTree = "<group>";
+		};
+		C3FE27091F9C939A00C896B0 /* ExercisesVC */ = {
+			isa = PBXGroup;
+			children = (
+				C3FE270E1F9C93C200C896B0 /* ExercisesVC.swift */,
+				C3FE270F1F9C93C200C896B0 /* ExercisesVC.xib */,
+			);
+			name = ExercisesVC;
+			sourceTree = "<group>";
+		};
+		C3FE27161F9CA78E00C896B0 /* SettingsVC */ = {
+			isa = PBXGroup;
+			children = (
+				C3FE27121F9CA78300C896B0 /* SettingsVC.swift */,
+				C3FE27131F9CA78300C896B0 /* SettingsVC.xib */,
+			);
+			name = SettingsVC;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -190,7 +246,7 @@
 				TargetAttributes = {
 					C3A897E31F2312A100665783 = {
 						CreatedOnToolsVersion = 8.3;
-						DevelopmentTeam = LDA8VUS6TR;
+						DevelopmentTeam = X64283BNM4;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -219,11 +275,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				C3A897F51F2312A100665783 /* LaunchScreen.storyboard in Resources */,
+				C3FE27111F9C93C200C896B0 /* ExercisesVC.xib in Resources */,
+				C3FE27071F9C853900C896B0 /* TabBarVC.xib in Resources */,
+				C3FE270D1F9C93B000C896B0 /* FriendsVC.xib in Resources */,
 				C3A8980A1F329A8000665783 /* StandardVC.xib in Resources */,
 				C3A897F21F2312A100665783 /* Assets.xcassets in Resources */,
 				C37BCEC01F8D63C60052022E /* RegisterVC.xib in Resources */,
 				C3A898051F32938800665783 /* LoginVC.xib in Resources */,
 				C3A897FF1F23141700665783 /* HomeViewController.xib in Resources */,
+				C3FE27151F9CA78300C896B0 /* SettingsVC.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -298,6 +358,10 @@
 				C3A897E81F2312A100665783 /* AppDelegate.swift in Sources */,
 				C3A898091F329A8000665783 /* StandardVC.swift in Sources */,
 				C3A897F01F2312A100665783 /* Buffellows.xcdatamodeld in Sources */,
+				C3FE270C1F9C93B000C896B0 /* FriendsVC.swift in Sources */,
+				C3FE27141F9CA78300C896B0 /* SettingsVC.swift in Sources */,
+				C3FE27101F9C93C200C896B0 /* ExercisesVC.swift in Sources */,
+				C3FE27061F9C853900C896B0 /* TabBarVC.swift in Sources */,
 				C37BCEBF1F8D63C60052022E /* RegisterVC.swift in Sources */,
 				EE5DD6501F90595000F6AFE4 /* challengeDB.swift in Sources */,
 				C3A898041F32938800665783 /* LoginVC.swift in Sources */,
@@ -417,7 +481,7 @@
 			baseConfigurationReference = 61FEFA075D505208088C30A2 /* Pods-Buffellows.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = LDA8VUS6TR;
+				DEVELOPMENT_TEAM = X64283BNM4;
 				INFOPLIST_FILE = Buffellows/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = ABCD.Buffellows;
@@ -431,7 +495,7 @@
 			baseConfigurationReference = E32143505C8C3F2365982189 /* Pods-Buffellows.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = LDA8VUS6TR;
+				DEVELOPMENT_TEAM = X64283BNM4;
 				INFOPLIST_FILE = Buffellows/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = ABCD.Buffellows;
