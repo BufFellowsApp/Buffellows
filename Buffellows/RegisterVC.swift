@@ -8,7 +8,7 @@
 
 import UIKit
 
-class RegisterVC: UIViewController {
+class RegisterVC: UIViewController, UITextFieldDelegate {
 
     @IBOutlet weak var usernameReg: UITextField!
     @IBOutlet weak var passwordReg: UITextField!
@@ -16,24 +16,59 @@ class RegisterVC: UIViewController {
     @IBOutlet weak var lastName: UITextField!
     @IBOutlet weak var age: UITextField!
     
+    var username: String!
+    var password: String!
+    var fName: String!
+    var lName: String!
+    var userAge: String!
+    
     @IBOutlet weak var registerButton: UIButton!
     @IBAction func registerButton(_ sender: UIButton) {
-        let homeVC = HomeViewController(nibName: "HomeViewController", bundle: nil)
-        self.navigationController?.pushViewController(homeVC, animated: false)
+        
+        saveInfo()
+        
+        let tabBarVC = TabBarVC(nibName: "TabBarVC", bundle: nil)
+        self.navigationController?.pushViewController(tabBarVC, animated: false)
         self.navigationController?.navigationBar.isHidden = false
-        if(firstName.text != nil && lastName.text != nil) {
-            homeVC.getFirst = firstName.text
-            homeVC.getLast = lastName.text
-        }
+        
     }
     
+    func saveInfo() {
+        username = usernameReg.text
+        password = passwordReg.text
+        fName = firstName.text
+        lName = lastName.text
+        userAge = age.text
+        
+        UserDefaults.standard.set(username, forKey: "username")
+        UserDefaults.standard.set(password, forKey: "password")
+        UserDefaults.standard.set(fName, forKey: "firstName")
+        UserDefaults.standard.set(lName, forKey: "lastName")
+        UserDefaults.standard.set(userAge, forKey: "age")
+        UserDefaults.standard.synchronize()
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        usernameReg.delegate = self
+        firstName.delegate = self
+        lastName.delegate = self
+        passwordReg.delegate = self
+        age.delegate = self
 
         // Do any additional setup after loading the view.
     }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        self.view.endEditing(true)
+        return false
+    }
 
+    override func viewWillAppear(_ animated: Bool) {
+        self.navigationController?.navigationBar.isHidden = true
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
