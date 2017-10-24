@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Firebase
 
 class LoginVC: UIViewController, UITextFieldDelegate {
     
@@ -30,6 +31,10 @@ class LoginVC: UIViewController, UITextFieldDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+       //let ref = Database.database().reference(fromURL: "https://buffellows-cc410.firebaseio.com/")
+        
+     // ref.updateChildValues(["someValue": 123123])
         
         usernameLogin.delegate = self
         passwordLogin.delegate = self
