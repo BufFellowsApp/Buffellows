@@ -71,7 +71,7 @@ class RegisterVC: UIViewController, UITextFieldDelegate {
             return
         }
         
-        Auth.createUser(withEmail: email, password: password, completion:  (user: User, error) in
+        Auth.createUser(withEmail: email, password: password, completion:  (user: User, error) in 
             //if error != nil{
             //    print(error)
               //  return
