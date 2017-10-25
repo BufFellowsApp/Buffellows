@@ -27,12 +27,12 @@ class RegisterVC: UIViewController, UITextFieldDelegate {
         
         saveInfo()
         
-        registerButton.addtarget(self, ACTION: #selector(handleRegister, forControlEvents: .TouchUpInside)
+        registerButton.addTarget(self, action: #selector(handleRegister), for: .touchUpInside)
         
         let tabBarVC = TabBarVC(nibName: "TabBarVC", bundle: nil)
         self.navigationController?.pushViewController(tabBarVC, animated: false)
         self.navigationController?.navigationBar.isHidden = false
-        return registerButton
+        
     }
     
     func saveInfo() {
@@ -61,17 +61,16 @@ class RegisterVC: UIViewController, UITextFieldDelegate {
 
         // Do any additional setup after loading the view.
     }
-    
 
     
-  func handleRegister()
+  func handleRegister() //ADD DATABASE CALLS FOR REGISTER
     {
         guard let email = usernameReg.text, let password = passwordReg.text else{
             print ("form is invalid")
             return
         }
         
-        Auth.createUser(withEmail: email, password: password, completion:  (user: User, error) in 
+        Auth.createUser(withEmail: email, password: password, completion:  (user: User, error) in
             //if error != nil{
             //    print(error)
               //  return
