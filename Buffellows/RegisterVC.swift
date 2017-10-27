@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Firebase
 
 class RegisterVC: UIViewController, UITextFieldDelegate {
 
@@ -30,7 +31,7 @@ class RegisterVC: UIViewController, UITextFieldDelegate {
         let tabBarVC = TabBarVC(nibName: "TabBarVC", bundle: nil)
         self.navigationController?.pushViewController(tabBarVC, animated: false)
         self.navigationController?.navigationBar.isHidden = false
-        
+        handleRegister()
     }
     
     func saveInfo() {
@@ -46,6 +47,42 @@ class RegisterVC: UIViewController, UITextFieldDelegate {
         UserDefaults.standard.set(lName, forKey: "lastName")
         UserDefaults.standard.set(userAge, forKey: "age")
         UserDefaults.standard.synchronize()
+        
+    }
+     func handleRegister(){
+        guard let email = usernameReg.text, let password = passwordReg.text else{
+            print ("form is invalid")
+            return
+        }
+        
+        
+        Auth.auth().createUser(withEmail: email, password: password, completion: { (user: User?, error) in
+            
+            if let error = error {
+                print(error)
+                return
+            }
+            
+            guard let uid = user?.uid else {
+                return
+            }
+            
+            //successfully authenticated user Still need to convert this to the userDB.swift calls.
+            let ref = Database.database().reference()
+            let usersReference = ref.child("Users").child(uid)
+            let values = ["name": self.firstName.text!, "email": email]
+            usersReference.updateChildValues(values, withCompletionBlock: { (err, ref) in
+                
+                if let err = err {
+                    print(err)
+                    return
+                }
+                
+                print("Saved user successfully into Firebase db")
+                
+            })
+            
+        })
     }
     
     override func viewDidLoad() {

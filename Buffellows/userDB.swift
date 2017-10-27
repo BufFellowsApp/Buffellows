@@ -24,12 +24,23 @@ class userDB  {
         let userID = userData["userID"] as! String
         let firstName = userData["firstName"] as! String
         let lastName = userData["lastName"] as! String
-        let userAge = userData["age"] as! Int
+        let userAge = userData["age"] as! String
         let userAdd = rootRef.child("users").child(userID)
         
-        userAdd.setValue(["first": firstName])
-        userAdd.setValue(["last": lastName])
-        userAdd.setValue(["age": userAge])
+        
+        
+        let value = ["firstName": firstName, "lastName": lastName, "age": userAge]
+        userAdd.updateChildValues(value, withCompletionBlock: { (err, ref) in
+            
+            if let err = err {
+                print(err)
+                return
+            }
+            
+            print("Saved user successfully into Firebase db")
+            
+        })
+        
     }
     public func addFriend(userID: String, friendID: String){
         
