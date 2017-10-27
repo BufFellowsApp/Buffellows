@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Firebase
 
 class FriendsVC: StandardVC {
 
@@ -14,6 +15,18 @@ class FriendsVC: StandardVC {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        
+        let currentUser = FIRAuth.auth()?.currentUser
+        currentUser?.getTokenForcingRefresh(true) {idToken, error in
+            if let error = error {
+                // Handle error
+                return;
+            }
+            
+            // Send token to your backend via HTTPS
+            // ...
+        }
+        
     }
 
     override func didReceiveMemoryWarning() {

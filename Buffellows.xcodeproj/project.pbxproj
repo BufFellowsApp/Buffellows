@@ -61,7 +61,7 @@
 		E32143505C8C3F2365982189 /* Pods-Buffellows.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Buffellows.release.xcconfig"; path = "Pods/Target Support Files/Pods-Buffellows/Pods-Buffellows.release.xcconfig"; sourceTree = "<group>"; };
 		EE5DD64D1F90445D00F6AFE4 /* userDB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = userDB.swift; sourceTree = "<group>"; };
 		EE5DD64F1F90595000F6AFE4 /* challengeDB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = challengeDB.swift; sourceTree = "<group>"; };
-		EED587661FA2C27C00389623 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
+		EED587661FA2C27C00389623 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "Buffellows/GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -123,7 +123,6 @@
 		C3A897E61F2312A100665783 /* Buffellows */ = {
 			isa = PBXGroup;
 			children = (
-				EED587661FA2C27C00389623 /* GoogleService-Info.plist */,
 				C3FE27091F9C939A00C896B0 /* ExercisesVC */,
 				C3FE27081F9C939200C896B0 /* FriendsVC */,
 				C3FE27031F9C851100C896B0 /* TabBarVC */,
@@ -133,8 +132,7 @@
 				C3A898061F329A6F00665783 /* StandardVC */,
 				C3A898001F231CAC00665783 /* HomeVC */,
 				C3A898101F54BB5D00665783 /* Additional */,
-				EE5DD64D1F90445D00F6AFE4 /* userDB.swift */,
-				EE5DD64F1F90595000F6AFE4 /* challengeDB.swift */,
+				EED587681FA2DA7600389623 /* DataBaseClasses */,
 			);
 			path = Buffellows;
 			sourceTree = "<group>";
@@ -169,6 +167,7 @@
 		C3A898101F54BB5D00665783 /* Additional */ = {
 			isa = PBXGroup;
 			children = (
+				EED587661FA2C27C00389623 /* GoogleService-Info.plist */,
 				C3A897E71F2312A100665783 /* AppDelegate.swift */,
 				C3A897F11F2312A100665783 /* Assets.xcassets */,
 				C3A897F31F2312A100665783 /* LaunchScreen.storyboard */,
@@ -214,6 +213,15 @@
 			name = SettingsVC;
 			sourceTree = "<group>";
 		};
+		EED587681FA2DA7600389623 /* DataBaseClasses */ = {
+			isa = PBXGroup;
+			children = (
+				EE5DD64D1F90445D00F6AFE4 /* userDB.swift */,
+				EE5DD64F1F90595000F6AFE4 /* challengeDB.swift */,
+			);
+			path = DataBaseClasses;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -250,6 +258,7 @@
 					C3A897E31F2312A100665783 = {
 						CreatedOnToolsVersion = 8.3;
 						DevelopmentTeam = LDA8VUS6TR;
+						LastSwiftMigration = 0900;
 						ProvisioningStyle = Automatic;
 					};
 				};
