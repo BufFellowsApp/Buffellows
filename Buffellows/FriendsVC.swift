@@ -11,20 +11,22 @@ import Firebase
 
 class FriendsVC: StandardVC {
 
+    var userID : String!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
         
-        let currentUser = FIRAuth.auth()?.currentUser
+        let currentUser = Auth.auth().currentUser
         currentUser?.getTokenForcingRefresh(true) {idToken, error in
             if let error = error {
-                // Handle error
+                print(error)
                 return;
             }
             
-            // Send token to your backend via HTTPS
-            // ...
+            userID = idToken
+            
         }
         
     }
