@@ -1,4 +1,4 @@
-//
+	//
 //  FriendsVC.swift
 //  Buffellows
 //
@@ -12,7 +12,10 @@ import Firebase
 
 class FriendsVC: StandardVC, UITableViewDelegate, UITableViewDataSource  {
     
-    var friendsList: UITableView = UITableView()
+    @IBOutlet weak var friendsList: UITableView!
+    @IBOutlet weak var addUser: UIButton!
+    @IBOutlet weak var searchFriends: UISearchBar!
+    //var friendsList: UITableView = UITableView()
     
     var friendsData  = [FriendsModel]()
     var uID : String!
@@ -28,12 +31,13 @@ class FriendsVC: StandardVC, UITableViewDelegate, UITableViewDataSource  {
         uID = "PEgAo0eg7jcTh5SouxNeQodFsA63"
         print ("Fetching Users")
         
-        
-        friendsList = UITableView(frame: UIScreen.main.bounds, style: UITableViewStyle.grouped)
+        friendsList.layoutMargins = UIEdgeInsetsMake(70,16,16,16)
+        searchFriends.layoutMargins = UIEdgeInsetsMake(30, 10, 16, 10)
+       
         friendsList.delegate      =   self
         friendsList.dataSource    =   self
         friendsList.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
-        self.view.addSubview(self.friendsList)
+        //self.view.addSubview(self.friendsList)
 
         fetchFriends()
         
@@ -89,23 +93,6 @@ class FriendsVC: StandardVC, UITableViewDelegate, UITableViewDataSource  {
         return (Auth.auth().currentUser?.uid)!
     }
 
-    /*func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return friends.count // your number of cell here
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        let cell = UITableViewCell(style: .subtitle, reuseIdentifier: cellID)
-        let user = friends[indexPath.row]
-        cell.textLabel?.text = user.Name
-        cell.detailTextLabel?.text = user.status
-        
-        return cell
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("You selected cell #\(indexPath.row)!")
-    }*/
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
     {
         return friendsData.count
@@ -128,5 +115,18 @@ class FriendsVC: StandardVC, UITableViewDelegate, UITableViewDataSource  {
         let user = friendsData[indexPath.row]
         print(user.status)
         
+    }
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        
+        return true
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        
+        if (editingStyle == UITableViewCellEditingStyle.delete) {
+            
+            friendsData.remove(at: indexPath.row)
+            self.friendsList.reloadData()
+        }
     }
 }
