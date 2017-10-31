@@ -10,11 +10,14 @@ import UIKit
 import Firebase
 
 
-class FriendsVC: StandardVC, UITableViewDelegate, UITableViewDataSource  {
+class FriendsVC: StandardVC, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate  {
     
     @IBOutlet weak var friendsList: UITableView!
-    @IBOutlet weak var addUser: UIButton!
-    @IBOutlet weak var searchFriends: UISearchBar!
+    
+    
+    @IBAction func AddFriend(_ sender: Any) {
+        
+    }
     //var friendsList: UITableView = UITableView()
     
     var friendsData  = [FriendsModel]()
@@ -32,7 +35,7 @@ class FriendsVC: StandardVC, UITableViewDelegate, UITableViewDataSource  {
         print ("Fetching Users")
         
         friendsList.layoutMargins = UIEdgeInsetsMake(70,16,16,16)
-        searchFriends.layoutMargins = UIEdgeInsetsMake(30, 10, 16, 10)
+        
        
         friendsList.delegate      =   self
         friendsList.dataSource    =   self
@@ -40,11 +43,16 @@ class FriendsVC: StandardVC, UITableViewDelegate, UITableViewDataSource  {
         //self.view.addSubview(self.friendsList)
 
         fetchFriends()
+        self.searchBarSetup()
         
         
         
         
         
+    }
+    override func viewDidAppear(_ animated: Bool) {
+        friendsList.reloadData()
+        print("View did Appear")
     }
 
     override func didReceiveMemoryWarning() {
@@ -53,27 +61,19 @@ class FriendsVC: StandardVC, UITableViewDelegate, UITableViewDataSource  {
     }
     
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
+    //MARK: DATABASE
     func fetchFriends() {
         Database.database().reference().child("Users").child(uID).child("friends").observe( .childAdded, with: {(snapshot) in
-            print (snapshot)
+            //print (snapshot)
             if let dictionary = snapshot.value as? [String: AnyObject] {
                 let key = snapshot.key
-                print("Creating friends model array")
+                //print("Creating friends model array")
                 let friendInfo = FriendsModel()
                 friendInfo.Name = dictionary["Name"] as! String
                 friendInfo.status = dictionary["status"] as! String
                 friendInfo.userID = key
                 self.friendsData.append(friendInfo)
-                print("Friends Model Array printing")
+                //print("Friends Model Array printing")
                 
                 
             }
@@ -81,7 +81,7 @@ class FriendsVC: StandardVC, UITableViewDelegate, UITableViewDataSource  {
                 self.friendsList.reloadData()
                 
             })
-            print ("Done Fetching Users")
+            //print ("Done Fetching Users")
         })
         
         
@@ -89,10 +89,29 @@ class FriendsVC: StandardVC, UITableViewDelegate, UITableViewDataSource  {
         
         
     }
+    //MARK: SSEARCH BAR
+    func searchBarSetup(){
+        let searchBar = UISearchBar(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 30))
+        searchBar.backgroundImage = UIImage()
+        searchBar.barStyle = UIBarStyle.black
+        
+        self.friendsList.tableHeaderView = searchBar
+    }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        if searchText.isEmpty{
+            
+        }
+    }
+    
+    
+    
     func getUid() -> String {
         return (Auth.auth().currentUser?.uid)!
     }
 
+    
+    //MARK: TABLE VIEW
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
     {
         return friendsData.count
@@ -104,6 +123,17 @@ class FriendsVC: StandardVC, UITableViewDelegate, UITableViewDataSource  {
         
         let cell:UITableViewCell=UITableViewCell(style: UITableViewCellStyle.subtitle, reuseIdentifier: "cell")
         let user = friendsData[indexPath.row]
+        if (user.status == "pending"){
+            cell.textLabel?.textColor = UIColor.darkGray
+            
+        } else if ( user.status == "request" ){
+            cell.textLabel?.textColor = UIColor.green
+            
+        } else {
+            cell.tintColor = UIColor.blue
+            cell.textLabel?.textColor = UIColor.red
+        }
+        
         cell.textLabel?.text = user.Name
         
         
@@ -114,6 +144,10 @@ class FriendsVC: StandardVC, UITableViewDelegate, UITableViewDataSource  {
     {
         let user = friendsData[indexPath.row]
         print(user.status)
+        if (user.status == "request") {
+            print("Approve reuqest function should be done")
+        }
+        
         
     }
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
