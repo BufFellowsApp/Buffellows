@@ -14,12 +14,12 @@ class FriendsVC: StandardVC, UITableViewDelegate, UITableViewDataSource, UISearc
     
     @IBOutlet weak var friendsList: UITableView!
     
-    
+ 
     @IBAction func AddFriend(_ sender: Any) {
         
     }
     //var friendsList: UITableView = UITableView()
-    
+    var filterData = [FriendsModel]()
     var friendsData  = [FriendsModel]()
     var uID : String!
     let cellID = "cellId"
@@ -100,10 +100,14 @@ class FriendsVC: StandardVC, UITableViewDelegate, UITableViewDataSource, UISearc
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         if searchText.isEmpty{
-            
+            filterData = friendsData
         }
+        
     }
     
+    func filterTableView(text: String) {
+        //Add filtering
+    }
     
     
     func getUid() -> String {
@@ -123,18 +127,24 @@ class FriendsVC: StandardVC, UITableViewDelegate, UITableViewDataSource, UISearc
         
         let cell:UITableViewCell=UITableViewCell(style: UITableViewCellStyle.subtitle, reuseIdentifier: "cell")
         let user = friendsData[indexPath.row]
+        
         if (user.status == "pending"){
             cell.textLabel?.textColor = UIColor.darkGray
+            cell.textLabel?.text = user.Name
+            cell.detailTextLabel?.text = "Friend Request pending"
             
         } else if ( user.status == "request" ){
-            cell.textLabel?.textColor = UIColor.green
+            cell.textLabel?.textColor = UIColor.magenta
+            cell.textLabel?.text = user.Name
+            cell.detailTextLabel?.text = "Requesting Friendship"
             
         } else {
             cell.tintColor = UIColor.blue
             cell.textLabel?.textColor = UIColor.red
+            cell.textLabel?.text = user.Name
         }
         
-        cell.textLabel?.text = user.Name
+        
         
         
         return cell;
@@ -145,11 +155,28 @@ class FriendsVC: StandardVC, UITableViewDelegate, UITableViewDataSource, UISearc
         let user = friendsData[indexPath.row]
         print(user.status)
         if (user.status == "request") {
-            print("Approve reuqest function should be done")
+            
+            let refreshAlert = UIAlertController(title: "Friend Request", message: "Do you want to accept \(user.Name ?? "Name") request?" , preferredStyle: UIAlertControllerStyle.alert)
+            
+            refreshAlert.addAction(UIAlertAction(title: "Accept", style: .default, handler: { (action: UIAlertAction!) in
+                //Accept Friend
+                print("Accepted Friend")
+            }))
+            refreshAlert.addAction(UIAlertAction(title: "Decline", style: .default, handler: { (action: UIAlertAction) in
+                //Do not Accept
+                print("Will not accept")
+            }))
+            refreshAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action: UIAlertAction!) in
+                // Do nothing
+                print("Canceled")
+            }))
+            present(refreshAlert, animated: true, completion: nil)
         }
         
         
     }
+    
+
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         
         return true
@@ -158,9 +185,22 @@ class FriendsVC: StandardVC, UITableViewDelegate, UITableViewDataSource, UISearc
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         
         if (editingStyle == UITableViewCellEditingStyle.delete) {
+            let refreshAlert = UIAlertController(title: "Friend Request", message: "Do you want to delelte friend?" , preferredStyle: UIAlertControllerStyle.alert)
+  
+            refreshAlert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { (action: UIAlertAction!) in
+                //Remove friend
+                print("Removed Friend")
+                self.friendsData.remove(at: indexPath.row)
+                self.friendsList.reloadData()
+            }))
+            refreshAlert.addAction(UIAlertAction(title: "No", style: .default, handler: { (action: UIAlertAction) in
+                //Do not remove
+                print("Kept")
+            }))
+
+
+            present(refreshAlert, animated: true, completion: nil)
             
-            friendsData.remove(at: indexPath.row)
-            self.friendsList.reloadData()
         }
     }
 }
