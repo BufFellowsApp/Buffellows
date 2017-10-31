@@ -10,11 +10,11 @@ import UIKit
 import Firebase
 
 
-class FriendsVC: StandardVC  {
+class FriendsVC: StandardVC, UITableViewDelegate, UITableViewDataSource  {
     
-    @IBOutlet weak var tableView: UITableView!
+    var friendsList: UITableView = UITableView()
     
-    
+    var friendsData  = [FriendsModel]()
     var uID : String!
     let cellID = "cellId"
     
@@ -27,7 +27,16 @@ class FriendsVC: StandardVC  {
         
         uID = "PEgAo0eg7jcTh5SouxNeQodFsA63"
         print ("Fetching Users")
-        fetchUser()
+        
+        
+        friendsList = UITableView(frame: UIScreen.main.bounds, style: UITableViewStyle.grouped)
+        friendsList.delegate      =   self
+        friendsList.dataSource    =   self
+        friendsList.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        self.view.addSubview(self.friendsList)
+
+        fetchFriends()
+        
         
         
         
@@ -49,30 +58,75 @@ class FriendsVC: StandardVC  {
         // Pass the selected object to the new view controller.
     }
     */
-    func fetchUser() {
+    func fetchFriends() {
         Database.database().reference().child("Users").child(uID).child("friends").observe( .childAdded, with: {(snapshot) in
-            print ("Users Found")
             print (snapshot)
-            
+            if let dictionary = snapshot.value as? [String: AnyObject] {
+                let key = snapshot.key
+                print("Creating friends model array")
+                let friendInfo = FriendsModel()
+                friendInfo.Name = dictionary["Name"] as! String
+                friendInfo.status = dictionary["status"] as! String
+                friendInfo.userID = key
+                self.friendsData.append(friendInfo)
+                print("Friends Model Array printing")
+                
+                
+            }
+            DispatchQueue.main.async(execute: {
+                self.friendsList.reloadData()
+                
+            })
+            print ("Done Fetching Users")
         })
         
         
         
         
-        print ("Done Fetching Users")
+        
     }
     func getUid() -> String {
         return (Auth.auth().currentUser?.uid)!
     }
 
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 5
+    /*func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return friends.count // your number of cell here
     }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
         let cell = UITableViewCell(style: .subtitle, reuseIdentifier: cellID)
+        let user = friends[indexPath.row]
+        cell.textLabel?.text = user.Name
+        cell.detailTextLabel?.text = user.status
+        
         return cell
     }
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: IndexPath) {
-        // cell selected code here
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print("You selected cell #\(indexPath.row)!")
+    }*/
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
+    {
+        return friendsData.count
+        
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
+    {
+        
+        let cell:UITableViewCell=UITableViewCell(style: UITableViewCellStyle.subtitle, reuseIdentifier: "cell")
+        let user = friendsData[indexPath.row]
+        cell.textLabel?.text = user.Name
+        
+        
+        return cell;
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath)
+    {
+        let user = friendsData[indexPath.row]
+        print(user.status)
+        
     }
 }
