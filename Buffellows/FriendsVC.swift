@@ -34,7 +34,7 @@ class FriendsVC: StandardVC, UITableViewDelegate, UITableViewDataSource, UISearc
         uID = "PEgAo0eg7jcTh5SouxNeQodFsA63"
         print ("Fetching Users")
         
-        let width: CGFloat = self.view.frame.width
+        
         
         
        
@@ -71,8 +71,8 @@ class FriendsVC: StandardVC, UITableViewDelegate, UITableViewDataSource, UISearc
                 let key = snapshot.key
                 //print("Creating friends model array")
                 let friendInfo = FriendsModel()
-                friendInfo.Name = dictionary["Name"] as! String
-                friendInfo.status = dictionary["status"] as! String
+                friendInfo.Name = dictionary["Name"] as? String
+                friendInfo.status = dictionary["status"] as? String
                 friendInfo.userID = key
                 self.friendsData.append(friendInfo)
                 //print("Friends Model Array printing")
@@ -149,13 +149,13 @@ class FriendsVC: StandardVC, UITableViewDelegate, UITableViewDataSource, UISearc
         
         
         
-        return cell;
+        return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath)
     {
         let user = friendsData[indexPath.row]
-        print(user.status)
+        print(user.status ?? "None")
         if (user.status == "request") {
             
             let refreshAlert = UIAlertController(title: "Friend Request", message: "Do you want to accept \(user.Name ?? "Name") request?" , preferredStyle: UIAlertControllerStyle.alert)
