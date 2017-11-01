@@ -28,6 +28,7 @@
 		C3FE27111F9C93C200C896B0 /* ExercisesVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = C3FE270F1F9C93C200C896B0 /* ExercisesVC.xib */; };
 		C3FE27141F9CA78300C896B0 /* SettingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3FE27121F9CA78300C896B0 /* SettingsVC.swift */; };
 		C3FE27151F9CA78300C896B0 /* SettingsVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = C3FE27131F9CA78300C896B0 /* SettingsVC.xib */; };
+		EE13BF1D1FA8218000DB5692 /* FriendsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE13BF1C1FA8218000DB5692 /* FriendsModel.swift */; };
 		EE5DD64E1F90445D00F6AFE4 /* userDB.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE5DD64D1F90445D00F6AFE4 /* userDB.swift */; };
 		EE5DD6501F90595000F6AFE4 /* challengeDB.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE5DD64F1F90595000F6AFE4 /* challengeDB.swift */; };
 		EED587671FA2C27D00389623 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = EED587661FA2C27C00389623 /* GoogleService-Info.plist */; };
@@ -59,6 +60,7 @@
 		C3FE27121F9CA78300C896B0 /* SettingsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsVC.swift; sourceTree = "<group>"; };
 		C3FE27131F9CA78300C896B0 /* SettingsVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SettingsVC.xib; sourceTree = "<group>"; };
 		E32143505C8C3F2365982189 /* Pods-Buffellows.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Buffellows.release.xcconfig"; path = "Pods/Target Support Files/Pods-Buffellows/Pods-Buffellows.release.xcconfig"; sourceTree = "<group>"; };
+		EE13BF1C1FA8218000DB5692 /* FriendsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsModel.swift; sourceTree = "<group>"; };
 		EE5DD64D1F90445D00F6AFE4 /* userDB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = userDB.swift; sourceTree = "<group>"; };
 		EE5DD64F1F90595000F6AFE4 /* challengeDB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = challengeDB.swift; sourceTree = "<group>"; };
 		EED587661FA2C27C00389623 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "Buffellows/GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
@@ -191,6 +193,7 @@
 			children = (
 				C3FE270A1F9C93B000C896B0 /* FriendsVC.swift */,
 				C3FE270B1F9C93B000C896B0 /* FriendsVC.xib */,
+				EE13BF1C1FA8218000DB5692 /* FriendsModel.swift */,
 			);
 			name = FriendsVC;
 			sourceTree = "<group>";
@@ -376,6 +379,7 @@
 				C3FE27101F9C93C200C896B0 /* ExercisesVC.swift in Sources */,
 				C3FE27061F9C853900C896B0 /* TabBarVC.swift in Sources */,
 				C37BCEBF1F8D63C60052022E /* RegisterVC.swift in Sources */,
+				EE13BF1D1FA8218000DB5692 /* FriendsModel.swift in Sources */,
 				EE5DD6501F90595000F6AFE4 /* challengeDB.swift in Sources */,
 				C3A898041F32938800665783 /* LoginVC.swift in Sources */,
 				C3A897FE1F23141700665783 /* HomeViewController.swift in Sources */,
