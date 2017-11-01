@@ -58,8 +58,9 @@ class ExercisesVC: StandardVC, UITableViewDelegate, UITableViewDataSource, UISea
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell:UITableViewCell=UITableViewCell(style: UITableViewCellStyle.subtitle, reuseIdentifier: "cell")
+        
         //this creates a basic cell for the table... each cell can work with the data
+        let cell:UITableViewCell=UITableViewCell(style: UITableViewCellStyle.subtitle, reuseIdentifier: "cell")
         return cell
     }
 

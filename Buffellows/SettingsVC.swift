@@ -8,7 +8,9 @@
 
 import UIKit
 
-class SettingsVC: UIViewController {
+class SettingsVC: UIViewController,  UITableViewDelegate, UITableViewDataSource {
+    
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,5 +43,14 @@ class SettingsVC: UIViewController {
         // Pass the selected object to the new view controller.
     }
     */
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 2
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell:UITableViewCell=UITableViewCell(style: UITableViewCellStyle.subtitle, reuseIdentifier: "cell")
+        
+        return cell
+    }
 
 }
