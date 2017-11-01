@@ -34,7 +34,8 @@ class FriendsVC: StandardVC, UITableViewDelegate, UITableViewDataSource, UISearc
         uID = "PEgAo0eg7jcTh5SouxNeQodFsA63"
         print ("Fetching Users")
         
-        friendsList.layoutMargins = UIEdgeInsetsMake(70,16,16,16)
+        let width: CGFloat = self.view.frame.width
+        
         
        
         friendsList.delegate      =   self
@@ -44,6 +45,7 @@ class FriendsVC: StandardVC, UITableViewDelegate, UITableViewDataSource, UISearc
 
         fetchFriends()
         self.searchBarSetup()
+        //self.friendsList.frame = CGRe
         
         
         
@@ -204,3 +206,4 @@ class FriendsVC: StandardVC, UITableViewDelegate, UITableViewDataSource, UISearc
         }
     }
 }
+   
