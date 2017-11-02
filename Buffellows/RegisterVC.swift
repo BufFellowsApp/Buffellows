@@ -8,7 +8,6 @@
 
 import UIKit
 import Firebase
-
 class RegisterVC: UIViewController, UITextFieldDelegate {
 
     @IBOutlet weak var usernameReg: UITextField!
@@ -27,6 +26,8 @@ class RegisterVC: UIViewController, UITextFieldDelegate {
     @IBAction func registerButton(_ sender: UIButton) {
         
         saveInfo()
+        
+        registerButton.addTarget(self, action: #selector(handleRegister), for: .touchUpInside)
         
         let tabBarVC = TabBarVC(nibName: "TabBarVC", bundle: nil)
         self.navigationController?.pushViewController(tabBarVC, animated: false)
@@ -96,7 +97,31 @@ class RegisterVC: UIViewController, UITextFieldDelegate {
 
         // Do any additional setup after loading the view.
     }
+
     
+  func handleRegister() //ADD DATABASE CALLS FOR REGISTER
+    {
+        guard let email = usernameReg.text, let password = passwordReg.text else{
+            print ("form is invalid")
+            return
+        }
+        
+        Auth.createUser(withEmail: email, password: password, completion:  (user: User, error), in
+            //if error != nil{
+            //    print(error)
+              //  return
+          //  }
+            
+        
+        let ref = Database.database().reference(fromURL: "https://buffellows-cc410.firebaseio.com/")
+        
+        ref.updateChildValues(["someValue": 123123])
+        
+        
+        
+    
+    }
+
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         self.view.endEditing(true)
         return false
