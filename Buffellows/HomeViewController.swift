@@ -10,18 +10,24 @@ import UIKit
 
 class HomeViewController: StandardVC {
 
-    var getFirst: String!
-    var getLast: String!
     @IBOutlet weak var firstName: UILabel!
     @IBOutlet weak var lastName: UILabel!
+    @IBOutlet weak var username: UILabel!
+    @IBOutlet weak var age: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        firstName.text = getFirst
-        lastName.text = getLast
+        loadInfo()
         
         // Do any additional setup after loading the view.
+    }
+    
+    func loadInfo() {
+        firstName.text = UserDefaults.standard.value(forKey: "firstName") as! String
+        lastName.text = UserDefaults.standard.value(forKey: "lastName") as! String
+        username.text = UserDefaults.standard.value(forKey: "username") as! String
+        age.text = UserDefaults.standard.value(forKey: "age") as! String
     }
 
     override func didReceiveMemoryWarning() {

@@ -10,16 +10,15 @@ import UIKit
 
 class StandardVC: UIViewController {
     
-//    var backgroundColor: UIColor = UIColor(red: 0.2, green: 0.2, blue: 0.2, alpha: 1.0)
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        self.view.backgroundColor = backgroundColor
+        self.navigationItem.title = "B U F F E L L O W S"
+        self.navigationController?.navigationBar.titleTextAttributes = [NSFontAttributeName: UIFont.systemFont(ofSize: 20, weight: UIFontWeightThin)]
+        
         // Do any additional setup after loading the view.
     }
-    
-    
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

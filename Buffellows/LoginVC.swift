@@ -7,17 +7,19 @@
 //
 
 import UIKit
+import Firebase
 
-class LoginVC: UIViewController {
+class LoginVC: UIViewController, UITextFieldDelegate {
     
     @IBOutlet weak var usernameLogin: UITextField!
-    @IBOutlet weak var passwordLogin: UITextField!
     
+    
+    @IBOutlet weak var passwordLogin: UITextField!
     
     @IBOutlet weak var loginButton: UIButton!
     @IBAction func loginButton(_ sender: UIButton) {
-        let homeVC = HomeViewController(nibName: "HomeViewController", bundle: nil)
-        self.navigationController?.pushViewController(homeVC, animated: false)
+        let tabBarVC = TabBarVC(nibName: "TabBarVC", bundle: nil)
+        self.navigationController?.pushViewController(tabBarVC, animated: false)
         self.navigationController?.navigationBar.isHidden = false
     }
     
@@ -30,8 +32,22 @@ class LoginVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.navigationController?.navigationBar.isHidden = true
+       //let ref = Database.database().reference(fromURL: "https://buffellows-cc410.firebaseio.com/")
+        
+     // ref.updateChildValues(["someValue": 123123])
+        
+        usernameLogin.delegate = self
+        passwordLogin.delegate = self
         // Do any additional setup after loading the view.
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        self.view.endEditing(true)
+        return false
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        self.navigationController?.navigationBar.isHidden = true
     }
 
     override func didReceiveMemoryWarning() {
