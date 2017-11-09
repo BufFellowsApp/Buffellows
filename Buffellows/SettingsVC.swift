@@ -9,7 +9,8 @@
 import UIKit
 import Firebase
 
-class SettingsVC: UIViewController {
+class SettingsVC: UIViewController,UIImagePickerControllerDelegate,
+UINavigationControllerDelegate {
 
     
     
@@ -18,8 +19,20 @@ class SettingsVC: UIViewController {
     @IBOutlet weak var changePassword: UIButton!
     @IBOutlet weak var pass2image: UIImageView!
     @IBOutlet weak var pass1image: UIImageView!
+    @IBOutlet weak var profilePic: UIButton!
+    @IBOutlet weak var imagePicked: UIImageView!
+
     
     
+    @IBAction func changeProfilePic(_ sender: Any){
+        if UIImagePickerController.isSourceTypeAvailable(.camera) {
+            let imagePicker = UIImagePickerController()
+            imagePicker.delegate = self
+            imagePicker.sourceType = .camera;
+            imagePicker.allowsEditing = false
+            self.present(imagePicker, animated: true, completion: nil)
+        }
+    }
     @IBAction func changePassword(_ sender: Any) {
    
             
@@ -63,9 +76,11 @@ class SettingsVC: UIViewController {
         let loginVC = LoginVC(nibName: "LoginVC", bundle: nil)
         self.navigationController?.pushViewController(loginVC, animated: false)
     }
+    
+    //MARK: - Textfield Validation
     func textChanged(textField: UITextField){
-        let t1pass = password1.text
-        if (isPasswordValid(t1pass!)){
+        let passwrd = password1.text
+        if (isPasswordValid(passwrd!)){
             pass1image.image = UIImage(named: "exerciseSelected")
         }
         if (password1.text == password2.text)  {
@@ -82,27 +97,15 @@ class SettingsVC: UIViewController {
     }
     
 
-    /*
-    // MARK: - Navigation
+    
+    // MARK: - Password
+    
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
+   
     func isPasswordValid(_ password : String) -> Bool{
         let passwordTest = NSPredicate(format: "SELF MATCHES %@", "^(?=.*[a-z])(?=.*[$@$#!%*?&])[A-Za-z\\d$@$#!%*?&]{6,}")
         return passwordTest.evaluate(with: password)
     }
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 2
-    }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell:UITableViewCell=UITableViewCell(style: UITableViewCellStyle.subtitle, reuseIdentifier: "cell")
-        
-        return cell
-    }
-
+    // MARK: - Camera
 }
