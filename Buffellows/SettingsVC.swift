@@ -65,14 +65,9 @@ class SettingsVC: UIViewController {
     }
     func textChanged(textField: UITextField){
         let t1pass = password1.text
-
-       
         if (isPasswordValid(t1pass!)){
             pass1image.image = UIImage(named: "exerciseSelected")
-            
         }
-        
-        
         if (password1.text == password2.text)  {
             pass2image.image = UIImage(named: "exerciseSelected")
             changePassword.isEnabled = true
