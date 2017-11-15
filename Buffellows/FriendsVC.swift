@@ -24,7 +24,7 @@ class FriendsVC: StandardVC, UITableViewDelegate, UITableViewDataSource, UISearc
     var friendsData  = [FriendsModel]()
     var uID : String!
     let cellID = "cellId"
-    
+    let fDB = FriendsDB()
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -66,26 +66,21 @@ class FriendsVC: StandardVC, UITableViewDelegate, UITableViewDataSource, UISearc
 
     //MARK: DATABASE
     func fetchFriends() {
-        Database.database().reference().child("Users").child(uID).child("friends").observe( .childAdded, with: {(snapshot) in
-            //print (snapshot)
-            if let dictionary = snapshot.value as? [String: AnyObject] {
-                let key = snapshot.key
-                //print("Creating friends model array")
-                let friendInfo = FriendsModel()
-                friendInfo.Name = dictionary["Name"] as? String
-                friendInfo.status = dictionary["status"] as? String
-                friendInfo.userID = key
-                self.friendsData.append(friendInfo)
-                //print("Friends Model Array printing")
-                
-                
+        let getFriend = FriendsModel()
+        getFriend.yourID = uID
+        fDB.fetchFriends(friend: getFriend) {
+            (result: String) in
+            if (result == "DataFetched")
+            {
+                self.friendsData = self.fDB.passFriendData()
             }
+        }
             DispatchQueue.main.async(execute: {
                 self.friendsList.reloadData()
-                
-            })
-            //print ("Done Fetching Users")
         })
+            
+            //print ("Done Fetching Users")
+        
         
         
         
@@ -133,18 +128,19 @@ class FriendsVC: StandardVC, UITableViewDelegate, UITableViewDataSource, UISearc
         
         if (user.status == "pending"){
             cell.textLabel?.textColor = UIColor.darkGray
-            cell.textLabel?.text = user.Name
+            cell.textLabel?.text = user.first! + " " + user.last!
+            
             cell.detailTextLabel?.text = "Friend Request pending"
             
         } else if ( user.status == "request" ){
             cell.textLabel?.textColor = UIColor.magenta
-            cell.textLabel?.text = user.Name
+            cell.textLabel?.text = user.first! + " " + user.last!
             cell.detailTextLabel?.text = "Requesting Friendship"
             
         } else {
             cell.tintColor = UIColor.blue
             cell.textLabel?.textColor = UIColor.red
-            cell.textLabel?.text = user.Name
+            cell.textLabel?.text = user.first! + " " + user.last!
         }
         
         
@@ -159,7 +155,7 @@ class FriendsVC: StandardVC, UITableViewDelegate, UITableViewDataSource, UISearc
         print(user.status ?? "None")
         if (user.status == "request") {
             
-            let refreshAlert = UIAlertController(title: "Friend Request", message: "Do you want to accept \(user.Name ?? "Name") request?" , preferredStyle: UIAlertControllerStyle.alert)
+            let refreshAlert = UIAlertController(title: "Friend Request", message: "Do you want to accept \(user.first!) request?" , preferredStyle: UIAlertControllerStyle.alert)
             
             refreshAlert.addAction(UIAlertAction(title: "Accept", style: .default, handler: { (action: UIAlertAction!) in
                 //Accept Friend

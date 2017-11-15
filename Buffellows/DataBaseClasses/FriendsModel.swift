@@ -8,8 +8,10 @@
 
 import UIKit
 
-class FriendsModel: NSObject {
+class FriendsModel {
     var status: String?
-    var Name: String?
-    var userID: String?
+    var first: String?
+    var last: String?
+    var friendID: String?
+    var yourID: String?
 }

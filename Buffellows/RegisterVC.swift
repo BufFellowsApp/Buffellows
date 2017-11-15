@@ -16,6 +16,7 @@ class RegisterVC: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var firstName: UITextField!
     @IBOutlet weak var lastName: UITextField!
     @IBOutlet weak var age: UITextField!
+    let newUser = userDB()
     
     var username: String!
     var password: String!
@@ -50,11 +51,16 @@ class RegisterVC: UIViewController, UITextFieldDelegate {
         
     }
      func handleRegister(){
-        guard let email = usernameReg.text, let password = passwordReg.text else{
+        guard let email = usernameReg.text, let password = passwordReg.text, let fName = firstName.text, let lName = lastName.text, let uAge = age.text else{
             print ("form is invalid")
             return
         }
         
+        let userData = UserModel()
+        userData.email = email
+        userData.first = fName
+        userData.last = lName
+        userData.userAge = uAge
         
         Auth.auth().createUser(withEmail: email, password: password, completion: { (user: User?, error) in
             
@@ -66,9 +72,19 @@ class RegisterVC: UIViewController, UITextFieldDelegate {
             guard let uid = user?.uid else {
                 return
             }
-            
+            userData.userID = uid
+            self.newUser.addUser(userData: userData) {
+                (result: String) in
+                if (result == "UserAdded")
+                {
+                    print("User Successfully Added into DataBase")
+                }
+                else {
+                    print("Error Error")
+                }
+            }
             //successfully authenticated user Still need to convert this to the userDB.swift calls.
-            let ref = Database.database().reference()
+            /*let ref = Database.database().reference()
             let usersReference = ref.child("Users").child(uid)
             let values = ["name": self.firstName.text!, "email": email]
             usersReference.updateChildValues(values, withCompletionBlock: { (err, ref) in
@@ -80,7 +96,8 @@ class RegisterVC: UIViewController, UITextFieldDelegate {
                 
                 print("Saved user successfully into Firebase db")
                 
-            })
+            })*/
+            
             
         })
     }

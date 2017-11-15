@@ -7,13 +7,11 @@
 //
 
 import Foundation
-class UserModel: NSObject {
+class UserModel {
     
-    var FirstName: String?
-    var LastName: String?
+    var first: String?
+    var last: String?
     var userAge: String?
     var email: String?
-    var friends: Dictionary<String, FriendsModel>?
-    
-    
+    var userID: String?
 }

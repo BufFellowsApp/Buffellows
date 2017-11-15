@@ -12,68 +12,67 @@ import Firebase
 class userDB  {
     
     public static let instance = userDB()
-    private init(){
-        FirebaseApp.configure()
+    public init(){
+        //FirebaseApp.configure()
     }
     
     let rootRef =  Database.database().reference()
     
 
-    public func addUser(userData: [String: AnyObject]) {
+    func addUser(userData: UserModel, completion:@escaping (_ result: String) -> Void) {
         
-        let userID = userData["userID"] as! String
-        let firstName = userData["firstName"] as! String
-        let lastName = userData["lastName"] as! String
-        let userAge = userData["age"] as! String
-        let userAdd = rootRef.child("users").child(userID)
+       
         
+        let userAdd = rootRef.child("Users").child(userData.userID!)
         
+        var newUser = [String:String]()
         
-        let value = ["firstName": firstName, "lastName": lastName, "age": userAge]
-        userAdd.updateChildValues(value, withCompletionBlock: { (err, ref) in
+        newUser.updateValue(userData.email!, forKey: "email")
+        newUser.updateValue(userData.first!, forKey: "first")
+        newUser.updateValue(userData.last!, forKey: "last")
+        newUser.updateValue(userData.userAge!, forKey: "userAge")
+        
+        userAdd.updateChildValues(newUser, withCompletionBlock: { (err, ref) in
             
             if let err = err {
                 print(err)
+                let errComp = err as! String
+                print(errComp)
+                completion("UserError")
                 return
             }
             
-            print("Saved user successfully into Firebase db")
-            
+            completion("UserAdded")
         })
         
     }
-    public func addFriend(userID: String, friendID: String){
-        
-        let friendAdd = rootRef.child("users").child(userID).child("friends")
-        var friendsList = [String]()
-        friendAdd.observe(.value){ (snap: DataSnapshot) in
-            friendsList = (snap.value as? [String])!
-            
-        }
-        friendAdd.setValue([friendsList.count: friendID])
-        
-    }
-    public func addChallenge(challengeID: String, userID: String){
-        let challengeAdd = rootRef.child("users").child(userID).child("challenges")
-        challengeAdd.setValue([challengeID: "incomplete"])
-        
     
-    }
     
     public func deleteUser(userID: String){
         
         rootRef.child(userID).removeValue()
     }
-    public func getUSerData(userID: String) -> Dictionary<String, Any> {
-        var userData = [String: AnyObject]()
+    public func getUSerData(userID: String) -> UserModel {
+        let userData = UserModel()
         let getDataRef = rootRef.child("Users").child(userID)
         
-        getDataRef.observe(.value){
-            (snap: DataSnapshot) in
-            userData = (snap.value as? [String: AnyObject])!
+        getDataRef.observe( .childAdded, with: {(snapshot) in
+            //print (snapshot)
+            if let dictionary = snapshot.value as? [String: AnyObject] {
+                
+                //print("Creating friends model array")
+                
+                userData.first = dictionary["first"] as? String
+                userData.last = dictionary["last"] as? String
+                userData.userAge = dictionary["userAge"] as? String
+                userData.email = dictionary["email"] as? String
+                //print("Friends Model Array printing")
+                
+                
+            }
             
-            
-        }
+            //print ("Done Fetching Users")
+        })
         return userData
     }
     

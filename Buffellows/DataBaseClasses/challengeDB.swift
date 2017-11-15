@@ -13,47 +13,84 @@ class challengeDB {
 
     let rootRef =  Database.database().reference().child("Challenges")
     public static let instance = challengeDB()
-    private init(){
-        FirebaseApp.configure()
+    init(){
+    
     }
 
     
-    public func addChallenge(challengeData: [String: String]){
+    public func createChallenge(challengeData: ChallengeModel){
         
+        let creator  = rootRef.child(challengeData.creator!).child(challengeData.challenger!)
+        let challenged = rootRef.child(challengeData.challenger!).child(challengeData.creator!)
+        let creator_challenge = ChallengeModel()
         
-        let challengeID = challengeData["CreatorID"]! + challengeData["ChallengerID"]! + challengeData["Name"]! + challengeData["StartDate"]! + challengeData["EndDate"]!
-        let challengeAdd = rootRef.child(challengeID)
+        var newEntry = [String: String]()
         
+        newEntry.updateValue(challengeData.creator, forKey: "creator")
+        newEntry.updateValue(challengeData.challenge, forKey: "challenge")
+        newEntry.updateValue(challengeData.startDate, forKey: "startDate")
+        newEntry.updateValue(challengeData.endDate, forKey: "endDate")
+        newEntry.updateValue(challengeData.challenge, forKey: "challenge")
+        newEntry.updateValue(challengeData.bet, forKey: "bet")
+        newEntry.updateValue(challengeData.status, forKey: "status")
         
-        challengeAdd.setValue(["Name": challengeData["Name"]])
-        challengeAdd.setValue(["Creator": challengeData["CreatorID"]])
-        challengeAdd.setValue(["Challenger": challengeData["ChallengerID"]])
-        challengeAdd.setValue(["StartDate": challengeData["StartDate"]])
-        challengeAdd.setValue(["EndDate": challengeData["EndDate"]])
-        challengeAdd.setValue(["Challenge": challengeData["Challenge"]])
-        challengeAdd.setValue(["Bet": challengeData["Bet"]])
-        challengeAdd.setValue(["Status" : "Waiting for Acceptance"])
-        
+        creator.updateChildValues(newEntry, withCompletionBlock: { (err, ref) in
+            
+            if let err = err {
+                print(err)
+                let errComp = err as! String
+                print(errComp)
+                
+                return
+            }
+            
+            
+        })
+        challenged.updateChildValues(newEntry, withCompletionBlock: { (err, ref) in
+            
+            if let err = err {
+                print(err)
+                let errComp = err as! String
+                print(errComp)
+                
+                return
+            }
+            
+            
+        })
     }
     
-    public func deleteChallenge(challengeID: String) {
-        rootRef.child(challengeID).removeValue()
+    public func deleteChallenge(yourID: String, friendID: String) {
+        rootRef.child(yourID).child(friendID).removeValue()
+        rootRef.child(friendID).child(yourID).removeValue()
     }
-    public func updateChallenge(challengeID: String, updateInfo: String)
+    public func updateChallenge(yourID: String, friendID: String, updateInfo: String)
     {
-        rootRef.child(challengeID).updateChildValues(["Status": updateInfo])
+        rootRef.child(yourID).child(friendID).updateChildValues(["status": updateInfo])
+        rootRef.child(friendID).child(yourID).updateChildValues(["status": updateInfo])
     }
     
-    public func getUSerData(challengeID: String) -> Dictionary<String, Any> {
-        var challengeData = [String: AnyObject]()
-        let getDataRef = rootRef.child(challengeID)
+    public func getChallenge(userID: String, friendID: String) -> ChallengeModel {
         
-        getDataRef.observe(.value){
-            (snap: DataSnapshot) in
-            challengeData = (snap.value as? [String: AnyObject])!
-            
-            
-        }
+        let getDataRef = rootRef.child(userID).child(friendID)
+        let challengeData = ChallengeModel()
+            getDataRef.observe( .childAdded, with: {(snapshot) in
+                //print (snapshot)
+                if let dictionary = snapshot.value as? [String: AnyObject] {
+                   
+                    //print("Creating friends model array")
+                    challengeData.creator = dictionary["creator"] as? String
+                    challengeData.challenge = dictionary["challenge"] as? String
+                    challengeData.startDate = dictionary["startDate"] as? String
+                    challengeData.endDate = dictionary["endDate"] as? String
+                    challengeData.challenge = dictionary["challenge"] as? String
+                    challengeData.bet = dictionary["bet"] as? String
+                    challengeData.status = dictionary["status"] as? String
+                    //print("Friends Model Array printing")
+                    
+                    
+                }
+        })
         return challengeData
     }
 }

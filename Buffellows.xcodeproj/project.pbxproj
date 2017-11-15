@@ -34,6 +34,8 @@
 		EE5DD64E1F90445D00F6AFE4 /* userDB.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE5DD64D1F90445D00F6AFE4 /* userDB.swift */; };
 		EE5DD6501F90595000F6AFE4 /* challengeDB.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE5DD64F1F90595000F6AFE4 /* challengeDB.swift */; };
 		EE7F18161FB9308E0081DB44 /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE7F18151FB9308E0081DB44 /* UserModel.swift */; };
+		EEA1A61F1FBBEDCC00EE6746 /* FriendsDB.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEA1A61E1FBBEDCC00EE6746 /* FriendsDB.swift */; };
+		EEA1A6211FBBEE5400EE6746 /* ChallengeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEA1A6201FBBEE5400EE6746 /* ChallengeModel.swift */; };
 		EED587671FA2C27D00389623 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = EED587661FA2C27C00389623 /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
@@ -69,6 +71,8 @@
 		EE5DD64D1F90445D00F6AFE4 /* userDB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = userDB.swift; sourceTree = "<group>"; };
 		EE5DD64F1F90595000F6AFE4 /* challengeDB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = challengeDB.swift; sourceTree = "<group>"; };
 		EE7F18151FB9308E0081DB44 /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
+		EEA1A61E1FBBEDCC00EE6746 /* FriendsDB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsDB.swift; sourceTree = "<group>"; };
+		EEA1A6201FBBEE5400EE6746 /* ChallengeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeModel.swift; sourceTree = "<group>"; };
 		EED587661FA2C27C00389623 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "Buffellows/GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
@@ -200,7 +204,6 @@
 			children = (
 				C3FE270A1F9C93B000C896B0 /* FriendsVC.swift */,
 				C3FE270B1F9C93B000C896B0 /* FriendsVC.xib */,
-				EE13BF1C1FA8218000DB5692 /* FriendsModel.swift */,
 			);
 			name = FriendsVC;
 			sourceTree = "<group>";
@@ -236,7 +239,10 @@
 			isa = PBXGroup;
 			children = (
 				EE5DD64D1F90445D00F6AFE4 /* userDB.swift */,
+				EEA1A61E1FBBEDCC00EE6746 /* FriendsDB.swift */,
+				EE13BF1C1FA8218000DB5692 /* FriendsModel.swift */,
 				EE5DD64F1F90595000F6AFE4 /* challengeDB.swift */,
+				EEA1A6201FBBEE5400EE6746 /* ChallengeModel.swift */,
 				EE7F18151FB9308E0081DB44 /* UserModel.swift */,
 			);
 			path = DataBaseClasses;
@@ -399,6 +405,8 @@
 				C3FE27061F9C853900C896B0 /* TabBarVC.swift in Sources */,
 				EE7F18161FB9308E0081DB44 /* UserModel.swift in Sources */,
 				C37BCEBF1F8D63C60052022E /* RegisterVC.swift in Sources */,
+				EEA1A6211FBBEE5400EE6746 /* ChallengeModel.swift in Sources */,
+				EEA1A61F1FBBEDCC00EE6746 /* FriendsDB.swift in Sources */,
 				EE13BF1D1FA8218000DB5692 /* FriendsModel.swift in Sources */,
 				EE5DD6501F90595000F6AFE4 /* challengeDB.swift in Sources */,
 				C3A898041F32938800665783 /* LoginVC.swift in Sources */,
