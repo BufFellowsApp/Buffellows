@@ -27,29 +27,35 @@ class TabBarVC: UITabBarController, UITabBarControllerDelegate {
     func setupTabBar() {
         
         let homeVC = HomeViewController()
-        let homeTab = UITabBarItem(title: "Home", image: #imageLiteral(resourceName: "buffProfIcon"), selectedImage: #imageLiteral(resourceName: "buffaloSelected"))
+        let homeTab = UITabBarItem(title: nil, image: #imageLiteral(resourceName: "buffProfIcon"), selectedImage: #imageLiteral(resourceName: "buffaloSelected"))
+        homeTab.imageInsets = UIEdgeInsets(top: 6, left: 0, bottom: -6, right: 0)
         homeVC.tabBarItem = homeTab
         
         let friendsVC = FriendsVC()
-        let friendsTab = UITabBarItem(title: "Friends", image: #imageLiteral(resourceName: "friends"), selectedImage: #imageLiteral(resourceName: "friendsSelected"))
+        let friendsTab = UITabBarItem(title: nil, image: #imageLiteral(resourceName: "friends"), selectedImage: #imageLiteral(resourceName: "friendsSelected"))
+        friendsTab.imageInsets = UIEdgeInsets(top: 6, left: 0, bottom: -6, right: 0)
         friendsVC.tabBarItem = friendsTab
         
         let exercisesVC = ExercisesVC()
-        let exercisesTab = UITabBarItem(title: "Exercises", image: #imageLiteral(resourceName: "exercise"), selectedImage: #imageLiteral(resourceName: "exerciseSelected"))
+        let exercisesTab = UITabBarItem(title: nil, image: #imageLiteral(resourceName: "exercise"), selectedImage: #imageLiteral(resourceName: "exerciseSelected"))
+        exercisesTab.imageInsets = UIEdgeInsets(top: 6, left: 0, bottom: -6, right: 0)
         exercisesVC.tabBarItem = exercisesTab
         
         self.viewControllers = [homeVC, friendsVC, exercisesVC]
+        
+        self.tabBar.tintColor = UIColor(displayP3Red: 50/255, green: 0, blue: 0, alpha: 1)
     }
     
     func setupNavBar() {
 //        self.navigationController?.navigationBar.barTintColor = UIColor.red
 //        self.navigationController?.navigationBar.tintColor = UIColor.white
+        self.navigationController?.navigationBar.isHidden = false
         
         self.navigationItem.title = "B U F F E L L O W S"
         self.navigationItem.leftBarButtonItem = nil
-        self.navigationController?.navigationBar.titleTextAttributes = [NSFontAttributeName: UIFont.systemFont(ofSize: 25, weight: UIFontWeightThin)]
         
         let settingsButton = UIButton(type: .system)
+        settingsButton.tintColor = UIColor.white
         settingsButton.setImage(#imageLiteral(resourceName: "settings"), for: .normal)
         settingsButton.frame = CGRect(x: 0, y: 0, width: 20, height: 20)
         settingsButton.addTarget(self, action: #selector(goSettings), for: .touchUpInside)

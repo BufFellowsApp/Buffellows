@@ -14,8 +14,9 @@ class StandardVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.navigationItem.title = "B U F F E L L O W S"
-        self.navigationController?.navigationBar.titleTextAttributes = [NSFontAttributeName: UIFont.systemFont(ofSize: 20, weight: UIFontWeightThin)]
+        self.navigationController?.navigationBar.barTintColor = UIColor(displayP3Red: 50/255, green: 0, blue: 0, alpha: 1)
+        self.navigationController?.navigationBar.titleTextAttributes = [NSFontAttributeName: UIFont.systemFont(ofSize: 25, weight: UIFontWeightThin), NSForegroundColorAttributeName: UIColor.white]
+        self.navigationController?.navigationBar.tintColor = UIColor.white
         
         // Do any additional setup after loading the view.
     }

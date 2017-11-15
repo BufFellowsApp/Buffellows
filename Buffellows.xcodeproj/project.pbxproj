@@ -51,6 +51,7 @@
 		C3A898031F32938800665783 /* LoginVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoginVC.xib; sourceTree = "<group>"; };
 		C3A898071F329A8000665783 /* StandardVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StandardVC.swift; sourceTree = "<group>"; };
 		C3A898081F329A8000665783 /* StandardVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StandardVC.xib; sourceTree = "<group>"; };
+		C3E22DD91FB8D3F4009DC6F8 /* Podfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; };
 		C3FE27041F9C853900C896B0 /* TabBarVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarVC.swift; sourceTree = "<group>"; };
 		C3FE27051F9C853900C896B0 /* TabBarVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TabBarVC.xib; sourceTree = "<group>"; };
 		C3FE270A1F9C93B000C896B0 /* FriendsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsVC.swift; sourceTree = "<group>"; };
@@ -110,6 +111,7 @@
 				C3A897E61F2312A100665783 /* Buffellows */,
 				C3A897E51F2312A100665783 /* Products */,
 				9EC28577EEFA4A567C60B231 /* Pods */,
+				C3E22DD91FB8D3F4009DC6F8 /* Podfile */,
 				87A26113C47BBF61787BD482 /* Frameworks */,
 			);
 			sourceTree = "<group>";
@@ -260,7 +262,7 @@
 				TargetAttributes = {
 					C3A897E31F2312A100665783 = {
 						CreatedOnToolsVersion = 8.3;
-						DevelopmentTeam = LDA8VUS6TR;
+						DevelopmentTeam = X64283BNM4;
 						LastSwiftMigration = 0900;
 						ProvisioningStyle = Automatic;
 					};
@@ -510,7 +512,7 @@
 			baseConfigurationReference = 61FEFA075D505208088C30A2 /* Pods-Buffellows.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = LDA8VUS6TR;
+				DEVELOPMENT_TEAM = X64283BNM4;
 				INFOPLIST_FILE = Buffellows/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = ABCD.Buffellows;
@@ -524,7 +526,7 @@
 			baseConfigurationReference = E32143505C8C3F2365982189 /* Pods-Buffellows.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = LDA8VUS6TR;
+				DEVELOPMENT_TEAM = X64283BNM4;
 				INFOPLIST_FILE = Buffellows/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = ABCD.Buffellows;
