@@ -26,6 +26,7 @@ class SettingsVC: UIViewController,  UITableViewDelegate, UITableViewDataSource 
     func handleSignout() {
         let loginVC = LoginVC(nibName: "LoginVC", bundle: nil)
         self.navigationController?.pushViewController(loginVC, animated: false)
+        UserDefaults.standard.set(false, forKey: "isLoggedIn")
     }
     
     override func didReceiveMemoryWarning() {

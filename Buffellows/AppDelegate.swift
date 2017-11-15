@@ -22,7 +22,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.makeKeyAndVisible()
         
-        window?.rootViewController = UINavigationController(rootViewController: LoginVC())
+        if(UserDefaults.standard.bool(forKey: "isLoggedIn") == true) {
+            window?.rootViewController = UINavigationController(rootViewController: TabBarVC())
+        } else {
+            window?.rootViewController = UINavigationController(rootViewController: LoginVC())
+        }
         //Firebase Config
         FirebaseApp.configure()
         
