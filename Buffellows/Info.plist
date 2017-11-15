@@ -22,6 +22,8 @@
 	<true/>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>$(PRODUCT_NAME) Photo Library use</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>$(PRODUCT_NAME) Photo Library use</string>
 	<key>Privacy - Camera Usage Description  </key>
 	<string>$(PRODUCT_NAME) camera use</string>
 	<key>UILaunchStoryboardName</key>
