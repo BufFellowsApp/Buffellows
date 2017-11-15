@@ -99,6 +99,7 @@ UINavigationControllerDelegate {
     func handleSignout() {
         let loginVC = LoginVC(nibName: "LoginVC", bundle: nil)
         self.navigationController?.pushViewController(loginVC, animated: false)
+        UserDefaults.standard.set(false, forKey: "isLoggedIn")
     }
     
     //MARK: - Textfield Validation

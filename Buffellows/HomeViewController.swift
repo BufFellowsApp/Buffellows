@@ -24,10 +24,10 @@ class HomeViewController: StandardVC {
     }
     
     func loadInfo() {
-        firstName.text = UserDefaults.standard.value(forKey: "firstName") as! String
-        lastName.text = UserDefaults.standard.value(forKey: "lastName") as! String
-        username.text = UserDefaults.standard.value(forKey: "username") as! String
-        age.text = UserDefaults.standard.value(forKey: "age") as! String
+        firstName.text = UserDefaults.standard.value(forKey: "firstName") as? String
+        lastName.text = UserDefaults.standard.value(forKey: "lastName") as? String
+        username.text = UserDefaults.standard.value(forKey: "username") as? String
+        age.text = UserDefaults.standard.value(forKey: "age") as? String
     }
 
     override func didReceiveMemoryWarning() {
