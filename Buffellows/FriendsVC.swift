@@ -14,7 +14,8 @@ class FriendsVC: StandardVC, UITableViewDelegate, UITableViewDataSource, UISearc
     
     @IBOutlet weak var friendsList: UITableView!
     
- 
+    @IBOutlet weak var friendsCell: UITableViewCell!
+    
     @IBAction func AddFriend(_ sender: Any) {
         
     }

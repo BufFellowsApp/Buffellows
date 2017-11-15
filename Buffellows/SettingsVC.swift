@@ -19,19 +19,34 @@ UINavigationControllerDelegate {
     @IBOutlet weak var changePassword: UIButton!
     @IBOutlet weak var pass2image: UIImageView!
     @IBOutlet weak var pass1image: UIImageView!
-    @IBOutlet weak var profilePic: UIButton!
-    @IBOutlet weak var imagePicked: UIImageView!
+    
+    @IBOutlet weak var profilePic: UIImageView!
+    let imagePicker = UIImagePickerController()
 
-    
-    
-    @IBAction func changeProfilePic(_ sender: Any){
+    @IBAction func openCameraButton(_ sender: Any) {
         if UIImagePickerController.isSourceTypeAvailable(.camera) {
-            let imagePicker = UIImagePickerController()
-            imagePicker.delegate = self
             imagePicker.sourceType = .camera;
             imagePicker.allowsEditing = false
             self.present(imagePicker, animated: true, completion: nil)
+            
+            
+            
+            
         }
+        print("Button Clicked")
+    }
+    
+    @IBAction func openPhoto(_ sender: Any) {
+        if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
+            imagePicker.sourceType = .photoLibrary;
+            imagePicker.allowsEditing = false
+            self.present(imagePicker, animated: true, completion: nil)
+            
+            
+            
+            
+        }
+        print("Button Clicked")
     }
     @IBAction func changePassword(_ sender: Any) {
    
@@ -66,6 +81,15 @@ UINavigationControllerDelegate {
         
         changePassword.isEnabled = false
         // Do any additional setup after loading the view.
+        
+
+        profilePic.layer.cornerRadius = 10
+        profilePic.clipsToBounds = true
+        
+        imagePicker.delegate = self
+        
+        
+        
     }
 
     func setupNavBar() {
@@ -107,5 +131,17 @@ UINavigationControllerDelegate {
         return passwordTest.evaluate(with: password)
     }
     
-    // MARK: - Camera
+    // MARK: - Picked Image
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        let chosenImage = info[UIImagePickerControllerOriginalImage] as! UIImage
+        // use the image
+        profilePic.image = chosenImage
+        
+        dismiss(animated: true, completion: nil)
+        
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        dismiss(animated: true, completion: nil)
+    }
 }
