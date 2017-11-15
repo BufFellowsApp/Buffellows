@@ -7,16 +7,89 @@
 //
 
 import UIKit
+import Firebase
 
-class SettingsVC: UIViewController,  UITableViewDelegate, UITableViewDataSource {
+class SettingsVC: UIViewController,UIImagePickerControllerDelegate,
+UINavigationControllerDelegate {
+
     
     
+    @IBOutlet weak var password1: UITextField!
+    @IBOutlet weak var password2: UITextField!
+    @IBOutlet weak var changePassword: UIButton!
+    @IBOutlet weak var pass2image: UIImageView!
+    @IBOutlet weak var pass1image: UIImageView!
+    
+    @IBOutlet weak var profilePic: UIImageView!
+    let imagePicker = UIImagePickerController()
 
+    @IBAction func openCameraButton(_ sender: Any) {
+        if UIImagePickerController.isSourceTypeAvailable(.camera) {
+            imagePicker.sourceType = .camera;
+            imagePicker.allowsEditing = false
+            self.present(imagePicker, animated: true, completion: nil)
+            
+            
+            
+            
+        }
+        print("Button Clicked")
+    }
+    
+    @IBAction func openPhoto(_ sender: Any) {
+        if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
+            imagePicker.sourceType = .photoLibrary;
+            imagePicker.allowsEditing = false
+            self.present(imagePicker, animated: true, completion: nil)
+            
+            
+            
+            
+        }
+        print("Button Clicked")
+    }
+    @IBAction func changePassword(_ sender: Any) {
+   
+            
+                // [START change_password]
+            Auth.auth().currentUser?.updatePassword(to: password1.text!) { (error) in
+                    // [START_EXCLUDE]
+                
+                
+                    // [END_EXCLUDE]
+                }
+                // [END change_password]
+        
+    
+            print("Password Changed")
+            
+    
+            
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
 
         setupNavBar()
+        
+        
+        password1.addTarget(self, action: #selector(textChanged(textField:)), for: .editingChanged)
+        
+        
+        password2.addTarget(self, action: #selector(textChanged(textField:)), for: .editingChanged)
+        
+        
+        
+        changePassword.isEnabled = false
         // Do any additional setup after loading the view.
+        
+
+        profilePic.layer.cornerRadius = 10
+        profilePic.clipsToBounds = true
+        
+        imagePicker.delegate = self
+        
+        
+        
     }
 
     func setupNavBar() {
@@ -29,29 +102,47 @@ class SettingsVC: UIViewController,  UITableViewDelegate, UITableViewDataSource 
         UserDefaults.standard.set(false, forKey: "isLoggedIn")
     }
     
+    //MARK: - Textfield Validation
+    func textChanged(textField: UITextField){
+        let passwrd = password1.text
+        if (isPasswordValid(passwrd!)){
+            pass1image.image = UIImage(named: "exerciseSelected")
+        }
+        if (password1.text == password2.text)  {
+            pass2image.image = UIImage(named: "exerciseSelected")
+            changePassword.isEnabled = true
+        } else {
+            changePassword.isEnabled = false
+        }
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
 
-    /*
-    // MARK: - Navigation
+    
+    // MARK: - Password
+    
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 2
+   
+    func isPasswordValid(_ password : String) -> Bool{
+        let passwordTest = NSPredicate(format: "SELF MATCHES %@", "^(?=.*[a-z])(?=.*[$@$#!%*?&])[A-Za-z\\d$@$#!%*?&]{6,}")
+        return passwordTest.evaluate(with: password)
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell:UITableViewCell=UITableViewCell(style: UITableViewCellStyle.subtitle, reuseIdentifier: "cell")
+    // MARK: - Picked Image
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        let chosenImage = info[UIImagePickerControllerOriginalImage] as! UIImage
+        // use the image
+        profilePic.image = chosenImage
         
-        return cell
+        dismiss(animated: true, completion: nil)
+        
     }
-
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        dismiss(animated: true, completion: nil)
+    }
 }

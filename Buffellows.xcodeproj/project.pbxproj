@@ -12,7 +12,6 @@
 		C37BCEC01F8D63C60052022E /* RegisterVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = C37BCEBE1F8D63C60052022E /* RegisterVC.xib */; };
 		C3A897E81F2312A100665783 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3A897E71F2312A100665783 /* AppDelegate.swift */; };
 		C3A897F01F2312A100665783 /* Buffellows.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C3A897EE1F2312A100665783 /* Buffellows.xcdatamodeld */; };
-		C3A897F21F2312A100665783 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C3A897F11F2312A100665783 /* Assets.xcassets */; };
 		C3A897F51F2312A100665783 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C3A897F31F2312A100665783 /* LaunchScreen.storyboard */; };
 		C3A897FE1F23141700665783 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3A897FC1F23141700665783 /* HomeViewController.swift */; };
 		C3A897FF1F23141700665783 /* HomeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C3A897FD1F23141700665783 /* HomeViewController.xib */; };
@@ -29,8 +28,14 @@
 		C3FE27141F9CA78300C896B0 /* SettingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3FE27121F9CA78300C896B0 /* SettingsVC.swift */; };
 		C3FE27151F9CA78300C896B0 /* SettingsVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = C3FE27131F9CA78300C896B0 /* SettingsVC.xib */; };
 		EE13BF1D1FA8218000DB5692 /* FriendsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE13BF1C1FA8218000DB5692 /* FriendsModel.swift */; };
+		EE5681A81FBA825500ADF715 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EE5681A71FBA825500ADF715 /* Assets.xcassets */; };
+		EE5681AB1FBAC3F500ADF715 /* ChallengeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE5681A91FBAC3F500ADF715 /* ChallengeVC.swift */; };
+		EE5681AC1FBAC3F500ADF715 /* ChallengeVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = EE5681AA1FBAC3F500ADF715 /* ChallengeVC.xib */; };
 		EE5DD64E1F90445D00F6AFE4 /* userDB.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE5DD64D1F90445D00F6AFE4 /* userDB.swift */; };
 		EE5DD6501F90595000F6AFE4 /* challengeDB.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE5DD64F1F90595000F6AFE4 /* challengeDB.swift */; };
+		EE7F18161FB9308E0081DB44 /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE7F18151FB9308E0081DB44 /* UserModel.swift */; };
+		EEA1A61F1FBBEDCC00EE6746 /* FriendsDB.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEA1A61E1FBBEDCC00EE6746 /* FriendsDB.swift */; };
+		EEA1A6211FBBEE5400EE6746 /* ChallengeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEA1A6201FBBEE5400EE6746 /* ChallengeModel.swift */; };
 		EED587671FA2C27D00389623 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = EED587661FA2C27C00389623 /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
@@ -42,7 +47,6 @@
 		C3A897E41F2312A100665783 /* Buffellows.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Buffellows.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C3A897E71F2312A100665783 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C3A897EF1F2312A100665783 /* Buffellows.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Buffellows.xcdatamodel; sourceTree = "<group>"; };
-		C3A897F11F2312A100665783 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C3A897F41F2312A100665783 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C3A897F61F2312A100665783 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C3A897FC1F23141700665783 /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
@@ -62,8 +66,14 @@
 		C3FE27131F9CA78300C896B0 /* SettingsVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SettingsVC.xib; sourceTree = "<group>"; };
 		E32143505C8C3F2365982189 /* Pods-Buffellows.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Buffellows.release.xcconfig"; path = "Pods/Target Support Files/Pods-Buffellows/Pods-Buffellows.release.xcconfig"; sourceTree = "<group>"; };
 		EE13BF1C1FA8218000DB5692 /* FriendsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsModel.swift; sourceTree = "<group>"; };
+		EE5681A71FBA825500ADF715 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		EE5681A91FBAC3F500ADF715 /* ChallengeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeVC.swift; sourceTree = "<group>"; };
+		EE5681AA1FBAC3F500ADF715 /* ChallengeVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ChallengeVC.xib; sourceTree = "<group>"; };
 		EE5DD64D1F90445D00F6AFE4 /* userDB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = userDB.swift; sourceTree = "<group>"; };
 		EE5DD64F1F90595000F6AFE4 /* challengeDB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = challengeDB.swift; sourceTree = "<group>"; };
+		EE7F18151FB9308E0081DB44 /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
+		EEA1A61E1FBBEDCC00EE6746 /* FriendsDB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsDB.swift; sourceTree = "<group>"; };
+		EEA1A6201FBBEE5400EE6746 /* ChallengeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeModel.swift; sourceTree = "<group>"; };
 		EED587661FA2C27C00389623 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "Buffellows/GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
@@ -127,6 +137,7 @@
 		C3A897E61F2312A100665783 /* Buffellows */ = {
 			isa = PBXGroup;
 			children = (
+				EE5681AD1FBAC3FB00ADF715 /* ChallengeVC */,
 				C3FE27091F9C939A00C896B0 /* ExercisesVC */,
 				C3FE27081F9C939200C896B0 /* FriendsVC */,
 				C3FE27031F9C851100C896B0 /* TabBarVC */,
@@ -173,7 +184,7 @@
 			children = (
 				EED587661FA2C27C00389623 /* GoogleService-Info.plist */,
 				C3A897E71F2312A100665783 /* AppDelegate.swift */,
-				C3A897F11F2312A100665783 /* Assets.xcassets */,
+				EE5681A71FBA825500ADF715 /* Assets.xcassets */,
 				C3A897F31F2312A100665783 /* LaunchScreen.storyboard */,
 				C3A897F61F2312A100665783 /* Info.plist */,
 				C3A897EE1F2312A100665783 /* Buffellows.xcdatamodeld */,
@@ -195,7 +206,6 @@
 			children = (
 				C3FE270A1F9C93B000C896B0 /* FriendsVC.swift */,
 				C3FE270B1F9C93B000C896B0 /* FriendsVC.xib */,
-				EE13BF1C1FA8218000DB5692 /* FriendsModel.swift */,
 			);
 			name = FriendsVC;
 			sourceTree = "<group>";
@@ -218,11 +228,24 @@
 			name = SettingsVC;
 			sourceTree = "<group>";
 		};
+		EE5681AD1FBAC3FB00ADF715 /* ChallengeVC */ = {
+			isa = PBXGroup;
+			children = (
+				EE5681A91FBAC3F500ADF715 /* ChallengeVC.swift */,
+				EE5681AA1FBAC3F500ADF715 /* ChallengeVC.xib */,
+			);
+			name = ChallengeVC;
+			sourceTree = "<group>";
+		};
 		EED587681FA2DA7600389623 /* DataBaseClasses */ = {
 			isa = PBXGroup;
 			children = (
 				EE5DD64D1F90445D00F6AFE4 /* userDB.swift */,
+				EEA1A61E1FBBEDCC00EE6746 /* FriendsDB.swift */,
+				EE13BF1C1FA8218000DB5692 /* FriendsModel.swift */,
 				EE5DD64F1F90595000F6AFE4 /* challengeDB.swift */,
+				EEA1A6201FBBEE5400EE6746 /* ChallengeModel.swift */,
+				EE7F18151FB9308E0081DB44 /* UserModel.swift */,
 			);
 			path = DataBaseClasses;
 			sourceTree = "<group>";
@@ -293,10 +316,11 @@
 			files = (
 				C3A897F51F2312A100665783 /* LaunchScreen.storyboard in Resources */,
 				C3FE27111F9C93C200C896B0 /* ExercisesVC.xib in Resources */,
+				EE5681A81FBA825500ADF715 /* Assets.xcassets in Resources */,
 				C3FE27071F9C853900C896B0 /* TabBarVC.xib in Resources */,
+				EE5681AC1FBAC3F500ADF715 /* ChallengeVC.xib in Resources */,
 				C3FE270D1F9C93B000C896B0 /* FriendsVC.xib in Resources */,
 				C3A8980A1F329A8000665783 /* StandardVC.xib in Resources */,
-				C3A897F21F2312A100665783 /* Assets.xcassets in Resources */,
 				C37BCEC01F8D63C60052022E /* RegisterVC.xib in Resources */,
 				C3A898051F32938800665783 /* LoginVC.xib in Resources */,
 				EED587671FA2C27D00389623 /* GoogleService-Info.plist in Resources */,
@@ -372,6 +396,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EE5681AB1FBAC3F500ADF715 /* ChallengeVC.swift in Sources */,
 				EE5DD64E1F90445D00F6AFE4 /* userDB.swift in Sources */,
 				C3A897E81F2312A100665783 /* AppDelegate.swift in Sources */,
 				C3A898091F329A8000665783 /* StandardVC.swift in Sources */,
@@ -380,7 +405,10 @@
 				C3FE27141F9CA78300C896B0 /* SettingsVC.swift in Sources */,
 				C3FE27101F9C93C200C896B0 /* ExercisesVC.swift in Sources */,
 				C3FE27061F9C853900C896B0 /* TabBarVC.swift in Sources */,
+				EE7F18161FB9308E0081DB44 /* UserModel.swift in Sources */,
 				C37BCEBF1F8D63C60052022E /* RegisterVC.swift in Sources */,
+				EEA1A6211FBBEE5400EE6746 /* ChallengeModel.swift in Sources */,
+				EEA1A61F1FBBEDCC00EE6746 /* FriendsDB.swift in Sources */,
 				EE13BF1D1FA8218000DB5692 /* FriendsModel.swift in Sources */,
 				EE5DD6501F90595000F6AFE4 /* challengeDB.swift in Sources */,
 				C3A898041F32938800665783 /* LoginVC.swift in Sources */,
