@@ -8,11 +8,13 @@
 
 import Foundation
 class ChallengeModel {
-    var creator: String!
-    var challenger: String!
+    var creatorID: String!
+    var challengerID: String!
     var startDate: String!
     var endDate: String!
     var challenge: String!
+    var exercise: String!
     var bet: String!
     var status: String!
+    var challengeKey: String!
 }
