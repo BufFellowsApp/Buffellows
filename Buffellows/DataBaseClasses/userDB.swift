@@ -15,12 +15,14 @@ class userDB  {
     public init(){
         //FirebaseApp.configure()
     }
-    
-    let rootRef =  Database.database().reference().child("Users")
+    //Call to User DB section of FireBase
+    let uDB =  Database.database().reference().child("Users")
+    //Call to User Profile Pic DB section of FireBase
+    let iDB = Database.database().reference().child("UserPhoto")
     
 
     func addUser(userData: UserModel, completion:@escaping (_ result: String) -> Void) {
-        let userAdd = rootRef.child(userData.userID!)
+        let userAdd = uDB.child(userData.userID!)
         var newUser = [String:String]()
         newUser.updateValue(userData.email!, forKey: "email")
         newUser.updateValue(userData.first!, forKey: "first")
@@ -45,13 +47,13 @@ class userDB  {
     
     public func deleteUser(userID: String){
         
-        rootRef.child(userID).removeValue()
+        uDB.child(userID).removeValue()
     }
     public func getUSerData(userID: String) -> UserModel {
         let userData = UserModel()
-        let getDataRef = rootRef.child(userID)
+        let userRef = uDB.child(userID)
         
-        getDataRef.observe( .childAdded, with: {(snapshot) in
+        userRef.observe( .childAdded, with: {(snapshot) in
            
             if let dictionary = snapshot.value as? [String: AnyObject] {
                 userData.first = dictionary["first"] as? String
@@ -61,5 +63,22 @@ class userDB  {
             }})
         return userData
     }
+    
+    func  writeProfilepic(userID: String, photoID: String) {
+        
+        iDB.child(userID).updateChildValues(["photoPath": photoID])
+        
+    }
+    func getProfilePic(userID: String) -> String {
+        var path = String()
+        iDB.child(userID).observe( .childAdded, with: {(snapshot) in
+            if let dictionary = snapshot.value as? [String: AnyObject]{
+                path = dictionary["photoPath"] as! String
+            }
+        })
+        return path
+    }
+    
+    
     
 }
