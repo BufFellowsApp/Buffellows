@@ -16,17 +16,12 @@ class userDB  {
         //FirebaseApp.configure()
     }
     
-    let rootRef =  Database.database().reference()
+    let rootRef =  Database.database().reference().child("Users")
     
 
     func addUser(userData: UserModel, completion:@escaping (_ result: String) -> Void) {
-        
-       
-        
-        let userAdd = rootRef.child("Users").child(userData.userID!)
-        
+        let userAdd = rootRef.child(userData.userID!)
         var newUser = [String:String]()
-        
         newUser.updateValue(userData.email!, forKey: "email")
         newUser.updateValue(userData.first!, forKey: "first")
         newUser.updateValue(userData.last!, forKey: "last")
@@ -41,9 +36,9 @@ class userDB  {
                 completion("UserError")
                 return
             }
-            
             completion("UserAdded")
-        })
+        }
+        )
         
     }
     
@@ -54,25 +49,16 @@ class userDB  {
     }
     public func getUSerData(userID: String) -> UserModel {
         let userData = UserModel()
-        let getDataRef = rootRef.child("Users").child(userID)
+        let getDataRef = rootRef.child(userID)
         
         getDataRef.observe( .childAdded, with: {(snapshot) in
-            //print (snapshot)
+           
             if let dictionary = snapshot.value as? [String: AnyObject] {
-                
-                //print("Creating friends model array")
-                
                 userData.first = dictionary["first"] as? String
                 userData.last = dictionary["last"] as? String
                 userData.userAge = dictionary["userAge"] as? String
                 userData.email = dictionary["email"] as? String
-                //print("Friends Model Array printing")
-                
-                
-            }
-            
-            //print ("Done Fetching Users")
-        })
+            }})
         return userData
     }
     
