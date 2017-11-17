@@ -19,12 +19,16 @@ class FriendsVC: StandardVC, UITableViewDelegate, UITableViewDataSource, UISearc
     @IBAction func AddFriend(_ sender: Any) {
         
     }
+    
     //var friendsList: UITableView = UITableView()
     var filterData = [FriendsModel]()
     var friendsData  = [FriendsModel]()
     var uID : String!
+    var searchActive : Bool = false
     let cellID = "cellId"
     let fDB = FriendsDB()
+    let uDB = userDB()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -34,11 +38,7 @@ class FriendsVC: StandardVC, UITableViewDelegate, UITableViewDataSource, UISearc
         
         uID = "PEgAo0eg7jcTh5SouxNeQodFsA63"
         print ("Fetching Users")
-        
-        
-        
-        
-       
+
         friendsList.delegate      =   self
         friendsList.dataSource    =   self
         friendsList.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
@@ -88,21 +88,55 @@ class FriendsVC: StandardVC, UITableViewDelegate, UITableViewDataSource, UISearc
         
     }
     //MARK: SSEARCH BAR
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        searchActive = true;
+    }
+    
+    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
+        searchActive = false;
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        searchActive = false;
+    }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        
+        searchActive = false;
+    }
+
     func searchBarSetup(){
         let searchBar = UISearchBar(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 30))
         searchBar.backgroundImage = UIImage()
         searchBar.barStyle = UIBarStyle.black
-        
+        searchBar.delegate = self
         self.friendsList.tableHeaderView = searchBar
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        if searchText.isEmpty{
-            filterData = friendsData
+        print("Search Bar Text Changed")
+        filterData = friendsData.filter({ (text) -> Bool in
+            let tmp: NSString = text.first! as NSString
+            let range = tmp.range(of: searchText, options: NSString.CompareOptions.caseInsensitive)
+            return range.location != NSNotFound
+        })
+        if(filterData.count == 0){
+            searchActive = false;
+        } else {
+            searchActive = true;
+        }
+        self.friendsList.reloadData()
+    }
+    func findFriend(email: String){
+        uDB.findUser(email: email) {
+            (result: String) in
+            if (result == "FoundUser"){
+                print("Found User")
+            }
+            
         }
         
     }
-    
     func filterTableView(text: String) {
         //Add filtering
     }
@@ -116,6 +150,9 @@ class FriendsVC: StandardVC, UITableViewDelegate, UITableViewDataSource, UISearc
     //MARK: TABLE VIEW
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
     {
+        if (searchActive) {
+            return filterData.count
+        }
         return friendsData.count
         
     }
@@ -124,28 +161,45 @@ class FriendsVC: StandardVC, UITableViewDelegate, UITableViewDataSource, UISearc
     {
         
         let cell:UITableViewCell=UITableViewCell(style: UITableViewCellStyle.subtitle, reuseIdentifier: "cell")
-        let user = friendsData[indexPath.row]
-        
-        if (user.status == "pending"){
-            cell.textLabel?.textColor = UIColor.darkGray
-            cell.textLabel?.text = user.first! + " " + user.last!
-            
-            cell.detailTextLabel?.text = "Friend Request pending"
-            
-        } else if ( user.status == "request" ){
-            cell.textLabel?.textColor = UIColor.magenta
-            cell.textLabel?.text = user.first! + " " + user.last!
-            cell.detailTextLabel?.text = "Requesting Friendship"
-            
-        } else {
-            cell.tintColor = UIColor.blue
-            cell.textLabel?.textColor = UIColor.red
-            cell.textLabel?.text = user.first! + " " + user.last!
+        var user = FriendsModel()
+        if (searchActive){
+            user = filterData[indexPath.row]
+            if (user.status == "pending"){
+                cell.textLabel?.textColor = UIColor.darkGray
+                cell.textLabel?.text = user.first! + " " + user.last!
+                
+                cell.detailTextLabel?.text = "Friend Request pending"
+                
+            } else if ( user.status == "request" ){
+                cell.textLabel?.textColor = UIColor.magenta
+                cell.textLabel?.text = user.first! + " " + user.last!
+                cell.detailTextLabel?.text = "Requesting Friendship"
+                
+            } else {
+                cell.tintColor = UIColor.blue
+                cell.textLabel?.textColor = UIColor.red
+                cell.textLabel?.text = user.first! + " " + user.last!
+            }
         }
-        
-        
-        
-        
+        else {
+            user = friendsData[indexPath.row]
+            if (user.status == "pending"){
+                cell.textLabel?.textColor = UIColor.darkGray
+                cell.textLabel?.text = user.first! + " " + user.last!
+                
+                cell.detailTextLabel?.text = "Friend Request pending"
+                
+            } else if ( user.status == "request" ){
+                cell.textLabel?.textColor = UIColor.magenta
+                cell.textLabel?.text = user.first! + " " + user.last!
+                cell.detailTextLabel?.text = "Requesting Friendship"
+                
+            } else {
+                cell.tintColor = UIColor.blue
+                cell.textLabel?.textColor = UIColor.red
+                cell.textLabel?.text = user.first! + " " + user.last!
+            }
+        }
         return cell
     }
     

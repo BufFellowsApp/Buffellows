@@ -14,6 +14,7 @@ class userDB  {
     public static let instance = userDB()
     let userData = UserModel()
     var profilePath = String()
+    var foundUser = String()
     public init(){
         
     }
@@ -113,6 +114,27 @@ class userDB  {
         return profilePath
     }
     
-    
+    func findUser(email:String, completion:@escaping (_ result: String) -> Void) {
+        
+        uDB.queryOrdered(byChild: "email").queryEqual(toValue: email).observeSingleEvent(of: .value, with: { (snapShot) in
+            
+            if let snapDict = snapShot.value as? [String:AnyObject]{
+                
+                for each in snapDict{
+                    let key  = each.key
+                    let name = each.value["email"] as! String
+                    print(key)
+                    print(name)
+                    self.foundUser = name
+                }
+            }
+            completion("FoundUser")
+        }, withCancel: {(Err) in
+            
+            print(Err.localizedDescription)
+            
+        })
+        
+    }
     
 }
