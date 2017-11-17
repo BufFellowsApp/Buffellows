@@ -62,6 +62,21 @@ class TabBarVC: UITabBarController, UITabBarControllerDelegate {
         settingsButton.contentMode = .scaleAspectFit
         let settingsItem = UIBarButtonItem(customView: settingsButton)
         self.navigationItem.leftBarButtonItem = settingsItem
+        
+        let challengeButton = UIButton(type: .system)
+        challengeButton.tintColor = UIColor.white
+        challengeButton.setImage(#imageLiteral(resourceName: "exerciseSelected"), for: .normal)
+        challengeButton.frame = CGRect(x: 0, y: 0, width: 20, height: 20)
+        challengeButton.addTarget(self, action: #selector(goChallengeSetup), for: .touchUpInside)
+        challengeButton.contentMode = .scaleAspectFit
+        let challengeItem = UIBarButtonItem(customView: challengeButton)
+        self.navigationItem.rightBarButtonItem = challengeItem
+    }
+    
+    func goChallengeSetup() {
+        print("CLICK CHALLENGE")
+        let challengeVC = ChallengeVC(nibName: "ChallengeVC", bundle: nil)
+        self.navigationController?.pushViewController(challengeVC, animated: true)
     }
     
     func goSettings() {
