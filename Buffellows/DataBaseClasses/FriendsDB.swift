@@ -55,6 +55,14 @@ class FriendsDB  {
         print("Friend Deleted")
         
     }
+    // to call
+    // userDB.fetchFriends(FriendsModel) {
+    // (result: String) in
+    // if (result == "DataFetched") {
+    // var [FriendModel] = userDB.passFriendData()
+    // } else {
+    // code block
+    // }
     public func fetchFriends(friend: FriendsModel, completion:@escaping (_ result: String) -> Void)  {
         rootRef.child(friend.yourID!).observe( .childAdded, with: {(snapshot) in
             //print (snapshot)
