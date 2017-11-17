@@ -12,4 +12,5 @@ target 'Buffellows' do
   pod 'Firebase/Core'
   pod 'Firebase/Auth'
   pod 'Firebase/Storage'
+  pod 'SearchTextField', '~> 1.0.2'
 end
