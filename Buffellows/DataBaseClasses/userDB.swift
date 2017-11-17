@@ -15,18 +15,15 @@ class userDB  {
     public init(){
         //FirebaseApp.configure()
     }
-    
-    let rootRef =  Database.database().reference()
+    //Call to User DB section of FireBase
+    let uDB =  Database.database().reference().child("Users")
+    //Call to User Profile Pic DB section of FireBase
+    let iDB = Database.database().reference().child("UserPhoto")
     
 
     func addUser(userData: UserModel, completion:@escaping (_ result: String) -> Void) {
-        
-       
-        
-        let userAdd = rootRef.child("Users").child(userData.userID!)
-        
+        let userAdd = uDB.child(userData.userID!)
         var newUser = [String:String]()
-        
         newUser.updateValue(userData.email!, forKey: "email")
         newUser.updateValue(userData.first!, forKey: "first")
         newUser.updateValue(userData.last!, forKey: "last")
@@ -41,39 +38,47 @@ class userDB  {
                 completion("UserError")
                 return
             }
-            
             completion("UserAdded")
-        })
+        }
+        )
         
     }
     
     
     public func deleteUser(userID: String){
         
-        rootRef.child(userID).removeValue()
+        uDB.child(userID).removeValue()
     }
     public func getUSerData(userID: String) -> UserModel {
         let userData = UserModel()
-        let getDataRef = rootRef.child("Users").child(userID)
+        let userRef = uDB.child(userID)
         
-        getDataRef.observe( .childAdded, with: {(snapshot) in
-            //print (snapshot)
+        userRef.observe( .childAdded, with: {(snapshot) in
+           
             if let dictionary = snapshot.value as? [String: AnyObject] {
-                
-                //print("Creating friends model array")
-                
                 userData.first = dictionary["first"] as? String
                 userData.last = dictionary["last"] as? String
                 userData.userAge = dictionary["userAge"] as? String
                 userData.email = dictionary["email"] as? String
-                //print("Friends Model Array printing")
-                
-                
-            }
-            
-            //print ("Done Fetching Users")
-        })
+            }})
         return userData
     }
+    
+    func  writeProfilepic(userID: String, photoID: String) {
+        
+        iDB.child(userID).updateChildValues(["photoPath": photoID])
+        
+    }
+    func getProfilePic(userID: String) -> String {
+        var path = String()
+        iDB.child(userID).observe( .childAdded, with: {(snapshot) in
+            if let dictionary = snapshot.value as? [String: AnyObject]{
+                path = dictionary["photoPath"] as! String
+            }
+        })
+        return path
+    }
+    
+    
     
 }
