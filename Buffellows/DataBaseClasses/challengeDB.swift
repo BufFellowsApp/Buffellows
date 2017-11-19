@@ -16,6 +16,19 @@ class challengeDB {
     public static let instance = challengeDB()
     init(){
     }
+    
+    
+    
+    // Create a new challenge
+    // to call
+    // createChallenge(challengeModel) {
+    // (result: String) in
+    // if (result == "ChallengeAdded") {
+    //  code block
+    // } else {
+    // code block
+    // }
+
     public func createChallenge(challengeData: ChallengeModel, completion:@escaping (_ result: String) -> Void){
         
         let newChallenge = cdDB.childByAutoId()
@@ -62,6 +75,15 @@ class challengeDB {
         })
     }
     
+    //DELETE CHALLENGE
+    // to call
+    // userDB.deleteChallenge(string, string, string, string) {
+    // (result: String) in
+    // if (result == "ChallengeDeleted") {
+    //  code block
+    // } else {
+    // code block
+    // }
     public func deleteChallenge(challengeID: String, completion:@escaping (_ result: String) -> Void) {
         let challengeData = getChallenge(challengeID: challengeID)
         
@@ -69,9 +91,18 @@ class challengeDB {
         cuDB.child(challengeData.challengerID!).child(challengeID).removeValue()
         cdDB.child(challengeID).removeValue()
         DispatchQueue.main.async(execute: {
-            completion("ChallengeAdded")
+            completion("ChallengeDeleted")
         })
     }
+    // update challenge status
+    // to call
+    // userDB.updateChallenge(challengeID, creatorInfo, challengeInfo, challengeStatus) {
+    // (result: String) in
+    // if (result == "ChallengeUpdated") {
+    //  code block
+    // } else {
+    // code block
+    // }
     public func updateChallenge(challengeID: String, creattorInfo: String, challengerInfo: String, challengeStatus: String, completion:@escaping (_ result: String) -> Void)
     {
         let challengeData = getChallenge(challengeID: challengeID)
@@ -80,7 +111,7 @@ class challengeDB {
         cuDB.child(challengeData.challengerID!).child(challengeID).updateChildValues(["status": creattorInfo])
         cdDB.child(challengeID).updateChildValues(["status": challengeStatus])
         DispatchQueue.main.async(execute: {
-            completion("ChallengeAdded")
+            completion("ChallengeUpdated")
         })
     }
     
@@ -101,6 +132,14 @@ class challengeDB {
                 }})
         return challengeData
     }
+    //Function for user to update if they completed their task for the challenge that day.
+    // to call  userDB.completeTask(userID, challengeID, dayOfTheWeek) {
+    // (result: String) in
+    // if (result == "updateTask") {
+    //  code block
+    // } else {
+    // code block
+    // }
     func completeTask(userID: String, challengeID: String, day: String, completion:@escaping (_ result: String) -> Void) {
         
         cuDB.child(userID).child(challengeID).child("Day").updateChildValues([day: "True"])

@@ -55,9 +55,22 @@ class FriendsDB  {
         print("Friend Deleted")
         
     }
+    // to call
+    // userDB.fetchFriends(FriendsModel) {
+    // (result: String) in
+    // if (result == "DataFetched") {
+    // var [FriendModel] = userDB.passFriendData()
+    // } else {
+    // code block
+    // }
     public func fetchFriends(friend: FriendsModel, completion:@escaping (_ result: String) -> Void)  {
+        self.friendsData.removeAll()
+        let dataLoad = DispatchGroup()
+        let backgroundQ = DispatchQueue(label:"queue")
+       
         rootRef.child(friend.yourID!).observe( .childAdded, with: {(snapshot) in
             //print (snapshot)
+             backgroundQ.async(group: dataLoad) {
             if let dictionary = snapshot.value as? [String: AnyObject] {
                 let key = snapshot.key
                 //print("Creating friends model array")
@@ -71,14 +84,36 @@ class FriendsDB  {
                 
                 
             }
-           
+            }
             //print ("Done Fetching Users")
+        dataLoad.notify(queue: DispatchQueue.main){
+            
             completion("DataFetched")
+            }
         })
+        
         
         
     }
     func passFriendData() -> [FriendsModel] {
         return self.friendsData
+    }
+    
+    
+    func friendRequestResponse(userID: String, friendID: String, response: String)
+    {
+        if (response == "accept"){
+            rootRef.child(userID).child(friendID).updateChildValues(["status": "friend"])
+            rootRef.child(friendID).child(userID).updateChildValues(["status": "friend"])
+        }
+        
+        if (response == "decline" || response == "delete")
+        {
+            rootRef.child(userID).child(friendID).removeValue()
+            rootRef.child(friendID).child(userID).removeValue()
+            
+        }
+            
+        
     }
 }
