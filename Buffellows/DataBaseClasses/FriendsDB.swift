@@ -64,8 +64,13 @@ class FriendsDB  {
     // code block
     // }
     public func fetchFriends(friend: FriendsModel, completion:@escaping (_ result: String) -> Void)  {
+        self.friendsData.removeAll()
+        let dataLoad = DispatchGroup()
+        let backgroundQ = DispatchQueue(label:"queue")
+       
         rootRef.child(friend.yourID!).observe( .childAdded, with: {(snapshot) in
             //print (snapshot)
+             backgroundQ.async(group: dataLoad) {
             if let dictionary = snapshot.value as? [String: AnyObject] {
                 let key = snapshot.key
                 //print("Creating friends model array")
@@ -79,10 +84,14 @@ class FriendsDB  {
                 
                 
             }
-           
+            }
             //print ("Done Fetching Users")
+        dataLoad.notify(queue: DispatchQueue.main){
+            
             completion("DataFetched")
+            }
         })
+        
         
         
     }

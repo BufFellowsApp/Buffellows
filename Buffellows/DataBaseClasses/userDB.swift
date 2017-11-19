@@ -12,7 +12,9 @@ import Firebase
 class userDB  {
     
     public static let instance = userDB()
-    let userData = UserModel()
+    var userData = UserModel()
+    
+    
     var profilePath = String()
     var foundUser = String()
     public init(){
@@ -66,26 +68,53 @@ class userDB  {
     // code block
     // }
     public func getUSerData(userID: String, completion:@escaping (_ result: String) -> Void) {
-       
-        let userRef = uDB.child(userID)
         
-        userRef.observe( .childAdded, with: {(snapshot) in
-           
-            if let dictionary = snapshot.value as? [String: AnyObject] {
-                self.userData.first = dictionary["first"] as? String
-                self.userData.last = dictionary["last"] as? String
-                self.userData.userAge = dictionary["userAge"] as? String
-                self.userData.email = dictionary["email"] as? String
-            }
-          completion("UserData")
-        })
+        
+        let dataLoad = DispatchGroup()
+        let backgroundQ = DispatchQueue(label:"queue")
+        
+        
+        
+            print("Background Queue")
+            self.uDB.child(userID).observe( .value, with: { (snapShot) in
+               backgroundQ.async(group: dataLoad) {
+                    if let snapDict = snapShot.value as? [String:AnyObject]{
+                    
+                        print("Snap Dict")
+                        self.userData.userID = userID
+                        self.userData.first = snapDict["first"] as? String
+                        self.userData.last = snapDict["last"] as? String
+                        self.userData.email = snapDict["email"] as? String
+                        self.foundUser = userID
+                    }
+                }
+                dataLoad.notify(queue: DispatchQueue.main){
+                    if self.foundUser.isEmpty {
+                        completion("NotFound")
+                        print("User Data not found \(userID)")
+                    }
+                        
+                    else
+                    {
+                        print ("USer Data Complete")
+                        completion("UserData")
+                        
+                    }
+                }
+            })
+        
+        
+        
+            
         
         
     }
     func passUserData() -> UserModel {
         return userData
     }
-    
+    func passFoundUser() -> String {
+        return foundUser
+    }
     func  writeProfilepic(userID: String, photoID: String) {
         
         iDB.child(userID).updateChildValues(["photoPath": photoID])
@@ -115,25 +144,49 @@ class userDB  {
     }
     
     func findUser(email:String, completion:@escaping (_ result: String) -> Void) {
-        
+        let dataLoad = DispatchGroup()
+        let backgroundQ = DispatchQueue(label:"queue")
+        userData = UserModel()
+        foundUser = String()
         uDB.queryOrdered(byChild: "email").queryEqual(toValue: email).observeSingleEvent(of: .value, with: { (snapShot) in
-            
-            if let snapDict = snapShot.value as? [String:AnyObject]{
+            backgroundQ.async(group: dataLoad) {
                 
+            if let snapDict = snapShot.value as? [String:AnyObject]{
+                print("found a value")
                 for each in snapDict{
                     let key  = each.key
                     let name = each.value["email"] as! String
                     print(key)
                     print(name)
+                    self.userData.userID = key
+                    self.userData.first = each.value["first"] as? String
+                    self.userData.last = each.value["last"] as? String
+                    self.userData.email = name
                     self.foundUser = name
+                    
+                    
                 }
             }
-            completion("FoundUser")
+            
+            }
+            dataLoad.notify(queue: DispatchQueue.main){
+                if self.foundUser.isEmpty {
+                    completion("NotFound")}
+                else
+                {
+                    print("Found user is : \(self.foundUser)")
+                    completion("FoundUser")
+                }
+            }
+            
         }, withCancel: {(Err) in
             
             print(Err.localizedDescription)
             
-        })
+        }
+        )
+        
+
         
     }
     
