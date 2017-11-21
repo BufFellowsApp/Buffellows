@@ -10,6 +10,7 @@
 
 import UIKit
 import SearchTextField
+import Firebase
 
 class ChallengeVC: StandardVC {
     
@@ -22,7 +23,9 @@ class ChallengeVC: StandardVC {
     //  Incentive / Prize - Raw Info
     
     let challengeeSearch = SearchTextField(frame: CGRect(x: UIScreen.main.bounds.width/16, y: 100, width: 7*UIScreen.main.bounds.width/8, height: 50))
-    let friendsDict = ["Friends" : ["Ashish", "Eric", "Kambi", "Rahul", "Daniel"]]
+    var friendsDict = ["Friends" : ["Ashish", "Eric", "Kambi", "Rahul", "Daniel"],
+                       "FriendID" : ["0", "1","2","3","4"] ]
+    
     
     let muscleGroupSearch = SearchTextField(frame: CGRect(x: UIScreen.main.bounds.width/16, y: 175, width: 7*UIScreen.main.bounds.width/8, height: 50))
     let muscleGroupDict = ["Cardio" : ["Cardio 1", "Cardio 2"],
@@ -49,10 +52,21 @@ class ChallengeVC: StandardVC {
     var reps: String!
     var duration: String!
     
+    
+    //DATABASE VARS
+    let fDB = FriendsDB()
+    let uDB = userDB()
+    var uID :String! = Auth.auth().currentUser?.uid
+    var friendsData  = [FriendsModel]()
+    
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setUpSearch(challengeeSearch, friendsDict, "Choose a friend to Challenge!")
+        //uID = Auth.auth().currentUser?.uid
+        getFriendsList()
+        //setUpSearch(challengeeSearch, friendsDict, "Choose a friend to Challenge!")
         setUpSearch(muscleGroupSearch, muscleGroupDict, "Enter in an Exercise!")
         setUpSearch(durationSearch, durDict, "How long to complete this challenge?")
         
@@ -65,6 +79,7 @@ class ChallengeVC: StandardVC {
         self.view.addSubview(submit)
         
         // Do any additional setup after loading the view.
+        
     }
     
     func submitTapped(_ sender: UIButton) {
@@ -120,6 +135,7 @@ class ChallengeVC: StandardVC {
         
         // Handle what happens when the user picks an item. By default the title is set to the text field
         stf.itemSelectionHandler = {item, itemPosition in
+            
             stf.text = item.title
             selTitle = item.title
             selSub = item.subtitle
@@ -151,6 +167,7 @@ class ChallengeVC: StandardVC {
         
         if(self.friend != nil && self.reps != nil && self.duration != nil && self.exercise != nil) {
             self.message = self.friend + " has " + self.duration + " to complete " + self.reps + " of " + self.exercise
+            print(self.message)
             self.messageLabel.text = self.message
             self.messageLabel.numberOfLines = 3
             self.messageLabel.textColor = UIColor(red: 50/255, green: 0, blue: 0, alpha: 1)
@@ -161,6 +178,7 @@ class ChallengeVC: StandardVC {
     }
     
     func conditionChecking(_ string: String) {
+        
         if(string == "Cardio") {
             setUpSearch(numRepsSearch, distDict, "Enter the Distance!")
         } else {
@@ -183,5 +201,32 @@ class ChallengeVC: StandardVC {
         // Pass the selected object to the new view controller.
     }
     */
+    func getFriendsList(){
+        let getFriend = FriendsModel()
+        friendsData.removeAll()
+        getFriend.yourID = uID
+        
+        print(uID)
+        print(friendsDict)
+        self.fDB.fetchFriends(friend: getFriend) {
+            (result: String) in
+            if (result == "DataFetched"){
+                self.friendsDict["Friends"]?.removeAll()
+                self.friendsDict["FriendID"]?.removeAll()
+                
+                self.friendsData = self.fDB.passFriendData()
+                for users in self.friendsData {
+                    if (users.status == "friend"){
+                        let name =  "\(users.first!) \(users.last!)"
+                        print(name)
+                        self.friendsDict["Friends"]?.append(name)
+                        self.friendsDict["FriendID"]?.append(users.friendID!)
+                    }
+                }
+                
+                self.setUpSearch(self.challengeeSearch, self.friendsDict, "Choose a friend to Challenge!")
+            }
+        }
+    }
 
 }

@@ -68,16 +68,9 @@ class userDB  {
     // code block
     // }
     public func getUSerData(userID: String, completion:@escaping (_ result: String) -> Void) {
-        
-        
-        let dataLoad = DispatchGroup()
-        let backgroundQ = DispatchQueue(label:"queue")
-        
-        
-        
             print("Background Queue")
-            self.uDB.child(userID).observe( .value, with: { (snapShot) in
-               backgroundQ.async(group: dataLoad) {
+            self.uDB.child(userID).observeSingleEvent(of: .value, with: { (snapShot) in
+               
                     if let snapDict = snapShot.value as? [String:AnyObject]{
                     
                         print("Snap Dict")
@@ -87,8 +80,8 @@ class userDB  {
                         self.userData.email = snapDict["email"] as? String
                         self.foundUser = userID
                     }
-                }
-                dataLoad.notify(queue: DispatchQueue.main){
+                
+
                     if self.foundUser.isEmpty {
                         completion("NotFound")
                         print("User Data not found \(userID)")
@@ -99,7 +92,7 @@ class userDB  {
                         print ("USer Data Complete")
                         completion("UserData")
                         
-                    }
+                    
                 }
             })
         
@@ -144,12 +137,11 @@ class userDB  {
     }
     
     func findUser(email:String, completion:@escaping (_ result: String) -> Void) {
-        let dataLoad = DispatchGroup()
-        let backgroundQ = DispatchQueue(label:"queue")
+
         userData = UserModel()
         foundUser = String()
         uDB.queryOrdered(byChild: "email").queryEqual(toValue: email).observeSingleEvent(of: .value, with: { (snapShot) in
-            backgroundQ.async(group: dataLoad) {
+            
                 
             if let snapDict = snapShot.value as? [String:AnyObject]{
                 print("found a value")
@@ -168,8 +160,8 @@ class userDB  {
                 }
             }
             
-            }
-            dataLoad.notify(queue: DispatchQueue.main){
+            
+            
                 if self.foundUser.isEmpty {
                     completion("NotFound")}
                 else
@@ -177,7 +169,7 @@ class userDB  {
                     print("Found user is : \(self.foundUser)")
                     completion("FoundUser")
                 }
-            }
+            
             
         }, withCancel: {(Err) in
             
@@ -185,8 +177,10 @@ class userDB  {
             
         }
         )
-        
-
+    }
+    func removeQuery() {
+        self.uDB.removeAllObservers()
+        self.iDB.removeAllObservers()
         
     }
     

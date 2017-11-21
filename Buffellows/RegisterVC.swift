@@ -76,7 +76,9 @@ class RegisterVC: UIViewController, UITextFieldDelegate {
                 (result: String) in
                 if (result == "UserAdded")
                 {
-                    print("User Successfully Added into DataBase")
+                    print("User Successfully Added into DataBase")                    
+                    UserDefaults.standard.set(user?.uid, forKey: "uID")
+                    UserDefaults.standard.set(true, forKey: "isLoggedIn")
                 }
                 else {
                     print("Error Error")
