@@ -18,33 +18,7 @@ class FriendsVC: StandardVC, UITableViewDelegate, UITableViewDataSource, UISearc
     
     @IBOutlet weak var friendsCell: UITableViewCell!
     
-    @IBAction func AddFriend(_ sender: Any) {
-        
-        let tempFM = FriendsModel()
-        let tempUser = UserModel()
-        tempFM.friendID = "QYLnLUM8xEZzHbx9JoEBSvNfM1s1"
-        tempFM.first = "Daniel"
-        tempFM.last = "Lastname"
-        tempFM.status = "pending"
-        tempFM.yourID = uID
-        tempUser.email = "eric@email.com"
-        tempUser.first = "Eric"
-        tempUser.last = "Gambetta"
-        tempUser.userID = uID
-        if friendsData.contains(where: {$0.friendID == tempFM.friendID})
-        {
-            print("Friend already Exist")
-        }
-        else {
-            print("Added Friend")
-            fDB.addFriend(friend: tempFM, user: tempUser)
-            
-        }
-        self.friendsList.reloadData()
-        
-        
-    }
-    
+   
     
 
     
@@ -55,7 +29,7 @@ class FriendsVC: StandardVC, UITableViewDelegate, UITableViewDataSource, UISearc
     var friendsData  = [FriendsModel]()
     var tempFriend = FriendsModel()
     var tempUser = UserModel()
-    let uID : String! = "PEgAo0eg7jcTh5SouxNeQodFsA63"
+    var uID : String! = "PEgAo0eg7jcTh5SouxNeQodFsA63"
     var searchActive : Bool = false
     let cellID = "cellId"
     let fDB = FriendsDB()
@@ -69,7 +43,7 @@ class FriendsVC: StandardVC, UITableViewDelegate, UITableViewDataSource, UISearc
         
         print ("Friends list View Loaded")
         searchActive = false
-        
+        uID = Auth.auth().currentUser?.uid
         print ("Getting USer Data model")
         getUserData()
         
@@ -99,7 +73,12 @@ class FriendsVC: StandardVC, UITableViewDelegate, UITableViewDataSource, UISearc
         searchActive = false
         self.friendsList.reloadData()
     }
-
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        print("Friends Page Dissapeared")
+        self.fDB.removeQuery()
+        self.uDB.removeQuery()
+    }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -112,16 +91,18 @@ class FriendsVC: StandardVC, UITableViewDelegate, UITableViewDataSource, UISearc
     }
     //MARK: DATABASE
     func fetchFriends() {
-        
+        self.friendsList.reloadData()
         let getFriend = FriendsModel()
         getFriend.yourID = uID
         self.fDB.fetchFriends(friend: getFriend) {
             (result: String) in
             if (result == "DataFetched"){
+                
                 self.friendsData = self.fDB.passFriendData()
                 self.friendsList.reloadData()
             }
         }
+        
     }
     //MARK: SSEARCH BAR
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
@@ -138,6 +119,7 @@ class FriendsVC: StandardVC, UITableViewDelegate, UITableViewDataSource, UISearc
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+       searchActive = true;
         guard let text = searchBar.text  else { return }
         
         
@@ -159,7 +141,7 @@ class FriendsVC: StandardVC, UITableViewDelegate, UITableViewDataSource, UISearc
                 }
             }
         }
-        searchActive = false;
+        
         
     }
 
@@ -221,11 +203,20 @@ class FriendsVC: StandardVC, UITableViewDelegate, UITableViewDataSource, UISearc
                     refreshAlert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { (action: UIAlertAction!) in
                         //Add friend
                         print("Friend Request")
-                        self.fDB.addFriend(friend: self.tempFriend, user: self.userData)
-                        self.searchActive = false
-                        self.friendsData.removeAll()
+                        self.fDB.addFriend(friend: self.tempFriend, user: self.userData) {
+                            (results: String) in
+                            if (results == "FrindAdded")
+                            {
+                                print("Friend Added -- Appened Reload")
+                                self.fetchFriends()
+                                
+                            }
+                        }
                         
-                       self.fetchFriends()
+                        self.searchActive = false
+                        
+                        
+                       
                     }))
                     refreshAlert.addAction(UIAlertAction(title: "No", style: .default, handler: { (action: UIAlertAction) in
                         //Do not Add
@@ -278,10 +269,15 @@ class FriendsVC: StandardVC, UITableViewDelegate, UITableViewDataSource, UISearc
                 cell.textLabel?.text = user.first! + " " + user.last!
                 cell.detailTextLabel?.text = "Requesting Friendship"
                 
-            } else {
+            } else if (user.status == "friend"){
                 cell.tintColor = UIColor.blue
                 cell.textLabel?.textColor = UIColor.red
                 cell.textLabel?.text = user.first! + " " + user.last!
+            }
+            else {
+                cell.tintColor = UIColor.gray
+                cell.textLabel?.textColor = UIColor.darkGray
+                cell.textLabel?.text = "No Friends"
             }
         }
         else {
@@ -297,10 +293,15 @@ class FriendsVC: StandardVC, UITableViewDelegate, UITableViewDataSource, UISearc
                 cell.textLabel?.text = user.first! + " " + user.last!
                 cell.detailTextLabel?.text = "Requesting Friendship"
                 
-            } else {
+            } else if (user.status == "friend"){
                 cell.tintColor = UIColor.blue
                 cell.textLabel?.textColor = UIColor.red
                 cell.textLabel?.text = user.first! + " " + user.last!
+            }
+            else {
+                cell.tintColor = UIColor.gray
+                cell.textLabel?.textColor = UIColor.darkGray
+                cell.textLabel?.text = "No Friends"
             }
         }
         return cell
@@ -317,15 +318,25 @@ class FriendsVC: StandardVC, UITableViewDelegate, UITableViewDataSource, UISearc
             refreshAlert.addAction(UIAlertAction(title: "Accept", style: .default, handler: { (action: UIAlertAction!) in
                 //Accept Friend
                 print("Accepted Friend")
-                self.fDB.friendRequestResponse(userID: self.uID, friendID: user.friendID!, response: "accept")
-                self.fetchFriends()
+                self.fDB.friendRequestResponse(userID: self.uID, friendID: user.friendID!, response: "accept") {
+                    (results: String) in
+                    self.fetchFriends()
+                    
+                }
+                
             }))
             refreshAlert.addAction(UIAlertAction(title: "Decline", style: .default, handler: { (action: UIAlertAction) in
                 //Do not Accept
                 print("Will not accept")
-                self.fDB.friendRequestResponse(userID: self.uID, friendID: user.friendID!, response: "decline")
-                self.friendsData.remove(at: indexPath.row)
-                self.fetchFriends()
+                self.fDB.friendRequestResponse(userID: self.uID, friendID: user.friendID!, response: "decline") {
+                    (results: String) in
+                    if (results == "FriendRequestComplete"){
+                        self.fetchFriends()
+                    }
+                    
+                }
+                self.friendsList.reloadData()
+                
                 
             }))
             refreshAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action: UIAlertAction!) in
@@ -352,9 +363,14 @@ class FriendsVC: StandardVC, UITableViewDelegate, UITableViewDataSource, UISearc
             refreshAlert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { (action: UIAlertAction!) in
                 //Remove friend
                 print("Removed Friend")
-                self.fDB.friendRequestResponse(userID: self.uID, friendID: user.friendID!, response: "delete")
-                self.friendsData.removeAll()
+                
+                self.tempFriend.friendID = user.friendID
+                self.tempFriend.yourID = self.uID
+                self.fDB.delFriend(friend: self.tempFriend)
                 self.fetchFriends()
+                
+                
+                
             }))
             refreshAlert.addAction(UIAlertAction(title: "No", style: .default, handler: { (action: UIAlertAction) in
                 //Do not remove

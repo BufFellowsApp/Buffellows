@@ -19,15 +19,24 @@ class FriendsDB  {
     
     
     let rootRef = Database.database().reference().child("Friends")
-    public func addFriend(friend: FriendsModel, user: UserModel){
+    
+    public func addFriend(friend: FriendsModel, user: UserModel, completion:@escaping (_ result: String) -> Void) {
         
-        let friendAdd = rootRef.child(friend.yourID!).child(friend.friendID!)
-        let addFriend = rootRef.child(friend.friendID!).child(friend.yourID!)
-        var friendsList = [String:String]()
-        friendsList.updateValue("pending", forKey: "status")
-        friendsList.updateValue(friend.first!, forKey: "first")
-        friendsList.updateValue(friend.last!, forKey: "last")
-        friendAdd.updateChildValues(friendsList, withCompletionBlock: {
+        
+        let userFriendListAdd = rootRef.child(friend.yourID!).child(friend.friendID!)
+        let notUserFriendListAdd = rootRef.child(friend.friendID!).child(friend.yourID!)
+        var userFriend = [String:String]()
+        var notUserFriend = [String:String]()
+        userFriend.updateValue("pending", forKey: "status")
+        userFriend.updateValue(friend.first!, forKey: "first")
+        userFriend.updateValue(friend.last!, forKey: "last")
+        notUserFriend.updateValue("request", forKey: "status")
+        notUserFriend.updateValue(user.first!, forKey: "first")
+        notUserFriend.updateValue(user.last!, forKey: "last")
+
+        
+        
+        userFriendListAdd.updateChildValues(userFriend, withCompletionBlock: {
             
             (error, user) in
             
@@ -35,11 +44,14 @@ class FriendsDB  {
                 print("Friends-Database Error: \(String(describing: error?.localizedDescription))\n")
             }
             print("Friend Added to Database")
+            
+
+            
         })
-        friendsList["status"] = "request"
-        friendsList["first"] = user.first!
-        friendsList["last"] = user.last!
-        addFriend.updateChildValues(friendsList, withCompletionBlock: {
+        
+            
+        
+        notUserFriendListAdd.updateChildValues(notUserFriend, withCompletionBlock: {
             
             (error, user) in
             
@@ -47,11 +59,18 @@ class FriendsDB  {
                 print("Friends-Database Error: \(String(describing: error?.localizedDescription))\n")
             }
             print("Friend Request Added to Database")
+            
+            
         })
+        
+        completion("FriendAdded")
+        print("Completion Friend Added")
+    
     }
     
     public func delFriend(friend: FriendsModel){
         rootRef.child(friend.yourID!).child(friend.friendID!).removeValue()
+        rootRef.child(friend.friendID!).child(friend.yourID!).removeValue()
         print("Friend Deleted")
         
     }
@@ -63,14 +82,13 @@ class FriendsDB  {
     // } else {
     // code block
     // }
-    public func fetchFriends(friend: FriendsModel, completion:@escaping (_ result: String) -> Void)  {
+    public func fetchFriends(friend: FriendsModel,  completion:@escaping (_ result: String) -> Void)  {
         self.friendsData.removeAll()
-        let dataLoad = DispatchGroup()
-        let backgroundQ = DispatchQueue(label:"queue")
-       
-        rootRef.child(friend.yourID!).observe( .childAdded, with: {(snapshot) in
+
+        
+        rootRef.child(friend.yourID!).observe(.childAdded , with: {(snapshot) in
             //print (snapshot)
-             backgroundQ.async(group: dataLoad) {
+            
             if let dictionary = snapshot.value as? [String: AnyObject] {
                 let key = snapshot.key
                 //print("Creating friends model array")
@@ -84,13 +102,19 @@ class FriendsDB  {
                 
                 
             }
-            }
+            
             //print ("Done Fetching Users")
-        dataLoad.notify(queue: DispatchQueue.main){
+     
             
             completion("DataFetched")
-            }
-        })
+            
+        }, withCancel: { (error) in
+            
+            print(error.localizedDescription)
+            completion("DataError")
+            
+        }
+        )
         
         
         
@@ -100,20 +124,31 @@ class FriendsDB  {
     }
     
     
-    func friendRequestResponse(userID: String, friendID: String, response: String)
+    func friendRequestResponse(userID: String, friendID: String, response: String, completion:@escaping (_ result: String) -> Void)
     {
+        let dataLoad = DispatchGroup()
+        let backgroundQ = DispatchQueue(label:"queue")
+         backgroundQ.async(group: dataLoad) {
         if (response == "accept"){
-            rootRef.child(userID).child(friendID).updateChildValues(["status": "friend"])
-            rootRef.child(friendID).child(userID).updateChildValues(["status": "friend"])
+            self.rootRef.child(userID).child(friendID).updateChildValues(["status": "friend"])
+            self.rootRef.child(friendID).child(userID).updateChildValues(["status": "friend"])
         }
         
         if (response == "decline" || response == "delete")
         {
-            rootRef.child(userID).child(friendID).removeValue()
-            rootRef.child(friendID).child(userID).removeValue()
+            self.rootRef.child(userID).child(friendID).removeValue()
+            self.rootRef.child(friendID).child(userID).removeValue()
             
         }
             
-        
+        }
+        dataLoad.notify(queue: DispatchQueue.main){
+            print("Friend Response DeQueued")
+            completion("FriendRequestComplete")
+        }
+    }
+    func removeQuery() {
+        rootRef.removeAllObservers()
+    
     }
 }
