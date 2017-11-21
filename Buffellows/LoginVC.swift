@@ -16,7 +16,13 @@ class LoginVC: UIViewController, UITextFieldDelegate {
     
     @IBOutlet weak var loginButton: UIButton!
     @IBAction func loginButton(_ sender: UIButton) {
+        let tabBarVC = TabBarVC(nibName: "TabBarVC", bundle: nil)
+        
+        self.navigationController?.pushViewController(tabBarVC, animated: false)
+        
+        self.navigationController?.navigationBar.isHidden = false
         handleLoginCondition()
+        //handleLogin()
     }
     
     @IBOutlet weak var registerButton: UIButton!
@@ -41,9 +47,9 @@ class LoginVC: UIViewController, UITextFieldDelegate {
         textEntryInit()
         loginButtonInit()
         
-       //let ref = Database.database().reference(fromURL: "https://buffellows-cc410.firebaseio.com/")
+        //let ref = Database.database().reference(fromURL: "https://buffellows-cc410.firebaseio.com/")
         
-     // ref.updateChildValues(["someValue": 123123])
+        // ref.updateChildValues(["someValue": 123123])
         
         usernameLogin.delegate = self
         passwordLogin.delegate = self
@@ -51,8 +57,8 @@ class LoginVC: UIViewController, UITextFieldDelegate {
     }
     
     func loginButtonInit() {
-//        loginButton.layer.borderColor = UIColor.white.cgColor
-//        loginButton.layer.borderWidth = 0.5
+        //        loginButton.layer.borderColor = UIColor.white.cgColor
+        //        loginButton.layer.borderWidth = 0.5
         loginButton.layer.cornerRadius = 10
     }
     
@@ -142,7 +148,39 @@ class LoginVC: UIViewController, UITextFieldDelegate {
         passwordLogin.attributedPlaceholder = NSAttributedString(string: "Password", attributes: [NSForegroundColorAttributeName: UIColor.white.withAlphaComponent(0.7)])
     }
     
+    
+    
     func handleLoginCondition() {
+        
+        guard let email = usernameLogin.text, let password = passwordLogin.text else{
+            
+            print ("form is invalid")
+            
+            return
+            
+        }
+        
+        
+        
+        Auth.auth().signIn(withEmail: email, password: password) { (user, error) in
+            
+            
+            
+            if let error = error {
+                
+                print(error)
+                
+                return
+                
+            }
+            
+            //test
+            
+            
+            
+        }
+        
+        
         if (usernameLogin.text == "admin" || passwordLogin.text == "password") {
             let tabBarVC = TabBarVC()
             UserDefaults.standard.set("admin", forKey: "username")
@@ -162,12 +200,20 @@ class LoginVC: UIViewController, UITextFieldDelegate {
             let alert = UIAlertController(title: "Login Error", message: "Please enter a username / password", preferredStyle: UIAlertControllerStyle.alert)
             alert.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.default, handler: nil))
             self.present(alert, animated: true, completion: nil)
-        } else {
+        }
+            
+        else {
             let alert = UIAlertController(title: "Login Error", message: "Please enter a valid username / password", preferredStyle: UIAlertControllerStyle.alert)
             alert.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.default, handler: nil))
             self.present(alert, animated: true, completion: nil)
         }
+        
+        
+        
     }
+    
+    
+    
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         self.view.endEditing(true)
@@ -175,23 +221,24 @@ class LoginVC: UIViewController, UITextFieldDelegate {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-//        self.navigationController?.navigationBar.barTintColor = UIColor.red
+        //        self.navigationController?.navigationBar.barTintColor = UIColor.red
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
-
+    
     /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+     // MARK: - Navigation
+     
+     // In a storyboard-based application, you will often want to do a little preparation before navigation
+     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+     // Get the new view controller using segue.destinationViewController.
+     // Pass the selected object to the new view controller.
+     }
+     */
+    
 }
+
