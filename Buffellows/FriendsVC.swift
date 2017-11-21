@@ -29,7 +29,7 @@ class FriendsVC: StandardVC, UITableViewDelegate, UITableViewDataSource, UISearc
     var friendsData  = [FriendsModel]()
     var tempFriend = FriendsModel()
     var tempUser = UserModel()
-    var uID : String! = "PEgAo0eg7jcTh5SouxNeQodFsA63"
+    let uID : String! =  Auth.auth().currentUser?.uid
     var searchActive : Bool = false
     let cellID = "cellId"
     let fDB = FriendsDB()
@@ -43,7 +43,7 @@ class FriendsVC: StandardVC, UITableViewDelegate, UITableViewDataSource, UISearc
         
         print ("Friends list View Loaded")
         searchActive = false
-        uID = Auth.auth().currentUser?.uid
+        
         print ("Getting USer Data model")
         getUserData()
         
@@ -91,7 +91,9 @@ class FriendsVC: StandardVC, UITableViewDelegate, UITableViewDataSource, UISearc
     }
     //MARK: DATABASE
     func fetchFriends() {
-        self.friendsList.reloadData()
+        
+        self.friendsData.removeAll()
+        self.filterData.removeAll()
         let getFriend = FriendsModel()
         getFriend.yourID = uID
         self.fDB.fetchFriends(friend: getFriend) {
@@ -102,6 +104,7 @@ class FriendsVC: StandardVC, UITableViewDelegate, UITableViewDataSource, UISearc
                 self.friendsList.reloadData()
             }
         }
+        self.friendsList.reloadData()
         
     }
     //MARK: SSEARCH BAR
@@ -141,6 +144,9 @@ class FriendsVC: StandardVC, UITableViewDelegate, UITableViewDataSource, UISearc
                 }
             }
         }
+       
+            view.endEditing(true)
+    
         
         
     }
@@ -209,14 +215,9 @@ class FriendsVC: StandardVC, UITableViewDelegate, UITableViewDataSource, UISearc
                             {
                                 print("Friend Added -- Appened Reload")
                                 self.fetchFriends()
-                                
                             }
                         }
-                        
-                        self.searchActive = false
-                        
-                        
-                       
+                        self.searchActive = true
                     }))
                     refreshAlert.addAction(UIAlertAction(title: "No", style: .default, handler: { (action: UIAlertAction) in
                         //Do not Add
@@ -234,7 +235,10 @@ class FriendsVC: StandardVC, UITableViewDelegate, UITableViewDataSource, UISearc
         
         
     }
-    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        print("Touched")
+        self.view.endEditing(true)
+    }
     
     func getUid() -> String {
         return (Auth.auth().currentUser?.uid)!
@@ -256,8 +260,11 @@ class FriendsVC: StandardVC, UITableViewDelegate, UITableViewDataSource, UISearc
         
         let cell:UITableViewCell=UITableViewCell(style: UITableViewCellStyle.subtitle, reuseIdentifier: "cell")
         var user = FriendsModel()
+        
         if (searchActive){
+            
             user = filterData[indexPath.row]
+            if (user.friendID != nil){
             if (user.status == "pending"){
                 cell.textLabel?.textColor = UIColor.darkGray
                 cell.textLabel?.text = user.first! + " " + user.last!
@@ -273,15 +280,20 @@ class FriendsVC: StandardVC, UITableViewDelegate, UITableViewDataSource, UISearc
                 cell.tintColor = UIColor.blue
                 cell.textLabel?.textColor = UIColor.red
                 cell.textLabel?.text = user.first! + " " + user.last!
-            }
+                }
+            
+            
             else {
                 cell.tintColor = UIColor.gray
                 cell.textLabel?.textColor = UIColor.darkGray
                 cell.textLabel?.text = "No Friends"
+               
+            }
             }
         }
         else {
             user = friendsData[indexPath.row]
+            
             if (user.status == "pending"){
                 cell.textLabel?.textColor = UIColor.darkGray
                 cell.textLabel?.text = user.first! + " " + user.last!

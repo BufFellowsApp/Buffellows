@@ -163,12 +163,43 @@ class LoginVC: UIViewController, UITextFieldDelegate {
             alert.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.default, handler: nil))
             self.present(alert, animated: true, completion: nil)
         } else {
-            let alert = UIAlertController(title: "Login Error", message: "Please enter a valid username / password", preferredStyle: UIAlertControllerStyle.alert)
-            alert.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.default, handler: nil))
-            self.present(alert, animated: true, completion: nil)
+            Auth.auth().signIn(withEmail: usernameLogin.text!, password: passwordLogin.text!) { (user,error) in
+                if error != nil {
+                    let alert = UIAlertController(title: "Login Error", message: "\(error!)", preferredStyle: UIAlertControllerStyle.alert)
+                    alert.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.default, handler: nil))
+                    self.present(alert, animated: true, completion: nil)
+                    print(error!)
+                    
+                }
+                else if (user != nil) {
+                    let tabBarVC = TabBarVC()
+                    let uDB = userDB()
+                    uDB.getUSerData(userID: (user?.uid)!){
+                        (results:String) in
+                        if results == "UserData" {
+                            let userLogin = uDB.passUserData()
+                            let nc = UINavigationController(rootViewController: tabBarVC)
+                            nc.setNavigationBarHidden(false, animated: false)
+                            self.present(nc, animated: false, completion: nil)
+                            UserDefaults.standard.set(self.usernameLogin.text!, forKey: "username")
+                            UserDefaults.standard.set(self.passwordLogin.text!, forKey: "password")
+                            UserDefaults.standard.set(user?.uid, forKey: "uID")
+                            UserDefaults.standard.set(userLogin.first, forKey: "firstName")
+                            UserDefaults.standard.set(userLogin.last, forKey: "lastName")
+                            UserDefaults.standard.set(userLogin.userAge, forKey: "age")
+                            UserDefaults.standard.set(true, forKey: "isLoggedIn")
+                        }
+                    }
+                }
+            }
         }
     }
-    
+    /*
+     let tabBarVC = TabBarVC()
+     let nc = UINavigationController(rootViewController: tabBarVC)
+     nc.setNavigationBarHidden(false, animated: false)
+     self.present(nc, animated: false, completion: nil)
+ */
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         self.view.endEditing(true)
         return false

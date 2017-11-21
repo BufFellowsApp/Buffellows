@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Firebase
 
 class HomeViewController: StandardVC {
 
@@ -15,15 +16,21 @@ class HomeViewController: StandardVC {
     @IBOutlet weak var username: UILabel!
     @IBOutlet weak var age: UILabel!
     
+    var uID = "" 
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         loadInfo()
-        
+        if (uID != Auth.auth().currentUser?.uid) {
+            let loginVC = LoginVC(nibName: "LoginVC", bundle: nil)
+            self.navigationController?.pushViewController(loginVC, animated: false)
+        }
         // Do any additional setup after loading the view.
     }
     
     func loadInfo() {
+        uID = UserDefaults.standard.value(forKey: "uID") as! String
         firstName.text = UserDefaults.standard.value(forKey: "firstName") as? String
         lastName.text = UserDefaults.standard.value(forKey: "lastName") as? String
         username.text = UserDefaults.standard.value(forKey: "username") as? String

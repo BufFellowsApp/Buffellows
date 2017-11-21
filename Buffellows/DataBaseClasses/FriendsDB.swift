@@ -63,8 +63,7 @@ class FriendsDB  {
             
         })
         
-        completion("FriendAdded")
-        print("Completion Friend Added")
+     completion("FriendAdded")
     
     }
     

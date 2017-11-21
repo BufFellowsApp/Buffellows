@@ -97,9 +97,18 @@ UINavigationControllerDelegate {
     }
     
     func handleSignout() {
-        let loginVC = LoginVC(nibName: "LoginVC", bundle: nil)
-        self.navigationController?.pushViewController(loginVC, animated: false)
-        UserDefaults.standard.set(false, forKey: "isLoggedIn")
+        
+        do {
+            try Auth.auth().signOut()
+                let loginVC = LoginVC(nibName: "LoginVC", bundle: nil)
+                self.navigationController?.pushViewController(loginVC, animated: false)
+                UserDefaults.standard.set(false, forKey: "isLoggedIn")
+            
+        } catch let error as NSError {
+            print(error)
+            
+        }
+       
     }
     
     //MARK: - Textfield Validation

@@ -56,7 +56,7 @@ class ChallengeVC: StandardVC {
     //DATABASE VARS
     let fDB = FriendsDB()
     let uDB = userDB()
-    var uID :String!
+    var uID :String! = Auth.auth().currentUser?.uid
     var friendsData  = [FriendsModel]()
     
     
@@ -64,9 +64,9 @@ class ChallengeVC: StandardVC {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        uID = Auth.auth().currentUser?.uid
+        //uID = Auth.auth().currentUser?.uid
         getFriendsList()
-        setUpSearch(challengeeSearch, friendsDict, "Choose a friend to Challenge!")
+        //setUpSearch(challengeeSearch, friendsDict, "Choose a friend to Challenge!")
         setUpSearch(muscleGroupSearch, muscleGroupDict, "Enter in an Exercise!")
         setUpSearch(durationSearch, durDict, "How long to complete this challenge?")
         
@@ -135,6 +135,7 @@ class ChallengeVC: StandardVC {
         
         // Handle what happens when the user picks an item. By default the title is set to the text field
         stf.itemSelectionHandler = {item, itemPosition in
+            
             stf.text = item.title
             selTitle = item.title
             selSub = item.subtitle
@@ -166,6 +167,7 @@ class ChallengeVC: StandardVC {
         
         if(self.friend != nil && self.reps != nil && self.duration != nil && self.exercise != nil) {
             self.message = self.friend + " has " + self.duration + " to complete " + self.reps + " of " + self.exercise
+            print(self.message)
             self.messageLabel.text = self.message
             self.messageLabel.numberOfLines = 3
             self.messageLabel.textColor = UIColor(red: 50/255, green: 0, blue: 0, alpha: 1)
@@ -176,6 +178,7 @@ class ChallengeVC: StandardVC {
     }
     
     func conditionChecking(_ string: String) {
+        
         if(string == "Cardio") {
             setUpSearch(numRepsSearch, distDict, "Enter the Distance!")
         } else {
