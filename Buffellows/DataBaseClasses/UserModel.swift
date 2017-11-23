@@ -14,6 +14,7 @@ class UserModel {
     var userAge: String?
     var email: String?
     var userID: String?
+    var profilePic: String?
     
     func clear(){
         
@@ -22,5 +23,6 @@ class UserModel {
         userID = nil
         email = nil
         userAge = nil
+        profilePic = nil
     }
 }

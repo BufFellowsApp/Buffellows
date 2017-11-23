@@ -178,6 +178,11 @@ class LoginVC: UIViewController, UITextFieldDelegate {
                         (results:String) in
                         if results == "UserData" {
                             let userLogin = uDB.passUserData()
+                            print("-------------USERLOGINDATA--------------")
+                            print("email :   \(userLogin.email!)")
+                            print("age   :   \(userLogin.userAge!)")
+                            print("profilePic : \(userLogin.profilePic ?? ("None"))")
+                            print("-----------------------------------------")
                             let nc = UINavigationController(rootViewController: tabBarVC)
                             nc.setNavigationBarHidden(false, animated: false)
                             self.present(nc, animated: false, completion: nil)
@@ -187,6 +192,7 @@ class LoginVC: UIViewController, UITextFieldDelegate {
                             UserDefaults.standard.set(userLogin.first, forKey: "firstName")
                             UserDefaults.standard.set(userLogin.last, forKey: "lastName")
                             UserDefaults.standard.set(userLogin.userAge, forKey: "age")
+                            UserDefaults.standard.set((userLogin.profilePic ?? ("None")), forKey: "profilePicURL")
                             UserDefaults.standard.set(true, forKey: "isLoggedIn")
                         }
                     }

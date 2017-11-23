@@ -83,7 +83,7 @@ class FriendsDB  {
     // }
     public func fetchFriends(friend: FriendsModel,  completion:@escaping (_ result: String) -> Void)  {
         self.friendsData.removeAll()
-
+        rootRef.removeAllObservers()
         
         rootRef.child(friend.yourID!).observe(.childAdded , with: {(snapshot) in
             //print (snapshot)

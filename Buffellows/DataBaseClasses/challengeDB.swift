@@ -13,6 +13,8 @@ class challengeDB {
 
     let cdDB =  Database.database().reference().child("ChallengData")
     let cuDB =  Database.database().reference().child("ChallengUser")
+    var friendsData  = [FriendsModel]()
+    
     public static let instance = challengeDB()
     init(){
     }
@@ -38,7 +40,7 @@ class challengeDB {
         var newEntry = [String: String]()
         
         newEntry.updateValue(challengeData.creatorID, forKey: "creator")
-        newEntry.updateValue(challengeData.challengerID, forKey: "challenge")
+        newEntry.updateValue(challengeData.challengerID, forKey: "challengerID")
         newEntry.updateValue(challengeData.startDate, forKey: "startDate")
         newEntry.updateValue(challengeData.endDate, forKey: "endDate")
         newEntry.updateValue(challengeData.challenge, forKey: "challenge")
@@ -49,30 +51,39 @@ class challengeDB {
         newChallenge.updateChildValues(newEntry, withCompletionBlock: { (err, ref) in
             if let err = err {
                 print(err)
-                let errComp = err as! String
-                print(errComp)
+                
+                
                 return
-            }})
+            }
+            print("newChallenge Added")
+            
+            
+        })
         
         creator.updateChildValues(["status": "pending"], withCompletionBlock: { (err, ref) in
             if let err = err {
                 print(err)
-                let errComp = err as! String
-                print(errComp)
                 return
-            }})
+            }
+            print("creator Added")
+            
+        })
         
         challenged.updateChildValues(["status": "request"], withCompletionBlock: { (err, ref) in
             if let err = err {
                 print(err)
-                let errComp = err as! String
-                print(errComp)
                 return
-            }})
-        
-        DispatchQueue.main.async(execute: {
-            completion("ChallengeAdded")
+            }
+            print("challenged Added")
+            
+            
         })
+        
+        
+        
+                completion("ChallengeAdded")
+        
+    
     }
     
     //DELETE CHALLENGE
@@ -145,5 +156,46 @@ class challengeDB {
         cuDB.child(userID).child(challengeID).child("Day").updateChildValues([day: "True"])
         completion("updateTask")
         
+    }
+    public func fetchFriends(userID: String,  completion:@escaping (_ result: String) -> Void)  {
+        self.friendsData.removeAll()
+        cuDB.removeAllObservers()
+        
+        cuDB.child(userID).observe(.childAdded , with: {(snapshot) in
+            //print (snapshot)
+            
+            if let dictionary = snapshot.value as? [String: AnyObject] {
+                let key = snapshot.key
+                //print("Creating friends model array")
+                let friendInfo = FriendsModel()
+                
+                print(friendInfo)
+                friendInfo.status = dictionary["status"] as? String
+                friendInfo.friendID = key
+                self.friendsData.append(friendInfo)
+                print(friendInfo)
+                //print("Friends Model Array printing")
+                
+                
+            }
+            
+            //print ("Done Fetching Users")
+            
+            
+            completion("DataFetched")
+            
+        }, withCancel: { (error) in
+            
+            print(error.localizedDescription)
+            completion("DataError")
+            
+        }
+        )
+        
+        
+        
+    }
+    func passFriendData() -> [FriendsModel] {
+        return self.friendsData
     }
 }
