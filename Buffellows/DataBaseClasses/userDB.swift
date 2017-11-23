@@ -40,6 +40,7 @@ class userDB  {
         newUser.updateValue(userData.first!, forKey: "first")
         newUser.updateValue(userData.last!, forKey: "last")
         newUser.updateValue(userData.userAge!, forKey: "userAge")
+        newUser.updateValue(userData.profilePic!, forKey: "profilePic")
         
         userAdd.updateChildValues(newUser, withCompletionBlock: { (err, ref) in
             
@@ -60,10 +61,10 @@ class userDB  {
     public func deleteUser(userID: String){
         uDB.child(userID).removeValue()
     }
-    // userDB.getProfilePic(userID) {
+    // getUSerData(userID) {
     // (result: String) in
     // if (result == "UserData") {
-    // var profilePicPatch = userDB.passUserData()
+    // var userData = userDB.passUserData()
     // } else {
     // code block
     // }
@@ -78,6 +79,8 @@ class userDB  {
                         self.userData.first = snapDict["first"] as? String
                         self.userData.last = snapDict["last"] as? String
                         self.userData.email = snapDict["email"] as? String
+                        self.userData.userAge = snapDict["userAge"] as? String
+                        self.userData.profilePic = snapDict["profilePic"] as? String
                         self.foundUser = userID
                     }
                 
@@ -135,7 +138,10 @@ class userDB  {
     func passProfilePath() -> String {
         return profilePath
     }
-    
+    func setProfileURL(uID: String, path: String)
+    {
+        uDB.child(uID).setValue(["profilePic": path])
+    }
     func findUser(email:String, completion:@escaping (_ result: String) -> Void) {
 
         userData = UserModel()

@@ -21,7 +21,8 @@ class ChallengeVC: StandardVC {
     //  Number of Reps / Distance - Raw info
     //  Duration - Dropdown while searching
     //  Incentive / Prize - Raw Info
-    
+    let cDB = challengeDB()
+    var userDict = [String:String]()
     let challengeeSearch = SearchTextField(frame: CGRect(x: UIScreen.main.bounds.width/16, y: 100, width: 7*UIScreen.main.bounds.width/8, height: 50))
     var friendsDict = ["Friends" : ["Ashish", "Eric", "Kambi", "Rahul", "Daniel"],
                        "FriendID" : ["0", "1","2","3","4"] ]
@@ -83,8 +84,36 @@ class ChallengeVC: StandardVC {
     }
     
     func submitTapped(_ sender: UIButton) {
+        let friendID = userDict[friend] as! String
+        print("MY ID--------------------------\(uID!)")
+        print("FRIEND ID ---------------------\(friendID)")
         if(self.message != nil) {
-            self.navigationController?.popViewController(animated: false)
+           
+            
+            
+            let dateformat = DateFormatter()
+            dateformat.dateFormat = "dd/MM/yyyy"
+            let challenge = ChallengeModel()
+            challenge.creatorID = uID ?? "na"
+            challenge.challengerID = friendID
+            challenge.challenge = self.reps
+            challenge.startDate = dateformat.string(from:Date())
+            challenge.endDate = self.duration
+            challenge.bet = "None"
+            challenge.status = "request"
+            challenge.exercise = self.exercise
+            print("-----------------DATE--------------")
+            print(challenge.challengerID)
+            cDB.createChallenge(challengeData: challenge){
+            (result:String) in
+                if (result == "ChallengeAdded") {
+                    print("Pop ViewController")
+                    self.navigationController?.popViewController(animated: false)
+                }
+            }
+
+            
+
         } else {
             let alert = UIAlertController(title: "Error", message: "Please fill out all the information!", preferredStyle: UIAlertControllerStyle.alert)
             alert.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.default, handler: nil))
@@ -213,6 +242,7 @@ class ChallengeVC: StandardVC {
             if (result == "DataFetched"){
                 self.friendsDict["Friends"]?.removeAll()
                 self.friendsDict["FriendID"]?.removeAll()
+                self.userDict.removeAll()
                 
                 self.friendsData = self.fDB.passFriendData()
                 for users in self.friendsData {
@@ -220,13 +250,17 @@ class ChallengeVC: StandardVC {
                         let name =  "\(users.first!) \(users.last!)"
                         print(name)
                         self.friendsDict["Friends"]?.append(name)
+                        
                         self.friendsDict["FriendID"]?.append(users.friendID!)
+                        self.userDict.updateValue(users.friendID!, forKey: name)
                     }
                 }
-                
+               
                 self.setUpSearch(self.challengeeSearch, self.friendsDict, "Choose a friend to Challenge!")
             }
+            
         }
+      
     }
 
 }

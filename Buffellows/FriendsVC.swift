@@ -122,7 +122,7 @@ class FriendsVC: StandardVC, UITableViewDelegate, UITableViewDataSource, UISearc
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-       searchActive = true;
+       searchActive = false;
         guard let text = searchBar.text  else { return }
         
         
@@ -137,7 +137,7 @@ class FriendsVC: StandardVC, UITableViewDelegate, UITableViewDataSource, UISearc
                     print("Future Friend Found")
                     self.userFound()
                     searchBar.text = ""
-                    self.searchActive = false
+                    
                 }
                 else {
                     print("No User Found")
@@ -184,7 +184,7 @@ class FriendsVC: StandardVC, UITableViewDelegate, UITableViewDataSource, UISearc
                 print("User Data found")
                 self.userData = self.uDB.passUserData()
                 print(self.userData.userID!)
-                
+                print(self.userData.first!)
                 
             }
             
@@ -208,16 +208,17 @@ class FriendsVC: StandardVC, UITableViewDelegate, UITableViewDataSource, UISearc
                     
                     refreshAlert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { (action: UIAlertAction!) in
                         //Add friend
-                        print("Friend Request")
+                        
                         self.fDB.addFriend(friend: self.tempFriend, user: self.userData) {
                             (results: String) in
                             if (results == "FrindAdded")
                             {
                                 print("Friend Added -- Appened Reload")
+                                
                                 self.fetchFriends()
                             }
                         }
-                        self.searchActive = true
+                        self.searchActive = false
                     }))
                     refreshAlert.addAction(UIAlertAction(title: "No", style: .default, handler: { (action: UIAlertAction) in
                         //Do not Add
