@@ -17,65 +17,50 @@ class FriendsVC: StandardVC, UITableViewDelegate, UITableViewDataSource, UISearc
     @IBOutlet weak var friendsList: UITableView!
     
     @IBOutlet weak var friendsCell: UITableViewCell!
-    
-   
-    
 
-    
-    
-    
     //var friendsList: UITableView = UITableView()
     var filterData = [FriendsModel]()
     var friendsData  = [FriendsModel]()
     var tempFriend = FriendsModel()
     var tempUser = UserModel()
+    var userData = UserModel()
+    
+    
     let uID : String! =  Auth.auth().currentUser?.uid
     var searchActive : Bool = false
     let cellID = "cellId"
+    
     let fDB = FriendsDB()
     let uDB = userDB()
-    var userData = UserModel()
+    
+    
+    
     var refreshController = UIRefreshControl()
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         // Do any additional setup after loading the view.
-        
-        print ("Friends list View Loaded")
         searchActive = false
-        
-        print ("Getting USer Data model")
         getUserData()
-        
-        print ("Fetching Users")
-
         friendsList.delegate      =   self
         friendsList.dataSource    =   self
         friendsList.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
-        //self.view.addSubview(self.friendsList)
-        
         self.friendsList.refreshControl = self.refreshController
         self.refreshController.addTarget(self, action: #selector(FriendsVC.didRefreshList), for: .valueChanged)
-        
-        
         fetchFriends()
         self.searchBarSetup()
-        //self.friendsList.frame = CGRe
-        
-        
-        
-        
-        
     }
+    
+    
     override func viewDidAppear(_ animated: Bool) {
-        
-        print("View did Appear")
         searchActive = false
         self.friendsList.reloadData()
+        
     }
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        print("Friends Page Dissapeared")
         self.fDB.removeQuery()
         self.uDB.removeQuery()
     }
@@ -86,6 +71,7 @@ class FriendsVC: StandardVC, UITableViewDelegate, UITableViewDataSource, UISearc
     
     //MARK: REFRESH CONTROLLER
     func didRefreshList(){
+        
         self.fetchFriends()
         self.refreshController.endRefreshing()
     }
@@ -129,12 +115,12 @@ class FriendsVC: StandardVC, UITableViewDelegate, UITableViewDataSource, UISearc
         
         let charset = CharacterSet(charactersIn: "@")
         if (text.rangeOfCharacter(from: charset) != nil) {
-            print ("The Text is:  \(text)")
+            
             
             uDB.findUser(email: text.lowercased()) {
             (result: String) in
                 if (result == "FoundUser") {
-                    print("Future Friend Found")
+                    
                     self.userFound()
                     searchBar.text = ""
                     
@@ -175,7 +161,7 @@ class FriendsVC: StandardVC, UITableViewDelegate, UITableViewDataSource, UISearc
     }
  
     func getUserData() {
-        print("Get USer Data")
+        
         uDB.getUSerData(userID: self.uID)
         {
             (result: String) in
@@ -197,7 +183,8 @@ class FriendsVC: StandardVC, UITableViewDelegate, UITableViewDataSource, UISearc
         tempFriend.last = tempUser.last
         tempFriend.friendID = tempUser.userID
         tempFriend.yourID = userData.userID
-        print("The Temp user is: \(tempFriend.first!) \(tempFriend.last!)")
+        tempFriend.friendProfilePic = tempUser.profilePic
+        
                 if self.friendsData.contains(where: {$0.friendID == self.tempFriend.friendID}) || (tempFriend.friendID == userData.userID)
                 {
                     print("Friend already Exist")
@@ -213,7 +200,7 @@ class FriendsVC: StandardVC, UITableViewDelegate, UITableViewDataSource, UISearc
                             (results: String) in
                             if (results == "FrindAdded")
                             {
-                                print("Friend Added -- Appened Reload")
+                                
                                 
                                 self.fetchFriends()
                             }
@@ -381,9 +368,6 @@ class FriendsVC: StandardVC, UITableViewDelegate, UITableViewDataSource, UISearc
                 self.tempFriend.yourID = self.uID
                 self.fDB.delFriend(friend: self.tempFriend)
                 self.fetchFriends()
-                
-                
-                
             }))
             refreshAlert.addAction(UIAlertAction(title: "No", style: .default, handler: { (action: UIAlertAction) in
                 //Do not remove

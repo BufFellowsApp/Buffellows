@@ -69,12 +69,12 @@ class userDB  {
     // code block
     // }
     public func getUSerData(userID: String, completion:@escaping (_ result: String) -> Void) {
-            print("Background Queue")
+            
             self.uDB.child(userID).observeSingleEvent(of: .value, with: { (snapShot) in
                
                     if let snapDict = snapShot.value as? [String:AnyObject]{
                     
-                        print("Snap Dict")
+                        
                         self.userData.userID = userID
                         self.userData.first = snapDict["first"] as? String
                         self.userData.last = snapDict["last"] as? String
@@ -92,7 +92,7 @@ class userDB  {
                         
                     else
                     {
-                        print ("USer Data Complete")
+                        print ("User Data Complete")
                         completion("UserData")
                         
                     
@@ -124,23 +124,11 @@ class userDB  {
     // } else {
     // code block
     // }
-    func getProfilePic(userID: String, completion:@escaping (_ result: String) -> Void) {
-        
-        iDB.child(userID).observe( .childAdded, with: {(snapshot) in
-            if let dictionary = snapshot.value as? [String: AnyObject]{
-                self.profilePath = dictionary["photoPath"] as! String
-            }
-            completion("PathFound")
-        })
-        
-        
-    }
-    func passProfilePath() -> String {
-        return profilePath
-    }
+    
     func setProfileURL(uID: String, path: String)
     {
-        uDB.child(uID).setValue(["profilePic": path])
+        uDB.child(uID).updateChildValues(["profilePic": path])
+        
     }
     func findUser(email:String, completion:@escaping (_ result: String) -> Void) {
 
@@ -150,16 +138,15 @@ class userDB  {
             
                 
             if let snapDict = snapShot.value as? [String:AnyObject]{
-                print("found a value")
+                print("Found User By Email")
                 for each in snapDict{
                     let key  = each.key
                     let name = each.value["email"] as! String
-                    print(key)
-                    print(name)
                     self.userData.userID = key
                     self.userData.first = each.value["first"] as? String
                     self.userData.last = each.value["last"] as? String
                     self.userData.email = name
+                    self.userData.profilePic = each.value["profilePic"] as? String
                     self.foundUser = name
                     
                     

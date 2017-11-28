@@ -30,9 +30,11 @@ class FriendsDB  {
         userFriend.updateValue("pending", forKey: "status")
         userFriend.updateValue(friend.first!, forKey: "first")
         userFriend.updateValue(friend.last!, forKey: "last")
+        userFriend.updateValue(friend.friendProfilePic!, forKey: "friendProfilePic")
         notUserFriend.updateValue("request", forKey: "status")
         notUserFriend.updateValue(user.first!, forKey: "first")
         notUserFriend.updateValue(user.last!, forKey: "last")
+        notUserFriend.updateValue(user.profilePic!, forKey: "friendProfilePic")
 
         
         

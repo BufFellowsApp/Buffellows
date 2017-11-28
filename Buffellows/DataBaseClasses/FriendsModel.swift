@@ -14,12 +14,14 @@ class FriendsModel {
     var last: String?
     var friendID: String?
     var yourID: String?
+    var friendProfilePic: String?
     
-    func clearVars(){
+    func clear(){
         status = nil
         first = nil
         last = nil
         friendID = nil
         yourID = nil
+        friendProfilePic = nil
     }
 }

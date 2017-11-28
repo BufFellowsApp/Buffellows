@@ -24,8 +24,7 @@ class ChallengeVC: StandardVC {
     let cDB = challengeDB()
     var userDict = [String:String]()
     let challengeeSearch = SearchTextField(frame: CGRect(x: UIScreen.main.bounds.width/16, y: 100, width: 7*UIScreen.main.bounds.width/8, height: 50))
-    var friendsDict = ["Friends" : ["Ashish", "Eric", "Kambi", "Rahul", "Daniel"],
-                       "FriendID" : ["0", "1","2","3","4"] ]
+    var friendsDict = ["Friends" : ["Ashish", "Eric", "Kambi", "Rahul", "Daniel"] ]
     
     
     let muscleGroupSearch = SearchTextField(frame: CGRect(x: UIScreen.main.bounds.width/16, y: 175, width: 7*UIScreen.main.bounds.width/8, height: 50))
@@ -84,9 +83,7 @@ class ChallengeVC: StandardVC {
     }
     
     func submitTapped(_ sender: UIButton) {
-        let friendID = userDict[friend] as! String
-        print("MY ID--------------------------\(uID!)")
-        print("FRIEND ID ---------------------\(friendID)")
+        let friendID = userDict[friend]
         if(self.message != nil) {
            
             
@@ -102,12 +99,11 @@ class ChallengeVC: StandardVC {
             challenge.bet = "None"
             challenge.status = "request"
             challenge.exercise = self.exercise
-            print("-----------------DATE--------------")
-            print(challenge.challengerID)
+            
             cDB.createChallenge(challengeData: challenge){
             (result:String) in
                 if (result == "ChallengeAdded") {
-                    print("Pop ViewController")
+                    
                     self.navigationController?.popViewController(animated: false)
                 }
             }
@@ -235,20 +231,18 @@ class ChallengeVC: StandardVC {
         friendsData.removeAll()
         getFriend.yourID = uID
         
-        print(uID)
-        print(friendsDict)
+        
         self.fDB.fetchFriends(friend: getFriend) {
             (result: String) in
             if (result == "DataFetched"){
                 self.friendsDict["Friends"]?.removeAll()
-                self.friendsDict["FriendID"]?.removeAll()
                 self.userDict.removeAll()
                 
                 self.friendsData = self.fDB.passFriendData()
                 for users in self.friendsData {
                     if (users.status == "friend"){
                         let name =  "\(users.first!) \(users.last!)"
-                        print(name)
+                        
                         self.friendsDict["Friends"]?.append(name)
                         
                         self.friendsDict["FriendID"]?.append(users.friendID!)
