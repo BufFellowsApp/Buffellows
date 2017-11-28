@@ -17,4 +17,6 @@ class ChallengeModel {
     var bet: String!
     var status: String!
     var challengeKey: String!
+    
+    var friendData = FriendsModel()
 }

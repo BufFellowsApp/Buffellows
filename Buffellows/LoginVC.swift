@@ -178,11 +178,7 @@ class LoginVC: UIViewController, UITextFieldDelegate {
                         (results:String) in
                         if results == "UserData" {
                             let userLogin = uDB.passUserData()
-                            print("-------------USERLOGINDATA--------------")
-                            print("email :   \(userLogin.email!)")
-                            print("age   :   \(userLogin.userAge!)")
-                            print("profilePic : \(userLogin.profilePic ?? ("None"))")
-                            print("-----------------------------------------")
+
                             let nc = UINavigationController(rootViewController: tabBarVC)
                             nc.setNavigationBarHidden(false, animated: false)
                             self.present(nc, animated: false, completion: nil)

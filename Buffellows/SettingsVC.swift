@@ -8,6 +8,7 @@
 
 import UIKit
 import Firebase
+import Kingfisher
 
 class SettingsVC: UIViewController,UIImagePickerControllerDelegate,
 UINavigationControllerDelegate {
@@ -38,7 +39,7 @@ UINavigationControllerDelegate {
             
             
         }
-        print("Button Clicked")
+        
     }
     
     @IBAction func openPhoto(_ sender: Any) {
@@ -51,11 +52,12 @@ UINavigationControllerDelegate {
             
             
         }
-        print("Button Clicked")
+        
     }
     @IBAction func savePhoto(_ sender: Any){
         let uID = Auth.auth().currentUser?.uid
         let storagePath = "/images/" + uID! + "/profile_image.png"
+        //start upload and saving
         downloadActivity.isHidden = false
         downloadActivity.startAnimating()
         if let uploadData = UIImagePNGRepresentation(self.profilePic.image!) {
@@ -67,18 +69,16 @@ UINavigationControllerDelegate {
                     return
                     
                 }
-                print("Upload Success")
-
+                //Saving presistant data and updating database entries
                 let profilePicUrl = metadata?.downloadURL()?.absoluteString
                 UserDefaults.standard.set(profilePicUrl, forKey: "profilePicURL")
                 UserDefaults.standard.synchronize()
                 self.uDB.setProfileURL(uID: uID!, path: profilePicUrl!)
-             
                 self.downloadActivity.stopAnimating()
                 self.downloadActivity.isHidden = true
                 
 
-                
+                //end Uploading and updating profile image
             })
         }
     
@@ -109,7 +109,7 @@ UINavigationControllerDelegate {
         setupNavBar()
         storageRef = Storage.storage().reference()
         
-        
+        downloadActivity.isHidden = true
         password1.addTarget(self, action: #selector(textChanged(textField:)), for: .editingChanged)
         
         
@@ -136,37 +136,15 @@ UINavigationControllerDelegate {
     
     func loadImage(){
 
-        print("Loading Profile Image")
         
         
         guard let storagePath = UserDefaults.standard.object(forKey: "profilePicURL") as? String else {
             return
         }
-        print("---PROFILE PIC STORAGE PATH:  \(storagePath)")
-        // [START downloadimage]
-        downloadActivity.isHidden = false
-        downloadActivity.startAnimating()
-        let httpsReference = Storage.storage().reference(forURL: storagePath)
-        httpsReference.downloadURL(completion: { (url, error) in
-            if error != nil {
-                print(error?.localizedDescription)
-                return
-            }
-            URLSession.shared.dataTask(with: url!, completionHandler: { (data, response, error) in
-                if error != nil {
-                    print(error)
-                    return
-                }
-                guard let imageData = UIImage(data: data!) else { return }
-                DispatchQueue.main.async {
-                    self.profilePic.image = imageData
-                    
-                    self.downloadActivity.stopAnimating()
-                    self.downloadActivity.isHidden = true
-                }
-            }).resume()
-        })
-        // [END downloadimage]
+
+        let profilePicUrl = URL(string: storagePath)
+        profilePic.kf.setImage(with: profilePicUrl)
+        
         profilePic.layer.cornerRadius = 10
         profilePic.clipsToBounds = true
         profilePic.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(profileImageHandler)))
@@ -232,15 +210,11 @@ UINavigationControllerDelegate {
         
         let editedImage = info[UIImagePickerControllerEditedImage] as! UIImage
         
-        if let originalImage = info[UIImagePickerControllerOriginalImage]  {
-            print("-----------Origin IMAGE INFO---------------")
-            print(originalImage)
-        }
+
         // use the image
         profilePic.image = editedImage
         
-        print("-----------Chosen IMAGE INFO---------------")
-        print(info)
+
         self.saveProfilePic.isHidden = false
         dismiss(animated: true, completion: nil)
         

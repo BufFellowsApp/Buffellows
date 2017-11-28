@@ -8,6 +8,7 @@
 
 import UIKit
 import Firebase
+import Kingfisher
 
 class HomeViewController: StandardVC, UITableViewDelegate, UITableViewDataSource {
 
@@ -21,7 +22,8 @@ class HomeViewController: StandardVC, UITableViewDelegate, UITableViewDataSource
     let cDB = challengeDB()
     
     
-    var friendsData  = [FriendsModel]()
+    var challengeData  = [ChallengeModel]()
+    var cData = ChallengeModel()
     let cellID = "cellId"
     
     
@@ -40,7 +42,7 @@ class HomeViewController: StandardVC, UITableViewDelegate, UITableViewDataSource
         challengeList.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
         loadInfo()
         loadImage()
-        fetchFriends()
+        fetchChallenge()
         // Do any additional setup after loading the view.
     }
     
@@ -58,7 +60,7 @@ class HomeViewController: StandardVC, UITableViewDelegate, UITableViewDataSource
         username.text = UserDefaults.standard.value(forKey: "username") as? String
         age.text = UserDefaults.standard.value(forKey: "age") as? String
         profilePicUrlString = UserDefaults.standard.value(forKey: "profilePicURL") as! String
-        print("Profile Pic Value: \(profilePicUrlString!)")
+       
         
         
     }
@@ -69,60 +71,31 @@ class HomeViewController: StandardVC, UITableViewDelegate, UITableViewDataSource
     }
     
     func loadImage(){
-        
-        print("Loading Profile Image")
-        
-    
         guard let storagePath = UserDefaults.standard.object(forKey: "profilePicURL") as? String else {
             return
         }
-        print("---PROFILE PIC STORAGE PATH:  \(storagePath)")
-        // [START downloadimage]
-        let httpsReference = Storage.storage().reference(forURL: storagePath)
-        httpsReference.downloadURL(completion: { (url, error) in
-            if error != nil {
-            print(error?.localizedDescription)
-            return
-            }
-            URLSession.shared.dataTask(with: url!, completionHandler: { (data, response, error) in
-                if error != nil {
-                    print(error)
-                    return
-                }
-                guard let imageData = UIImage(data: data!) else { return }
-                DispatchQueue.main.async {
-                    self.profilePic.image = imageData
-                }
-            }).resume()
-    })
-        // [END downloadimage]
+        //Images are downloaded and cached for quicker use
+        let profilePicUrl = URL(string: storagePath)
+        profilePic.kf.setImage(with: profilePicUrl)
+        
         profilePic.layer.cornerRadius = 10
         profilePic.clipsToBounds = true
        
     }
     
-    /*
-    // MARK: - Navigation
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
     
     // MARK: - Get Challenges
-    func fetchFriends() {
+    func fetchChallenge() {
         
-        self.friendsData.removeAll()
+        self.challengeData.removeAll()
         
-        let getFriend = FriendsModel()
-        getFriend.yourID = uID
-        self.cDB.fetchFriends(userID: uID) {
+        
+        self.cDB.fetchChallenges(userID: uID) {
             (result: String) in
             if (result == "DataFetched"){
                 
-                self.friendsData = self.cDB.passFriendData()
+                self.challengeData = self.cDB.passFriendData()
                 self.challengeList.reloadData()
             }
         }
@@ -135,49 +108,71 @@ class HomeViewController: StandardVC, UITableViewDelegate, UITableViewDataSource
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
     {
 
-        return friendsData.count
+        return challengeData.count
         
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
     {
-        
+        var challengeUser = ""
         let cell:UITableViewCell=UITableViewCell(style: UITableViewCellStyle.subtitle, reuseIdentifier: "cell")
-        var user = FriendsModel()
         
-       
-            user = friendsData[indexPath.row]
+        let challenge = challengeData[indexPath.row]
+        print(challenge.creatorID)
+        if challenge.creatorID == uID
+        {
             
-            if (user.status == "pending"){
-                cell.textLabel?.textColor = UIColor.darkGray
-                cell.textLabel?.text = user.friendID
-                
-                cell.detailTextLabel?.text = "Friend Request pending"
-                
-            } else if ( user.status == "request" ){
-                cell.textLabel?.textColor = UIColor.magenta
-                cell.textLabel?.text = user.friendID
-                cell.detailTextLabel?.text = "Requesting Friendship"
-                
-            } else if (user.status == "friend"){
-                cell.tintColor = UIColor.blue
-                cell.textLabel?.textColor = UIColor.red
-                cell.textLabel?.text = user.friendID
-            }
-            else {
-                cell.tintColor = UIColor.gray
-                cell.textLabel?.textColor = UIColor.darkGray
-                cell.textLabel?.text = "No Challenges"
+            challengeUser = challenge.challengerID
+            print("CHALLENGE USER IS  THE CREATOR")
+            print(challengeUser)
+            
+        } else {
+            print("CHALLENGE USER IS NOT THE CREATOR")
+            
+            challengeUser = uID
+            print(challengeUser)
         }
+    
+    
+        
+                if (challenge.status == "pending"){
+                    cell.textLabel?.textColor = UIColor.darkGray
+                    cell.textLabel?.text = challengeUser
+                    
+                    cell.detailTextLabel?.text = "Challenge Request pending"
+                    
+                } else if ( challenge.status == "request" ){
+                    cell.textLabel?.textColor = UIColor.magenta
+                    cell.textLabel?.text = challengeUser
+                    cell.detailTextLabel?.text = "Challenging You"
+                    
+                } else if (challenge.status == "challenge"){
+                    cell.tintColor = UIColor.blue
+                    cell.textLabel?.textColor = UIColor.red
+                    cell.textLabel?.text = challenge.challenge
+                    
+                    cell.detailTextLabel?.text =  "Challenge Commencing"
+                }
+                else {
+                    cell.tintColor = UIColor.gray
+                    cell.textLabel?.textColor = UIColor.darkGray
+                    cell.textLabel?.text = "No Challenges"
+                }
+
+
+            
+        
+        
+        
         
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath)
     {
-        let user = friendsData[indexPath.row]
+        let challenge = challengeData[indexPath.row]
         
-        if (user.status == "request") {
+        if (challenge.status == "request") {
             
             let refreshAlert = UIAlertController(title: "Friend Request", message: "Do you want to accept request?" , preferredStyle: UIAlertControllerStyle.alert)
             

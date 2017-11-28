@@ -300,15 +300,7 @@ class RegisterVC: UIViewController, UITextFieldDelegate,UIImagePickerControllerD
     }
     
 
-    /*
-    // MARK: - Navigation
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
     func textChanged(textField: UITextField){
         
  
@@ -336,20 +328,9 @@ class RegisterVC: UIViewController, UITextFieldDelegate,UIImagePickerControllerD
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-        
-        //
-        
         let editedImage = info[UIImagePickerControllerEditedImage] as! UIImage
-        
-        if let originalImage = info[UIImagePickerControllerOriginalImage]  {
-            print("-----------Origin IMAGE INFO---------------")
-            print(originalImage)
-        }
         // use the image
         profilePic.image = editedImage
-        
-        print("-----------Chosen IMAGE INFO---------------")
-        print(info)
         dismiss(animated: true, completion: nil)
         
     }
@@ -358,5 +339,6 @@ class RegisterVC: UIViewController, UITextFieldDelegate,UIImagePickerControllerD
         dismiss(animated: true, completion: nil)
         
     }
+    
 
 }
