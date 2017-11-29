@@ -18,5 +18,5 @@ class ChallengeModel {
     var status: String!
     var challengeKey: String!
     
-    var friendData = FriendsModel()
+    var friendData = UserModel()
 }
