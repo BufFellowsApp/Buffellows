@@ -20,6 +20,7 @@ class HomeViewController: StandardVC, UITableViewDelegate, UITableViewDataSource
     @IBOutlet weak var challengeList: UITableView!
     
     let cDB = challengeDB()
+    let uDB = userDB()
     
     
     var challengeData  = [ChallengeModel]()
@@ -96,7 +97,37 @@ class HomeViewController: StandardVC, UITableViewDelegate, UITableViewDataSource
             if (result == "DataFetched"){
                 
                 self.challengeData = self.cDB.passFriendData()
-                self.challengeList.reloadData()
+                for i in self.challengeData
+                {
+                    if i.creatorID == self.uID
+                    {
+                        self.uDB.getUSerData(userID: i.challengerID){
+                            (result: String) in
+                            if result == "UserData"
+                            {
+                                print("User data not creator")
+                                i.friendData = self.uDB.passUserData()
+                                self.challengeList.reloadData()
+                            }
+                            
+                        }
+                        
+                        
+                    }
+                    else if i.challengerID == self.uID {
+                        self.uDB.getUSerData(userID: i.creatorID ){
+                            (result: String) in
+                            if result == "UserData"
+                            {
+                                print("User data not creator")
+                                i.friendData = self.uDB.passUserData()
+                                self.challengeList.reloadData()
+                            }
+                            
+                        }
+                    }
+                }
+                
             }
         }
         
@@ -114,36 +145,23 @@ class HomeViewController: StandardVC, UITableViewDelegate, UITableViewDataSource
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
     {
-        var challengeUser = ""
+        
         let cell:UITableViewCell=UITableViewCell(style: UITableViewCellStyle.subtitle, reuseIdentifier: "cell")
         
         let challenge = challengeData[indexPath.row]
-        print(challenge.creatorID)
-        if challenge.creatorID == uID
-        {
-            
-            challengeUser = challenge.challengerID
-            print("CHALLENGE USER IS  THE CREATOR")
-            print(challengeUser)
-            
-        } else {
-            print("CHALLENGE USER IS NOT THE CREATOR")
-            
-            challengeUser = uID
-            print(challengeUser)
-        }
+
     
     
         
                 if (challenge.status == "pending"){
                     cell.textLabel?.textColor = UIColor.darkGray
-                    cell.textLabel?.text = challengeUser
+                    cell.textLabel?.text = challenge.friendData.first! + " " + challenge.friendData.last!
                     
                     cell.detailTextLabel?.text = "Challenge Request pending"
                     
                 } else if ( challenge.status == "request" ){
                     cell.textLabel?.textColor = UIColor.magenta
-                    cell.textLabel?.text = challengeUser
+                   cell.textLabel?.text = challenge.friendData.first! + " " + challenge.friendData.last!
                     cell.detailTextLabel?.text = "Challenging You"
                     
                 } else if (challenge.status == "challenge"){
