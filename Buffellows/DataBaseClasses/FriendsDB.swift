@@ -13,9 +13,7 @@ class FriendsDB  {
     
     public static let instance = FriendsDB()
     var friendsData  = [FriendsModel]()
-    public init(){
-       // FirebaseApp.configure()
-    }
+
     
     
     let rootRef = Database.database().reference().child("Friends")
@@ -116,6 +114,7 @@ class FriendsDB  {
             
         }
         )
+    
         
         
         

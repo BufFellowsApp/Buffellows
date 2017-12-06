@@ -10,8 +10,9 @@ import UIKit
 
 class ExercisesVC: StandardVC, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate {
 
-    
-
+    let exercises = ["Shoulders","Chest", "Bicep", "Tricep", "Back", "Legs", "Cardio"]
+    var exerciseData =  [String: [String]]()
+    let eDB = ExerciseDB()
     @IBOutlet weak var exerciseList: UITableView!
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,7 +21,7 @@ class ExercisesVC: StandardVC, UITableViewDelegate, UITableViewDataSource, UISea
         exerciseList.dataSource    =   self
         exerciseList.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
         
-        
+       getWorkouts()
         //This sets up the search bar for the exercises
         searchBarSetup()
     }
@@ -29,7 +30,19 @@ class ExercisesVC: StandardVC, UITableViewDelegate, UITableViewDataSource, UISea
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
+    func getWorkouts(){
+        
+        self.exerciseData.removeAll()
+        eDB.getWorkouts(){
+            (result: String) in
+            if (result == "Exerecises"){
+                self.exerciseData = self.eDB.passWorkouts()
+               
+                self.exerciseList.reloadData()
+            }
+            
+        }
+    }
     func searchBarSetup(){
         let searchBar = UISearchBar(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 30))
         searchBar.backgroundImage = UIImage()
@@ -42,25 +55,27 @@ class ExercisesVC: StandardVC, UITableViewDelegate, UITableViewDataSource, UISea
         //in this function you can setup how the filter works (look up search bar filter)
         
     }
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        
+        return self.exercises[section]
+        
     }
-    */
+    func numberOfSections(in tableView: UITableView) -> Int {
+        
+        return exerciseData.count
+    }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        //This will return the number of cells used, so we can call data from an array and get the size of
-        //the array  (array.count) as the number of cells...
-        return 10
+
+        
+        return (exerciseData[exercises[section]]?.count)!
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        //this creates a basic cell for the table... each cell can work with the data
+       
         let cell:UITableViewCell=UITableViewCell(style: UITableViewCellStyle.subtitle, reuseIdentifier: "cell")
+        let name = exerciseData[exercises[indexPath.section]]?[indexPath.row]
+        cell.textLabel?.text = name
         return cell
     }
 

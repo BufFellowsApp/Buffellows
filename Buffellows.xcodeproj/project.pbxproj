@@ -28,6 +28,7 @@
 		C3FE27141F9CA78300C896B0 /* SettingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3FE27121F9CA78300C896B0 /* SettingsVC.swift */; };
 		C3FE27151F9CA78300C896B0 /* SettingsVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = C3FE27131F9CA78300C896B0 /* SettingsVC.xib */; };
 		EE13BF1D1FA8218000DB5692 /* FriendsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE13BF1C1FA8218000DB5692 /* FriendsModel.swift */; };
+		EE4B91A81FD6529B003F7BF8 /* ExerciseDB.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE4B91A71FD6529B003F7BF8 /* ExerciseDB.swift */; };
 		EE5681A81FBA825500ADF715 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EE5681A71FBA825500ADF715 /* Assets.xcassets */; };
 		EE5681AB1FBAC3F500ADF715 /* ChallengeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE5681A91FBAC3F500ADF715 /* ChallengeVC.swift */; };
 		EE5681AC1FBAC3F500ADF715 /* ChallengeVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = EE5681AA1FBAC3F500ADF715 /* ChallengeVC.xib */; };
@@ -66,6 +67,7 @@
 		C3FE27131F9CA78300C896B0 /* SettingsVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SettingsVC.xib; sourceTree = "<group>"; };
 		E32143505C8C3F2365982189 /* Pods-Buffellows.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Buffellows.release.xcconfig"; path = "Pods/Target Support Files/Pods-Buffellows/Pods-Buffellows.release.xcconfig"; sourceTree = "<group>"; };
 		EE13BF1C1FA8218000DB5692 /* FriendsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsModel.swift; sourceTree = "<group>"; };
+		EE4B91A71FD6529B003F7BF8 /* ExerciseDB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseDB.swift; sourceTree = "<group>"; };
 		EE5681A71FBA825500ADF715 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		EE5681A91FBAC3F500ADF715 /* ChallengeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeVC.swift; sourceTree = "<group>"; };
 		EE5681AA1FBAC3F500ADF715 /* ChallengeVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ChallengeVC.xib; sourceTree = "<group>"; };
@@ -246,6 +248,7 @@
 				EE5DD64F1F90595000F6AFE4 /* challengeDB.swift */,
 				EEA1A6201FBBEE5400EE6746 /* ChallengeModel.swift */,
 				EE7F18151FB9308E0081DB44 /* UserModel.swift */,
+				EE4B91A71FD6529B003F7BF8 /* ExerciseDB.swift */,
 			);
 			path = DataBaseClasses;
 			sourceTree = "<group>";
@@ -411,6 +414,7 @@
 				C3FE27061F9C853900C896B0 /* TabBarVC.swift in Sources */,
 				EE7F18161FB9308E0081DB44 /* UserModel.swift in Sources */,
 				C37BCEBF1F8D63C60052022E /* RegisterVC.swift in Sources */,
+				EE4B91A81FD6529B003F7BF8 /* ExerciseDB.swift in Sources */,
 				EEA1A6211FBBEE5400EE6746 /* ChallengeModel.swift in Sources */,
 				EEA1A61F1FBBEDCC00EE6746 /* FriendsDB.swift in Sources */,
 				EE13BF1D1FA8218000DB5692 /* FriendsModel.swift in Sources */,
