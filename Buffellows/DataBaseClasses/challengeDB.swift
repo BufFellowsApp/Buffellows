@@ -16,9 +16,7 @@ class challengeDB {
     var challengeList  = [ChallengeModel]()
     var challengeData = ChallengeModel()
     public static let instance = challengeDB()
-    init(){
-    }
-    
+
     
     
     // Create a new challenge
@@ -163,10 +161,12 @@ class challengeDB {
                     self.challengeData.challenge = dictionary["challenge"] as? String
                     self.challengeData.bet = dictionary["bet"] as? String
                     self.challengeData.status = dictionary["status"] as? String
-                }})
-        DispatchQueue.main.async(execute: {
-            completion("FoundChallenge")
-        })
+                }
+                completion("FoundChallenge")
+            })
+       
+            //completion("FoundChallenge")
+       
     }
     func passChallengeData () -> ChallengeModel {
         return challengeData

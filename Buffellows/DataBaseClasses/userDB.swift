@@ -17,9 +17,7 @@ class userDB  {
     
     var profilePath = String()
     var foundUser = String()
-    public init(){
-        
-    }
+
     //Call to User DB section of FireBase
     let uDB =  Database.database().reference().child("Users")
     //Call to User Profile Pic DB section of FireBase
@@ -92,7 +90,7 @@ class userDB  {
                         
                     else
                     {
-                        print ("User Data Complete")
+                        
                         completion("UserData")
                         
                     
@@ -159,7 +157,7 @@ class userDB  {
                     completion("NotFound")}
                 else
                 {
-                    print("Found user is : \(self.foundUser)")
+                    
                     completion("FoundUser")
                 }
             

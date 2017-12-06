@@ -76,7 +76,7 @@ UINavigationControllerDelegate {
                 self.uDB.setProfileURL(uID: uID!, path: profilePicUrl!)
                 self.downloadActivity.stopAnimating()
                 self.downloadActivity.isHidden = true
-                
+                self.saveProfilePic.isHidden = true
 
                 //end Uploading and updating profile image
             })
@@ -209,12 +209,8 @@ UINavigationControllerDelegate {
         //
         
         let editedImage = info[UIImagePickerControllerEditedImage] as! UIImage
-        
-
         // use the image
         profilePic.image = editedImage
-        
-
         self.saveProfilePic.isHidden = false
         dismiss(animated: true, completion: nil)
         
