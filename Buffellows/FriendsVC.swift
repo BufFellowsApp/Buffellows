@@ -46,7 +46,10 @@ class FriendsVC: StandardVC, UITableViewDelegate, UITableViewDataSource, UISearc
         getUserData()
         friendsList.delegate      =   self
         friendsList.dataSource    =   self
-        friendsList.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        let cellNib = UINib(nibName: "FriendCell", bundle: nil)
+        friendsList.register(cellNib, forCellReuseIdentifier: cellID)
+        
+        
         self.friendsList.refreshControl = self.refreshController
         self.refreshController.addTarget(self, action: #selector(FriendsVC.didRefreshList), for: .valueChanged)
         fetchFriends()
@@ -246,62 +249,73 @@ class FriendsVC: StandardVC, UITableViewDelegate, UITableViewDataSource, UISearc
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
     {
         
-        let cell:UITableViewCell=UITableViewCell(style: UITableViewCellStyle.subtitle, reuseIdentifier: "cell")
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as! FriendCell
         var user = FriendsModel()
         
         if (searchActive){
             
             user = filterData[indexPath.row]
+            let profilePicUrl = URL(string: user.friendProfilePic!)
+            cell.profileImage.kf.setImage(with: profilePicUrl)
+            
+            //rounding edges of profile picture
+            cell.profileImage.layer.cornerRadius = 10
+            cell.profileImage.clipsToBounds = true
             if (user.friendID != nil){
             if (user.status == "pending"){
-                cell.textLabel?.textColor = UIColor.darkGray
-                cell.textLabel?.text = user.first! + " " + user.last!
+                cell.friendName?.textColor = UIColor.darkGray
+                cell.friendName?.text = user.first! + " " + user.last!
                 
-                cell.detailTextLabel?.text = "Friend Request pending"
+                cell.status?.text = "Friend Request pending"
                 
             } else if ( user.status == "request" ){
-                cell.textLabel?.textColor = UIColor.magenta
-                cell.textLabel?.text = user.first! + " " + user.last!
-                cell.detailTextLabel?.text = "Requesting Friendship"
+                cell.friendName?.textColor = UIColor.magenta
+                cell.friendName?.text = user.first! + " " + user.last!
+                cell.status?.text = "Requesting Friendship"
                 
             } else if (user.status == "friend"){
-                cell.tintColor = UIColor.blue
-                cell.textLabel?.textColor = UIColor.red
-                cell.textLabel?.text = user.first! + " " + user.last!
+                
+                cell.friendName?.textColor = UIColor.red
+                cell.friendName?.text = user.first! + " " + user.last!
                 }
             
             
             else {
                 cell.tintColor = UIColor.gray
-                cell.textLabel?.textColor = UIColor.darkGray
-                cell.textLabel?.text = "No Friends"
+                cell.friendName?.textColor = UIColor.darkGray
+                cell.status?.text = "No Friends"
                
             }
             }
         }
         else {
             user = friendsData[indexPath.row]
+            let profilePicUrl = URL(string: user.friendProfilePic!)
+            cell.profileImage.kf.setImage(with: profilePicUrl)
             
+            //rounding edges of profile picture
+            cell.profileImage.layer.cornerRadius = 10
+            cell.profileImage.clipsToBounds = true
             if (user.status == "pending"){
-                cell.textLabel?.textColor = UIColor.darkGray
-                cell.textLabel?.text = user.first! + " " + user.last!
+                cell.friendName?.textColor = UIColor.darkGray
+                cell.friendName?.text = user.first! + " " + user.last!
                 
-                cell.detailTextLabel?.text = "Friend Request pending"
+                cell.status?.text = "Friend Request pending"
                 
             } else if ( user.status == "request" ){
-                cell.textLabel?.textColor = UIColor.magenta
-                cell.textLabel?.text = user.first! + " " + user.last!
-                cell.detailTextLabel?.text = "Requesting Friendship"
+                cell.friendName?.textColor = UIColor.magenta
+                cell.friendName?.text = user.first! + " " + user.last!
+                cell.status?.text = "Requesting Friendship"
                 
             } else if (user.status == "friend"){
                 cell.tintColor = UIColor.blue
-                cell.textLabel?.textColor = UIColor.red
-                cell.textLabel?.text = user.first! + " " + user.last!
+                cell.friendName?.textColor = UIColor.red
+                cell.friendName?.text = user.first! + " " + user.last!
             }
             else {
                 cell.tintColor = UIColor.gray
-                cell.textLabel?.textColor = UIColor.darkGray
-                cell.textLabel?.text = "No Friends"
+                cell.friendName?.textColor = UIColor.darkGray
+                cell.friendName?.text = "No Friends"
             }
         }
         return cell
@@ -378,6 +392,9 @@ class FriendsVC: StandardVC, UITableViewDelegate, UITableViewDataSource, UISearc
             present(refreshAlert, animated: true, completion: nil)
             
         }
+    }
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 45
     }
 }
    

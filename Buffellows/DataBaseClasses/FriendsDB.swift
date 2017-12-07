@@ -95,6 +95,7 @@ class FriendsDB  {
                 friendInfo.first = dictionary["first"] as? String
                 friendInfo.last = dictionary["last"] as? String
                 friendInfo.status = dictionary["status"] as? String
+                friendInfo.friendProfilePic = dictionary["friendProfilePic"] as? String
                 friendInfo.friendID = key
                 self.friendsData.append(friendInfo)
                 //print("Friends Model Array printing")
