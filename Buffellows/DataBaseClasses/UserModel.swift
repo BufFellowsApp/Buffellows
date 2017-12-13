@@ -14,4 +14,15 @@ class UserModel {
     var userAge: String?
     var email: String?
     var userID: String?
+    var profilePic: String?
+    
+    func clear(){
+        
+        first = nil
+        last = nil
+        userID = nil
+        email = nil
+        userAge = nil
+        profilePic = nil
+    }
 }

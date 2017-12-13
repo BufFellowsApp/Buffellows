@@ -10,6 +10,7 @@
 
 import UIKit
 import SearchTextField
+import Firebase
 
 class ChallengeVC: StandardVC {
     
@@ -20,9 +21,11 @@ class ChallengeVC: StandardVC {
     //  Number of Reps / Distance - Raw info
     //  Duration - Dropdown while searching
     //  Incentive / Prize - Raw Info
-    
+    let cDB = challengeDB()
+    var userDict = [String:String]()
     let challengeeSearch = SearchTextField(frame: CGRect(x: UIScreen.main.bounds.width/16, y: 100, width: 7*UIScreen.main.bounds.width/8, height: 50))
-    let friendsDict = ["Friends" : ["Ashish", "Eric", "Kambi", "Rahul", "Daniel"]]
+    var friendsDict = ["Friends" : ["Ashish", "Eric", "Kambi", "Rahul", "Daniel"] ]
+    
     
     let muscleGroupSearch = SearchTextField(frame: CGRect(x: UIScreen.main.bounds.width/16, y: 175, width: 7*UIScreen.main.bounds.width/8, height: 50))
     let muscleGroupDict = ["Cardio" : ["Cardio 1", "Cardio 2"],
@@ -49,10 +52,21 @@ class ChallengeVC: StandardVC {
     var reps: String!
     var duration: String!
     
+    
+    //DATABASE VARS
+    let fDB = FriendsDB()
+    let uDB = userDB()
+    var uID :String! = Auth.auth().currentUser?.uid
+    var friendsData  = [FriendsModel]()
+    
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setUpSearch(challengeeSearch, friendsDict, "Choose a friend to Challenge!")
+        //uID = Auth.auth().currentUser?.uid
+        getFriendsList()
+        //setUpSearch(challengeeSearch, friendsDict, "Choose a friend to Challenge!")
         setUpSearch(muscleGroupSearch, muscleGroupDict, "Enter in an Exercise!")
         setUpSearch(durationSearch, durDict, "How long to complete this challenge?")
         
@@ -65,11 +79,37 @@ class ChallengeVC: StandardVC {
         self.view.addSubview(submit)
         
         // Do any additional setup after loading the view.
+        
     }
     
     func submitTapped(_ sender: UIButton) {
+        let friendID = userDict[friend]
         if(self.message != nil) {
-            self.navigationController?.popViewController(animated: false)
+           
+            
+            
+            let dateformat = DateFormatter()
+            dateformat.dateFormat = "dd/MM/yyyy"
+            let challenge = ChallengeModel()
+            challenge.creatorID = uID ?? "na"
+            challenge.challengerID = friendID
+            challenge.challenge = self.reps
+            challenge.startDate = dateformat.string(from:Date())
+            challenge.endDate = self.duration
+            challenge.bet = "None"
+            challenge.status = "request"
+            challenge.exercise = self.exercise
+            
+            cDB.createChallenge(challengeData: challenge){
+            (result:String) in
+                if (result == "ChallengeAdded") {
+                    
+                    self.navigationController?.popViewController(animated: false)
+                }
+            }
+
+            
+
         } else {
             let alert = UIAlertController(title: "Error", message: "Please fill out all the information!", preferredStyle: UIAlertControllerStyle.alert)
             alert.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.default, handler: nil))
@@ -120,6 +160,7 @@ class ChallengeVC: StandardVC {
         
         // Handle what happens when the user picks an item. By default the title is set to the text field
         stf.itemSelectionHandler = {item, itemPosition in
+            
             stf.text = item.title
             selTitle = item.title
             selSub = item.subtitle
@@ -151,6 +192,7 @@ class ChallengeVC: StandardVC {
         
         if(self.friend != nil && self.reps != nil && self.duration != nil && self.exercise != nil) {
             self.message = self.friend + " has " + self.duration + " to complete " + self.reps + " of " + self.exercise
+            print(self.message)
             self.messageLabel.text = self.message
             self.messageLabel.numberOfLines = 3
             self.messageLabel.textColor = UIColor(red: 50/255, green: 0, blue: 0, alpha: 1)
@@ -161,6 +203,7 @@ class ChallengeVC: StandardVC {
     }
     
     func conditionChecking(_ string: String) {
+        
         if(string == "Cardio") {
             setUpSearch(numRepsSearch, distDict, "Enter the Distance!")
         } else {
@@ -183,5 +226,35 @@ class ChallengeVC: StandardVC {
         // Pass the selected object to the new view controller.
     }
     */
+    func getFriendsList(){
+        let getFriend = FriendsModel()
+        friendsData.removeAll()
+        getFriend.yourID = uID
+        
+        
+        self.fDB.fetchFriends(friend: getFriend) {
+            (result: String) in
+            if (result == "DataFetched"){
+                self.friendsDict["Friends"]?.removeAll()
+                self.userDict.removeAll()
+                
+                self.friendsData = self.fDB.passFriendData()
+                for users in self.friendsData {
+                    if (users.status == "friend"){
+                        let name =  "\(users.first!) \(users.last!)"
+                        
+                        self.friendsDict["Friends"]?.append(name)
+                        
+                        self.friendsDict["FriendID"]?.append(users.friendID!)
+                        self.userDict.updateValue(users.friendID!, forKey: name)
+                    }
+                }
+               
+                self.setUpSearch(self.challengeeSearch, self.friendsDict, "Choose a friend to Challenge!")
+            }
+            
+        }
+      
+    }
 
 }

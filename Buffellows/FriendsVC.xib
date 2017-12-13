@@ -12,7 +12,6 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="FriendsVC" customModule="Buffellows" customModuleProvider="target">
             <connections>
-                <outlet property="friendsCell" destination="kKV-GR-gUN" id="7Dd-ey-ZHl"/>
                 <outlet property="friendsList" destination="r0f-gC-seP" id="ECB-Ne-1vp"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
@@ -22,28 +21,16 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="r0f-gC-seP">
-                    <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" indicatorStyle="black" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" springLoaded="YES" translatesAutoresizingMaskIntoConstraints="NO" id="r0f-gC-seP">
+                    <rect key="frame" x="16" y="0.0" width="343" height="647"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <color key="sectionIndexBackgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 </tableView>
-                <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" translatesAutoresizingMaskIntoConstraints="NO" id="kKV-GR-gUN">
-                    <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
-                    <autoresizingMask key="autoresizingMask"/>
-                    <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="kKV-GR-gUN" id="GSA-WL-KuL">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </tableViewCellContentView>
-                </tableViewCell>
             </subviews>
             <color key="backgroundColor" red="0.88617795710000002" green="0.88633018730000002" blue="0.8861683011" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-            <constraints>
-                <constraint firstItem="r0f-gC-seP" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="DTB-el-XG9"/>
-                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="r0f-gC-seP" secondAttribute="trailing" id="Yk3-ZL-zEd"/>
-                <constraint firstItem="r0f-gC-seP" firstAttribute="bottom" secondItem="fnl-2z-Ty3" secondAttribute="bottom" id="kzN-AJ-53t"/>
-                <constraint firstItem="r0f-gC-seP" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="oYi-my-sSu"/>
-            </constraints>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
-            <point key="canvasLocation" x="-466.5" y="52.5"/>
+            <point key="canvasLocation" x="-471.5" y="94.5"/>
         </view>
     </objects>
 </document>

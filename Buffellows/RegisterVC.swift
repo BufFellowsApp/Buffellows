@@ -8,16 +8,55 @@
 
 import UIKit
 import Firebase
-class RegisterVC: UIViewController, UITextFieldDelegate {
+class RegisterVC: UIViewController, UITextFieldDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate {
 
     @IBOutlet weak var usernameReg: UITextField!
     @IBOutlet weak var passwordReg: UITextField!
+    @IBOutlet weak var passwordFirstPass: UITextField!
     @IBOutlet weak var firstName: UITextField!
     @IBOutlet weak var lastName: UITextField!
     @IBOutlet weak var age: UITextField!
-    let newUser = userDB()
     
+    @IBOutlet weak var spinnerAnimate: UIActivityIndicatorView!
+    @IBOutlet weak var passCheck: UIImageView!
+    @IBOutlet weak var profilePic: UIImageView!
+    let imagePicker = UIImagePickerController()
+    
+    
+    @IBAction func cameraChange(_ sender: Any) {
+        if UIImagePickerController.isSourceTypeAvailable(.camera) {
+            imagePicker.sourceType = .camera;
+            imagePicker.allowsEditing = true
+            self.present(imagePicker, animated: true, completion: nil)
+            
+            
+            
+            
+        }
+        print("Camera push")
+    }
+    
+    @IBAction func libraryChange(_ sender: Any) {
+     
+        if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
+            imagePicker.sourceType = .photoLibrary;
+            imagePicker.allowsEditing = true
+            self.present(imagePicker, animated: true, completion: nil)
+            
+            
+            
+            
+        }
+        print("Library push")
+    }
+    
+    
+    let newUser = userDB()
+    var storageRef: StorageReference!
+    
+   
     var username: String!
+    
     var password: String!
     var fName: String!
     var lName: String!
@@ -61,10 +100,14 @@ class RegisterVC: UIViewController, UITextFieldDelegate {
         userData.last = lName
         userData.userAge = uAge
         
+        spinnerAnimate.isHidden = false
+        spinnerAnimate.startAnimating()
         Auth.auth().createUser(withEmail: email, password: password, completion: { (user: User?, error) in
             
             if let error = error {
                 print(error)
+                self.spinnerAnimate.stopAnimating()
+                self.spinnerAnimate.isHidden = true
                 return
             }
             
@@ -72,32 +115,47 @@ class RegisterVC: UIViewController, UITextFieldDelegate {
                 return
             }
             userData.userID = uid
-            self.newUser.addUser(userData: userData) {
-                (result: String) in
-                if (result == "UserAdded")
-                {
-                    print("User Successfully Added into DataBase")
-                }
-                else {
-                    print("Error Error")
-                }
+            let storagePath = "/images/" + (user?.uid)! + "/profile_image.png"
+            if let uploadData = UIImagePNGRepresentation(self.profilePic.image!) {
+                self.storageRef.child(storagePath).putData(uploadData, metadata: nil, completion: { (metadata, error) in
+                    if (error != nil){
+                        print(error!)
+                        self.spinnerAnimate.stopAnimating()
+                        self.spinnerAnimate.isHidden = true
+                        return
+                        
+                    }
+                    print("Upload Success")
+                    
+                    let profilePicUrl = metadata?.downloadURL()?.absoluteString
+                    userData.profilePic = profilePicUrl
+             
+                    self.newUser.addUser(userData: userData) {
+                        (result: String) in
+                        if (result == "UserAdded")
+                        {
+                            self.spinnerAnimate.stopAnimating()
+                            self.spinnerAnimate.isHidden = true
+                            print("User Successfully Added into DataBase")
+                            UserDefaults.standard.set(uid, forKey: "uID")
+                            UserDefaults.standard.set(true, forKey: "isLoggedIn")
+                            UserDefaults.standard.set(profilePicUrl, forKey: "profilePicURL")
+                            self.saveInfo()
+                    
+                            
+                            let tabBarVC = TabBarVC()
+                            let nc = UINavigationController(rootViewController: tabBarVC)
+                            nc.setNavigationBarHidden(false, animated: false)
+                            self.present(nc, animated: false, completion: nil)
+                    
+                    
+                        }
+                        else {
+                            print("Error Error")
+                        }
+                    }
+                })
             }
-            //successfully authenticated user Still need to convert this to the userDB.swift calls.
-            /*let ref = Database.database().reference()
-            let usersReference = ref.child("Users").child(uid)
-            let values = ["name": self.firstName.text!, "email": email]
-            usersReference.updateChildValues(values, withCompletionBlock: { (err, ref) in
-                
-                if let err = err {
-                    print(err)
-                    return
-                }
-                
-                print("Saved user successfully into Firebase db")
-                
-            })*/
-            
-            
         })
     }
     
@@ -110,9 +168,10 @@ class RegisterVC: UIViewController, UITextFieldDelegate {
         super.viewDidLoad()
         
         self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
-        
+        storageRef = Storage.storage().reference()
         backgroundInit()
         textEntryInit(usernameReg, "Username")
+        textEntryInit(passwordFirstPass, "Password")
         textEntryInit(passwordReg, "Password")
         textEntryInit(firstName, "First Name")
         textEntryInit(lastName, "Last Name")
@@ -124,6 +183,23 @@ class RegisterVC: UIViewController, UITextFieldDelegate {
         passwordReg.delegate = self
         age.delegate = self
 
+        passwordFirstPass.addTarget(self, action: #selector(textChanged(textField:)), for: .editingChanged)
+        
+        
+        passwordReg.addTarget(self, action: #selector(textChanged(textField:)), for: .editingChanged)
+        
+        
+        
+        registerButton.isEnabled = false
+        // Do any additional setup after loading the view.
+        
+        
+        profilePic.layer.cornerRadius = 10
+        profilePic.clipsToBounds = true
+        profilePic.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(profileImageHandler)))
+        
+        imagePicker.delegate = self
+        
         // Do any additional setup after loading the view.
     }
 
@@ -131,7 +207,7 @@ class RegisterVC: UIViewController, UITextFieldDelegate {
         buffTitle.text = "BUFFELLOWS"
         buffTitle.font = UIFont.systemFont(ofSize: 45, weight: UIFontWeightLight)
         buffTitle.textColor = UIColor.white
-        buffTitle.frame = CGRect(x: 0, y: (UIScreen.main.bounds.height/2)-250, width: UIScreen.main.bounds.width, height: 45)
+        buffTitle.frame = CGRect(x: 0, y: (UIScreen.main.bounds.height/2)-300, width: UIScreen.main.bounds.width, height: 45)
         buffTitle.textAlignment = .center
         self.view.addSubview(buffTitle)
         
@@ -160,15 +236,21 @@ class RegisterVC: UIViewController, UITextFieldDelegate {
         blurEffectView.alpha = 0.5
         
         registerButton.layer.cornerRadius = 10
+        spinnerAnimate.isHidden = true
+        
         
         self.view.bringSubview(toFront: firstName)
         self.view.bringSubview(toFront: lastName)
         self.view.bringSubview(toFront: usernameReg)
         self.view.bringSubview(toFront: passwordReg)
+        self.view.bringSubview(toFront: passwordFirstPass)
         self.view.bringSubview(toFront: age)
         self.view.bringSubview(toFront: buffTitle)
-        self.view.bringSubview(toFront: registerButton)
+        
         self.view.bringSubview(toFront: cancelReg)
+        self.view.bringSubview(toFront: profilePic)
+        self.view.bringSubview(toFront: spinnerAnimate)
+        
     }
     
     func textEntryInit(_ textfield: UITextField, _ placeholder: String) {
@@ -186,43 +268,22 @@ class RegisterVC: UIViewController, UITextFieldDelegate {
             alert.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.default, handler: nil))
             self.present(alert, animated: true, completion: nil)
         } else {
-            saveInfo()
             
-            registerButton.addTarget(self, action: #selector(handleRegister), for: .touchUpInside)
             
-            UserDefaults.standard.set(true, forKey: "isLoggedIn")
+            //registerButton.addTarget(self, action: #selector(handleRegister), for: .touchUpInside)
             
-            let tabBarVC = TabBarVC()
-            let nc = UINavigationController(rootViewController: tabBarVC)
-            nc.setNavigationBarHidden(false, animated: false)
-            self.present(nc, animated: false, completion: nil)
+            //UserDefaults.standard.set(true, forKey: "isLoggedIn")
+            
+            //let tabBarVC = TabBarVC()
+            //let nc = UINavigationController(rootViewController: tabBarVC)
+            //nc.setNavigationBarHidden(false, animated: false)
+            //self.present(nc, animated: false, completion: nil)
             handleRegister()
         }
     }
     
     
-//  func handleRegister() //ADD DATABASE CALLS FOR REGISTER
-//    {
-//        guard let email = usernameReg.text, let password = passwordReg.text else{
-//            print ("form is invalid")
-//            return
-//        }
-//
-//        Auth.createUser(withEmail: email, password: password, completion:  (user: User, error), in
-//            //if error != nil{
-//            //    print(error)
-//              //  return
-//          //  }
-//
-//
-//        let ref = Database.database().reference(fromURL: "https://buffellows-cc410.firebaseio.com/")
-//
-//        ref.updateChildValues(["someValue": 123123])
-//
-//
-//
-//    
-//    }
+
 
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         self.view.endEditing(true)
@@ -239,14 +300,45 @@ class RegisterVC: UIViewController, UITextFieldDelegate {
     }
     
 
-    /*
-    // MARK: - Navigation
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    func textChanged(textField: UITextField){
+        
+ 
+        if ((passwordFirstPass.text == passwordReg.text) && (!(passwordReg.text?.isEmpty)! || !(passwordFirstPass.text?.isEmpty)!)) {
+            passCheck.image = UIImage(named: "good")
+            self.view.bringSubview(toFront: passCheck)
+            self.view.bringSubview(toFront: registerButton)
+            registerButton.isEnabled = true
+        } else {
+            
+            passCheck.image = UIImage(named: "notGood")
+            registerButton.isEnabled = false
+            
+        }
     }
-    */
+    
+    func profileImageHandler() {
+        if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
+            imagePicker.sourceType = .photoLibrary;
+            imagePicker.allowsEditing = true
+            self.present(imagePicker, animated: true, completion: nil)
+            
+            
+        }
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        let editedImage = info[UIImagePickerControllerEditedImage] as! UIImage
+        // use the image
+        profilePic.image = editedImage
+        dismiss(animated: true, completion: nil)
+        
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        dismiss(animated: true, completion: nil)
+        
+    }
+    
 
 }

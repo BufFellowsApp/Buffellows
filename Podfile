@@ -1,5 +1,6 @@
 # Uncomment the next line to define a global platform for your project
 # platform :ios, '9.0'
+ platform :ios, '10.3'
 
 target 'Buffellows' do
   # Comment the next line if you're not using Swift and don't want to use dynamic frameworks
@@ -13,4 +14,5 @@ target 'Buffellows' do
   pod 'Firebase/Auth'
   pod 'Firebase/Storage'
   pod 'SearchTextField', '~> 1.0.2'
+  pod 'Kingfisher', '~> 3.3'
 end
