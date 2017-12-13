@@ -75,6 +75,7 @@ class ExercisesVC: StandardVC, UITableViewDelegate, UITableViewDataSource, UISea
         challengeVC.muscleGroupDict = exerciseData
         UserDefaults.standard.set(exerciseData, forKey: "exerciseData")
         challengeVC.exerciseTitle = exerciseData[exercises[indexPath.section]]?[indexPath.row]
+        challengeVC.exerciseSub = exercises[indexPath.section]
         self.navigationController?.pushViewController(challengeVC, animated: true)
     }
     

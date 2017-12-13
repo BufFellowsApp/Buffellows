@@ -277,7 +277,8 @@ class FriendsVC: StandardVC, UITableViewDelegate, UITableViewDataSource, UISearc
                 
                 cell.friendName?.textColor = UIColor.red
                 cell.friendName?.text = user.first! + " " + user.last!
-                }
+                cell.status?.text = "Friend"
+            }
             
             
             else {
@@ -311,6 +312,7 @@ class FriendsVC: StandardVC, UITableViewDelegate, UITableViewDataSource, UISearc
                 cell.tintColor = UIColor.blue
                 cell.friendName?.textColor = UIColor.red
                 cell.friendName?.text = user.first! + " " + user.last!
+                cell.status?.text = "Friend"
             }
             else {
                 cell.tintColor = UIColor.gray
@@ -372,8 +374,12 @@ class FriendsVC: StandardVC, UITableViewDelegate, UITableViewDataSource, UISearc
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         let user = friendsData[indexPath.row]
         if (editingStyle == UITableViewCellEditingStyle.delete) {
-            let refreshAlert = UIAlertController(title: "Remove Friend", message: "Do you want to delelte friend?" , preferredStyle: UIAlertControllerStyle.alert)
+            let refreshAlert = UIAlertController(title: "Remove Friend", message: "Do you want to delete friend?" , preferredStyle: UIAlertControllerStyle.alert)
   
+            refreshAlert.addAction(UIAlertAction(title: "No", style: .default, handler: { (action: UIAlertAction) in
+                //Do not remove
+                print("Kept")
+            }))
             refreshAlert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { (action: UIAlertAction!) in
                 //Remove friend
                 print("Removed Friend")
@@ -382,10 +388,6 @@ class FriendsVC: StandardVC, UITableViewDelegate, UITableViewDataSource, UISearc
                 self.tempFriend.yourID = self.uID
                 self.fDB.delFriend(friend: self.tempFriend)
                 self.fetchFriends()
-            }))
-            refreshAlert.addAction(UIAlertAction(title: "No", style: .default, handler: { (action: UIAlertAction) in
-                //Do not remove
-                print("Kept")
             }))
 
 

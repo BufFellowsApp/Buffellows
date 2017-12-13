@@ -37,6 +37,9 @@ class HomeViewController: StandardVC, UITableViewDelegate, UITableViewDataSource
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        setup()
+        
         //Setting up file storage calls
         storageRef = Storage.storage().reference()
         
@@ -53,6 +56,13 @@ class HomeViewController: StandardVC, UITableViewDelegate, UITableViewDataSource
         loadImage()
         
        
+    }
+    
+    func setup() {
+        firstName.adjustsFontSizeToFitWidth = true
+        lastName.adjustsFontSizeToFitWidth = true
+        username.adjustsFontSizeToFitWidth = true
+        age.adjustsFontSizeToFitWidth = true
     }
     
     func loadInfo() {
@@ -232,8 +242,12 @@ class HomeViewController: StandardVC, UITableViewDelegate, UITableViewDataSource
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         let challenge = challengeData[indexPath.row]
         if (editingStyle == UITableViewCellEditingStyle.delete) {
-            let refreshAlert = UIAlertController(title: "Remove Friend", message: "Do you want to delelte challenge?" , preferredStyle: UIAlertControllerStyle.alert)
+            let refreshAlert = UIAlertController(title: "Remove Challenge", message: "Do you want to delete challenge?" , preferredStyle: UIAlertControllerStyle.alert)
             
+            refreshAlert.addAction(UIAlertAction(title: "No", style: .default, handler: { (action: UIAlertAction) in
+                //Do not remove
+                print("Not Deleted")
+            }))
             refreshAlert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { (action: UIAlertAction!) in
                 self.cDB.deleteChallenge(challengeID: challenge.challengeKey, creatorID: challenge.creatorID, challengerID: challenge.challengerID) {
                     (results: String) in
@@ -242,10 +256,6 @@ class HomeViewController: StandardVC, UITableViewDelegate, UITableViewDataSource
                     }
                 }
                
-            }))
-            refreshAlert.addAction(UIAlertAction(title: "No", style: .default, handler: { (action: UIAlertAction) in
-                //Do not remove
-                print("Not Deleted")
             }))
       
             present(refreshAlert, animated: true, completion: nil)

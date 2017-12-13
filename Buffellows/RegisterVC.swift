@@ -164,13 +164,15 @@ class RegisterVC: UIViewController, UITextFieldDelegate,UIImagePickerControllerD
     var gradientView = UIView()
     var buffTitle = UILabel()
     
+    var blackBG = UIView(frame: UIScreen.main.bounds)
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+       
         self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
         storageRef = Storage.storage().reference()
         backgroundInit()
-        textEntryInit(usernameReg, "Username")
+        textEntryInit(usernameReg, "Email")
         textEntryInit(passwordFirstPass, "Password")
         textEntryInit(passwordReg, "Password")
         textEntryInit(firstName, "First Name")
@@ -201,6 +203,29 @@ class RegisterVC: UIViewController, UITextFieldDelegate,UIImagePickerControllerD
         imagePicker.delegate = self
         
         // Do any additional setup after loading the view.
+    }
+    
+    var ogFrame = CGRect()
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        self.ogFrame = textField.frame
+        self.view.bringSubview(toFront: self.blackBG)
+        UIView.animate(withDuration: 0.5) {
+            self.blackBG.alpha = 0.7
+            self.view.addSubview(self.blackBG)
+            self.view.bringSubview(toFront: self.blackBG)
+            textField.alpha = 1
+            textField.frame = CGRect(x: self.ogFrame.minX, y: (UIScreen.main.bounds.height/4), width: self.ogFrame.width, height: self.ogFrame.height)
+            self.view.bringSubview(toFront: textField)
+            self.view.bringSubview(toFront: self.buffTitle)
+        }
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        UIView.animate(withDuration: 0.5) {
+            self.blackBG.alpha = 0
+            self.view.sendSubview(toBack: self.blackBG)
+            textField.frame = self.ogFrame
+        }
     }
 
     func backgroundInit() {
@@ -250,6 +275,11 @@ class RegisterVC: UIViewController, UITextFieldDelegate,UIImagePickerControllerD
         self.view.bringSubview(toFront: cancelReg)
         self.view.bringSubview(toFront: profilePic)
         self.view.bringSubview(toFront: spinnerAnimate)
+        
+        blackBG.alpha = 0
+        blackBG.backgroundColor = UIColor.black
+        self.view.addSubview(blackBG)
+        self.view.sendSubview(toBack: blackBG)
         
     }
     
