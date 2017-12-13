@@ -39,6 +39,8 @@
 		EE7F18161FB9308E0081DB44 /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE7F18151FB9308E0081DB44 /* UserModel.swift */; };
 		EEA1A61F1FBBEDCC00EE6746 /* FriendsDB.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEA1A61E1FBBEDCC00EE6746 /* FriendsDB.swift */; };
 		EEA1A6211FBBEE5400EE6746 /* ChallengeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEA1A6201FBBEE5400EE6746 /* ChallengeModel.swift */; };
+		EEB19EC21FDD27F500D01516 /* clcell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEB19EC01FDD27F500D01516 /* clcell.swift */; };
+		EEB19EC31FDD27F500D01516 /* clcell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EEB19EC11FDD27F500D01516 /* clcell.xib */; };
 		EED587671FA2C27D00389623 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = EED587661FA2C27C00389623 /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
@@ -80,6 +82,8 @@
 		EE7F18151FB9308E0081DB44 /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
 		EEA1A61E1FBBEDCC00EE6746 /* FriendsDB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsDB.swift; sourceTree = "<group>"; };
 		EEA1A6201FBBEE5400EE6746 /* ChallengeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeModel.swift; sourceTree = "<group>"; };
+		EEB19EC01FDD27F500D01516 /* clcell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = clcell.swift; sourceTree = "<group>"; };
+		EEB19EC11FDD27F500D01516 /* clcell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = clcell.xib; sourceTree = "<group>"; };
 		EED587661FA2C27C00389623 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "Buffellows/GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
@@ -163,6 +167,8 @@
 			children = (
 				C3A897FC1F23141700665783 /* HomeViewController.swift */,
 				C3A897FD1F23141700665783 /* HomeViewController.xib */,
+				EEB19EC01FDD27F500D01516 /* clcell.swift */,
+				EEB19EC11FDD27F500D01516 /* clcell.xib */,
 			);
 			name = HomeVC;
 			sourceTree = "<group>";
@@ -329,6 +335,7 @@
 				C3FE27071F9C853900C896B0 /* TabBarVC.xib in Resources */,
 				EE5681AC1FBAC3F500ADF715 /* ChallengeVC.xib in Resources */,
 				C3FE270D1F9C93B000C896B0 /* FriendsVC.xib in Resources */,
+				EEB19EC31FDD27F500D01516 /* clcell.xib in Resources */,
 				C3A8980A1F329A8000665783 /* StandardVC.xib in Resources */,
 				C37BCEC01F8D63C60052022E /* RegisterVC.xib in Resources */,
 				C3A898051F32938800665783 /* LoginVC.xib in Resources */,
@@ -420,6 +427,7 @@
 				C3FE27141F9CA78300C896B0 /* SettingsVC.swift in Sources */,
 				C3FE27101F9C93C200C896B0 /* ExercisesVC.swift in Sources */,
 				C3FE27061F9C853900C896B0 /* TabBarVC.swift in Sources */,
+				EEB19EC21FDD27F500D01516 /* clcell.swift in Sources */,
 				EE7F18161FB9308E0081DB44 /* UserModel.swift in Sources */,
 				C37BCEBF1F8D63C60052022E /* RegisterVC.swift in Sources */,
 				EE4B91A81FD6529B003F7BF8 /* ExerciseDB.swift in Sources */,
@@ -558,6 +566,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = LDA8VUS6TR;
 				INFOPLIST_FILE = Buffellows/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = ABCD.Buffellows;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -572,6 +581,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = LDA8VUS6TR;
 				INFOPLIST_FILE = Buffellows/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = ABCD.Buffellows;
 				PRODUCT_NAME = "$(TARGET_NAME)";
