@@ -61,7 +61,7 @@ class ChallengeVC: StandardVC {
     var friendsData  = [FriendsModel]()
     
     var exerciseTitle: String!
-    var exMessage: String!
+    var exerciseSub: String!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -163,7 +163,13 @@ class ChallengeVC: StandardVC {
         
         if (stf == self.muscleGroupSearch) {
             if(self.exerciseTitle != nil) {
-                stf.text = self.exerciseTitle
+                let item = SearchTextFieldItem(title: self.exerciseTitle, subtitle: self.exerciseSub)
+                stf.text = item.title
+                selTitle = item.title
+                selSub = item.subtitle
+                self.conditionChecking(selSub)
+                self.createMessage(selSub, selTitle)
+                
             } else {
                 
             // Handle what happens when the user picks an item. By default the title is set to the text field

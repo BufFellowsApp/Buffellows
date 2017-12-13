@@ -132,7 +132,7 @@ class LoginVC: UIViewController, UITextFieldDelegate {
         usernameLogin.textAlignment = .center
         usernameLogin.borderStyle = .none
         usernameLogin.tintColor = UIColor.white
-        usernameLogin.attributedPlaceholder = NSAttributedString(string: "Username", attributes: [NSForegroundColorAttributeName: UIColor.white.withAlphaComponent(0.7)])
+        usernameLogin.attributedPlaceholder = NSAttributedString(string: "Email", attributes: [NSForegroundColorAttributeName: UIColor.white.withAlphaComponent(0.7)])
         
         passwordLogin.backgroundColor = UIColor.clear
         passwordLogin.textColor = UIColor.white
