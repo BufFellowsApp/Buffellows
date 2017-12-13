@@ -13,6 +13,7 @@ class challengeDB {
 
     let cdDB =  Database.database().reference().child("ChallengData")
     let cuDB =  Database.database().reference().child("ChallengUser")
+    let uDB = userDB()
     var challengeList  = [ChallengeModel]()
     var challengeData = ChallengeModel()
     public static let instance = challengeDB()
@@ -89,13 +90,14 @@ class challengeDB {
     // } else {
     // code block
     // }
-    public func deleteChallenge(challengeID: String, completion:@escaping (_ result: String) -> Void) {
-        let challengeData = getData(challengeID: challengeID)
+    public func deleteChallenge(challengeID: String, creatorID: String, challengerID: String, completion:@escaping (_ result: String) -> Void) {
         
-        cuDB.child(challengeData.creatorID!).child(challengeID).removeValue()
-        cuDB.child(challengeData.challengerID!).child(challengeID).removeValue()
+        
+        cuDB.child(creatorID).child(challengeID).removeValue()
+        cuDB.child(challengerID).child(challengeID).removeValue()
         cdDB.child(challengeID).removeValue()
         DispatchQueue.main.async(execute: {
+            
             completion("ChallengeDeleted")
         })
     }
@@ -162,10 +164,10 @@ class challengeDB {
                     self.challengeData.bet = dictionary["bet"] as? String
                     self.challengeData.status = dictionary["status"] as? String
                 }
-                completion("FoundChallenge")
+                //completion("FoundChallenge")
             })
        
-            //completion("FoundChallenge")
+            completion("FoundChallenge")
        
     }
     func passChallengeData () -> ChallengeModel {
@@ -179,10 +181,11 @@ class challengeDB {
     // } else {
     // code block
     // }
-    func completeTask(userID: String, challengeID: String, day: String, completion:@escaping (_ result: String) -> Void) {
+    func completeTask(userID: String, challengeID: String)  {
         
-        cuDB.child(userID).child(challengeID).child("Day").updateChildValues([day: "True"])
-        completion("updateTask")
+        cuDB.child(userID).child(challengeID).updateChildValues(["status": "completed"])
+        cdDB.child(challengeID).updateChildValues(["status": "completed"])
+        
         
     }
     public func fetchChallenges(userID: String,  completion:@escaping (_ result: String) -> Void)  {
@@ -194,23 +197,15 @@ class challengeDB {
             
             if let dictionary = snapshot.value as? [String: AnyObject] {
                 let key = snapshot.key
-                
                 let challengeInfo = ChallengeModel()
-                
-                
                 challengeInfo.challengeKey = key
-                
                 challengeInfo.creatorID = dictionary["creatorID"] as? String
-                
                 challengeInfo.challengerID = dictionary["challengerID"] as? String
-                
                 challengeInfo.challenge = dictionary["challenge"] as? String
                 challengeInfo.endDate = dictionary["endDate"] as? String
                 challengeInfo.exercise = dictionary["exercise"] as? String
                 challengeInfo.startDate = dictionary["startDate"] as? String
                 challengeInfo.status = dictionary["status"] as? String
-                
-                
                 self.challengeList.append(challengeInfo)
                 
             }

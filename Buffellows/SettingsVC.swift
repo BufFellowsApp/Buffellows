@@ -17,6 +17,7 @@ UINavigationControllerDelegate {
     
     @IBOutlet weak var password1: UITextField!
     @IBOutlet weak var password2: UITextField!
+    @IBOutlet weak var oldPassword: UITextField!
     @IBOutlet weak var changePassword: UIButton!
     @IBOutlet weak var passimage: UIImageView!
     
@@ -27,7 +28,7 @@ UINavigationControllerDelegate {
     let imagePicker = UIImagePickerController()
     var storageRef: StorageReference!
     let uDB = userDB()
-    @IBOutlet weak var spinnerAnimate: UIActivityIndicatorView!
+    
     
     @IBAction func openCameraButton(_ sender: Any) {
         if UIImagePickerController.isSourceTypeAvailable(.camera) {
@@ -64,8 +65,9 @@ UINavigationControllerDelegate {
             self.storageRef.child(storagePath).putData(uploadData, metadata: nil, completion: { (metadata, error) in
                 if (error != nil){
                     print(error!)
-                    self.spinnerAnimate.stopAnimating()
-                    self.spinnerAnimate.isHidden = true
+                    self.downloadActivity.stopAnimating()
+                    self.downloadActivity.isHidden = true
+                    
                     return
                     
                 }
@@ -88,17 +90,33 @@ UINavigationControllerDelegate {
     @IBAction func changePassword(_ sender: Any) {
    
             
-                // [START change_password]
-            Auth.auth().currentUser?.updatePassword(to: password1.text!) { (error) in
-                    // [START_EXCLUDE]
+       
+            if let password = self.password1.text {
                 
+                self.downloadActivity.startAnimating()
                 
-                    // [END_EXCLUDE]
+                    // [START change_password]
+                    Auth.auth().currentUser?.updatePassword(to: password) { (error) in
+                        // [START_EXCLUDE]
+                        if error == nil {
+                            self.downloadActivity.stopAnimating()
+                            self.password1.text = ""
+                            self.password2.text = ""
+                        }
+                        else {
+                            print(error!)
+                            self.downloadActivity.stopAnimating()
+                            self.password1.text = ""
+                            self.password2.text = ""
+                        }
+                        
+                        
+                    }
+                
                 }
-                // [END change_password]
+     
         
-    
-            print("Password Changed")
+
             
     
             
@@ -109,7 +127,7 @@ UINavigationControllerDelegate {
         setupNavBar()
         storageRef = Storage.storage().reference()
         
-        downloadActivity.isHidden = true
+        downloadActivity.hidesWhenStopped = true
         password1.addTarget(self, action: #selector(textChanged(textField:)), for: .editingChanged)
         
         

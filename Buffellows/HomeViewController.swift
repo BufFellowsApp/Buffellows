@@ -43,10 +43,14 @@ class HomeViewController: StandardVC, UITableViewDelegate, UITableViewDataSource
         //initializing list view
         challengeList.delegate      =   self
         challengeList.dataSource    =   self
-        challengeList.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        let cellNib = UINib(nibName: "clcell", bundle: nil)
+        challengeList.register(cellNib, forCellReuseIdentifier: cellID)
+        
         
         //load saved data
         loadInfo()
+        
+        
         loadImage()
         
         // Do any additional setup after loading the view.
@@ -78,8 +82,8 @@ class HomeViewController: StandardVC, UITableViewDelegate, UITableViewDataSource
         // Dispose of any resources that can be recreated.
     }
     override func viewDidAppear(_ animated: Bool) {
-        
-            fetchChallenge()
+        challengeData.removeAll()
+        fetchChallenge()
         
         loadImage()
         self.challengeList.reloadData()
@@ -107,37 +111,23 @@ class HomeViewController: StandardVC, UITableViewDelegate, UITableViewDataSource
     // MARK: - Get Challenges
     func fetchChallenge() {
         //clear challenge data for clean use
+        self.challengeList.reloadData()
         self.challengeData.removeAll()
         
         //challenge data is called for current challenges
         //for current user
-        self.cDB.fetchChallenges(userID: uID) {
+
+            self.cDB.fetchChallenges(userID: self.uID) {
             (result: String) in
             if (result == "DataFetched"){
                 self.challengeData = self.cDB.passFriendData()
-                for i in self.challengeData {
-                    //call user data of friend for display
-                    if i.creatorID == self.uID {
-                        self.uDB.getUSerData(userID: i.challengerID){
-                            (result: String) in
-                            if result == "UserData"{
-                                i.friendData = self.uDB.passUserData()
-                                self.challengeList.reloadData()
-                            }
-                        }
-                    }
-                    else if i.challengerID == self.uID {
-                        self.uDB.getUSerData(userID: i.creatorID ){
-                            (result: String) in
-                            if result == "UserData" {
-                                i.friendData = self.uDB.passUserData()
-                                self.challengeList.reloadData()
-                            }
-                        }
-                    }
-                }
+                self.challengeList.reloadData()
             }
         }
+     
+     
+
+        self.challengeList.reloadData()
     }
     
     // MARK: - TableView
@@ -151,30 +141,44 @@ class HomeViewController: StandardVC, UITableViewDelegate, UITableViewDataSource
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
     {
         
-        let cell:UITableViewCell=UITableViewCell(style: UITableViewCellStyle.subtitle, reuseIdentifier: "cell")
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as! clcell
         
         let challenge = challengeData[indexPath.row]
         
+        
+            
         if (challenge.status == "pending"){
-            cell.textLabel?.textColor = UIColor.darkGray
-            cell.textLabel?.text = challenge.friendData.first! + " " + challenge.friendData.last!
-            cell.detailTextLabel?.text = "Challenge Request pending"
+            cell.challenge?.textColor = UIColor.darkGray
+            cell.challenge?.text = challenge.challenge!
+            cell.userID = uID
+            cell.challengeID = challenge.challengeKey
+           
                     
         } else if ( challenge.status == "request" ){
-            cell.textLabel?.textColor = UIColor.magenta
-            cell.textLabel?.text = challenge.friendData.first! + " " + challenge.friendData.last!
-            cell.detailTextLabel?.text = "Challenging You"
+            cell.challenge?.textColor = UIColor.magenta
+            cell.challenge?.text = challenge.challenge!
+            cell.userID = uID
+            cell.challengeID = challenge.challengeKey
+            
                     
         } else if (challenge.status == "challenge"){
             cell.tintColor = UIColor.blue
-            cell.textLabel?.textColor = UIColor.red
-            cell.textLabel?.text = challenge.challenge
+            cell.challenge?.textColor = UIColor.red
+            cell.challenge?.text = challenge.challenge!
+            cell.userID = uID
+            cell.challengeID = challenge.challengeKey
             cell.detailTextLabel?.text =  "Challenge Commencing"
+            cell.complete.isHidden = false
         } else {
             cell.tintColor = UIColor.gray
-            cell.textLabel?.textColor = UIColor.darkGray
-            cell.textLabel?.text = "No Challenges"
-        }
+            cell.challenge?.textColor = UIColor.darkGray
+            cell.challenge?.text = "No Challenges"
+            }
+            
+        
+    
+            
+        
         return cell
     }
     
@@ -184,11 +188,26 @@ class HomeViewController: StandardVC, UITableViewDelegate, UITableViewDataSource
         if (challenge.status == "request") {
             let refreshAlert = UIAlertController(title: "You have been Challenged", message: "Do you want to accept request?" , preferredStyle: UIAlertControllerStyle.alert)
             refreshAlert.addAction(UIAlertAction(title: "Accept", style: .default, handler: { (action: UIAlertAction!) in
-                //Accept Challenge
+                self.cDB.updateChallenge(challengeID: challenge.challengeKey, creattorInfo: challenge.creatorID, challengerInfo: challenge.challengerID, challengeStatus: "challenge") {
+                    
+                    (results: String) in
+                    if (results == "ChallengeUpdated"){
+                    self.fetchChallenge()
+                    }
+                    
+                }
             print("Accepted Challenge")
+
             }))
             refreshAlert.addAction(UIAlertAction(title: "Decline", style: .default, handler: { (action: UIAlertAction) in
-                //Do not Accept
+                self.cDB.deleteChallenge(challengeID: challenge.challengeKey, creatorID: challenge.creatorID, challengerID: challenge.challengerID) {
+                    (results: String) in
+                    if (results == "ChallengeDeleted"){
+                        self.fetchChallenge()
+                    }
+                }
+
+                
                 print("Declined Challenge")
             }))
             refreshAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action: UIAlertAction!) in
@@ -205,12 +224,17 @@ class HomeViewController: StandardVC, UITableViewDelegate, UITableViewDataSource
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        
+        let challenge = challengeData[indexPath.row]
         if (editingStyle == UITableViewCellEditingStyle.delete) {
             let refreshAlert = UIAlertController(title: "Remove Friend", message: "Do you want to delelte friend?" , preferredStyle: UIAlertControllerStyle.alert)
             
             refreshAlert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { (action: UIAlertAction!) in
-                //Remove friend
+                self.cDB.deleteChallenge(challengeID: challenge.challengeKey, creatorID: challenge.creatorID, challengerID: challenge.challengerID) {
+                    (results: String) in
+                    if (results == "ChallengeDeleted"){
+                        self.fetchChallenge()
+                    }
+                }
                
             }))
             refreshAlert.addAction(UIAlertAction(title: "No", style: .default, handler: { (action: UIAlertAction) in
