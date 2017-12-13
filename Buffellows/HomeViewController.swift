@@ -152,14 +152,14 @@ class HomeViewController: StandardVC, UITableViewDelegate, UITableViewDataSource
             cell.challenge?.text = challenge.challenge!
             cell.userID = uID
             cell.challengeID = challenge.challengeKey
-           
+           cell.complete.isHidden = true
                     
         } else if ( challenge.status == "request" ){
             cell.challenge?.textColor = UIColor.magenta
             cell.challenge?.text = challenge.challenge!
             cell.userID = uID
             cell.challengeID = challenge.challengeKey
-            
+            cell.complete.isHidden = true
                     
         } else if (challenge.status == "challenge"){
             cell.tintColor = UIColor.blue
@@ -173,6 +173,7 @@ class HomeViewController: StandardVC, UITableViewDelegate, UITableViewDataSource
             cell.tintColor = UIColor.gray
             cell.challenge?.textColor = UIColor.darkGray
             cell.challenge?.text = "No Challenges"
+            cell.complete.isHidden = true
             }
             
         
