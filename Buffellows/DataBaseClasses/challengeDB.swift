@@ -183,8 +183,8 @@ class challengeDB {
     // }
     func completeTask(creatorID: String, challengerID: String, challengeID: String)  {
         
-        cuDB.child(creatorID).child(challengeID).updateChildValues(["status": "challenge"])
-        cuDB.child(challengerID).child(challengeID).updateChildValues(["status": "challenge"])
+        cuDB.child(creatorID).child(challengeID).updateChildValues(["status": "complete"])
+        cuDB.child(challengerID).child(challengeID).updateChildValues(["status": "complete"])
         cdDB.child(challengeID).updateChildValues(["status": "complete"])
         
         

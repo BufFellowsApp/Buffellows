@@ -39,7 +39,7 @@ class ChallengeVC: StandardVC {
     
     let numRepsSearch = SearchTextField(frame: CGRect(x: UIScreen.main.bounds.width/16, y: 250, width: 7*UIScreen.main.bounds.width/8, height: 50))
     let numRepsDict = ["Reps" : ["10 Reps", "25 Reps", "50 Reps", "75 Reps", "100 Reps", "150 Reps", "200 Reps"]]
-    let distDict = ["Distance": ["1 Mile", "2 Miles", "2.5 Miles", "3 Miles"]]
+    let distDict = ["Distance": ["30 Minutes", "1 Hour", "1 Mile", "2 Miles", "2.5 Miles", "3 Miles"]]
     
     let durationSearch = SearchTextField(frame: CGRect(x: UIScreen.main.bounds.width/16, y: 325, width: 7*UIScreen.main.bounds.width/8, height: 50))
     let durDict = ["Duration": ["1 Day", "2 Days", "3 Days", "4 Days", "5 Days", "6 Days", "1 Week", "2 Weeks"]]
