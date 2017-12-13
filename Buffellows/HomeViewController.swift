@@ -142,31 +142,35 @@ class HomeViewController: StandardVC, UITableViewDelegate, UITableViewDataSource
         
         if (challenge.status == "pending"){
             cell.challenge?.textColor = UIColor.darkGray
-            cell.challenge?.text = challenge.challenge!
-            cell.userID = uID
-            cell.challengeID = challenge.challengeKey
-           cell.complete.isHidden = true
+            cell.challenge?.text = challenge.challenge! + " is pending"
+            
+           
                     
         } else if ( challenge.status == "request" ){
             cell.challenge?.textColor = UIColor.magenta
-            cell.challenge?.text = challenge.challenge!
-            cell.userID = uID
-            cell.challengeID = challenge.challengeKey
-            cell.complete.isHidden = true
+            cell.challenge?.text = challenge.challenge! + " is waitng for response"
+           
+            
+            
                     
         } else if (challenge.status == "challenge"){
             cell.tintColor = UIColor.blue
             cell.challenge?.textColor = UIColor.red
             cell.challenge?.text = challenge.challenge!
-            cell.userID = uID
-            cell.challengeID = challenge.challengeKey
+            
             cell.detailTextLabel?.text =  "Challenge Commencing"
-            cell.complete.isHidden = false
-        } else {
+            
+            
+   
+            
+        }
+        else if (challenge.status == "completed") {
+            cell.challenge.text = challenge.challenge + " has been completed!"
+        }
+        else {
             cell.tintColor = UIColor.gray
             cell.challenge?.textColor = UIColor.darkGray
             cell.challenge?.text = "No Challenges"
-            cell.complete.isHidden = true
             }
 
         return cell
@@ -204,6 +208,20 @@ class HomeViewController: StandardVC, UITableViewDelegate, UITableViewDataSource
             }))
             present(refreshAlert, animated: true, completion: nil)
         }
+        else if (challenge.status == "challenge") {
+            let refreshAlert = UIAlertController(title: "Challenge", message: "Have you compelted the challenge?" , preferredStyle: UIAlertControllerStyle.alert)
+            refreshAlert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { (action: UIAlertAction!) in
+                self.cDB.completeTask(creatorID: challenge.creatorID, challengerID: challenge.challengerID, challengeID: challenge.challengeKey)
+                
+            }))
+
+            refreshAlert.addAction(UIAlertAction(title: "No", style: .cancel, handler: { (action: UIAlertAction!) in
+                // Do nothing
+                print("Have no completed")
+            }))
+            present(refreshAlert, animated: true, completion: nil)
+        }
+        
     }
     
     
@@ -234,4 +252,6 @@ class HomeViewController: StandardVC, UITableViewDelegate, UITableViewDataSource
             
         }
     }
+
+
 }

@@ -112,14 +112,14 @@ class challengeDB {
     // }
     public func updateChallenge(challengeID: String, creattorInfo: String, challengerInfo: String, challengeStatus: String, completion:@escaping (_ result: String) -> Void)
     {
-        let challengeData = getData(challengeID: challengeID)
         
-        cuDB.child(challengeData.creatorID!).child(challengeID).updateChildValues(["status": creattorInfo])
-        cuDB.child(challengeData.challengerID!).child(challengeID).updateChildValues(["status": creattorInfo])
-        cdDB.child(challengeID).updateChildValues(["status": challengeStatus])
-        DispatchQueue.main.async(execute: {
+        
+        cuDB.child(creattorInfo).child(challengeID).updateChildValues(["status": "challenge"])
+        cuDB.child(challengerInfo).child(challengeID).updateChildValues(["status": "challenge"])
+        cdDB.child(challengeID).updateChildValues(["status": "challenge"])
+        
             completion("ChallengeUpdated")
-        })
+       
     }
     //Function for user to update if they completed their task for the challenge that day.
     // to call  challengeDB.getChallenge(challengeID) {
@@ -174,17 +174,18 @@ class challengeDB {
         return challengeData
     }
     //Function for user to update if they completed their task for the challenge that day.
-    // to call  userDB.completeTask(userID, challengeID, dayOfTheWeek) {
+    // to call  userDB.completeTask(creatorID, challengerID, challengeID) {
     // (result: String) in
     // if (result == "updateTask") {
     //  code block
     // } else {
     // code block
     // }
-    func completeTask(userID: String, challengeID: String)  {
+    func completeTask(creatorID: String, challengerID: String, challengeID: String)  {
         
-        cuDB.child(userID).child(challengeID).updateChildValues(["status": "completed"])
-        cdDB.child(challengeID).updateChildValues(["status": "completed"])
+        cuDB.child(creatorID).child(challengeID).updateChildValues(["status": "challenge"])
+        cuDB.child(challengerID).child(challengeID).updateChildValues(["status": "challenge"])
+        cdDB.child(challengeID).updateChildValues(["status": "complete"])
         
         
     }

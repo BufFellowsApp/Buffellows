@@ -11,15 +11,14 @@ import UIKit
 class clcell: UITableViewCell {
 
     let cDB = challengeDB()
-    var challengeID = ""
-    var userID = ""
+    var challengeID: String?
+    var createorID: String?
+    var challengerID: String?
     
     @IBOutlet weak var challenge: UILabel!
     @IBOutlet weak var complete: UIButton!
     
-    @IBAction func cChallenge(_ sender: Any) {
-        cDB.completeTask(userID: userID, challengeID: challengeID)
-    }
+   
     
     
 }
