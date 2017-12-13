@@ -10,7 +10,7 @@ import UIKit
 
 class ExercisesVC: StandardVC, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate {
 
-    let exercises = ["Shoulders","Chest", "Bicep", "Tricep", "Back", "Legs", "Cardio"]
+    let exercises = ["Shoulders", "Chest", "Bicep", "Tricep", "Back", "Legs", "Cardio"]
     var exerciseData =  [String: [String]]()
     let eDB = ExerciseDB()
     @IBOutlet weak var exerciseList: UITableView!
@@ -68,6 +68,14 @@ class ExercisesVC: StandardVC, UITableViewDelegate, UITableViewDataSource, UISea
 
         
         return (exerciseData[exercises[section]]?.count)!
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let challengeVC = ChallengeVC()
+        challengeVC.muscleGroupDict = exerciseData
+        UserDefaults.standard.set(exerciseData, forKey: "exerciseData")
+        challengeVC.exerciseTitle = exerciseData[exercises[indexPath.section]]?[indexPath.row]
+        self.navigationController?.pushViewController(challengeVC, animated: true)
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
