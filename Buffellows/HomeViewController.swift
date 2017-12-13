@@ -46,14 +46,13 @@ class HomeViewController: StandardVC, UITableViewDelegate, UITableViewDataSource
         let cellNib = UINib(nibName: "clcell", bundle: nil)
         challengeList.register(cellNib, forCellReuseIdentifier: cellID)
         
-        
         //load saved data
         loadInfo()
         
-        
+        // Do any additional setup after loading the view.
         loadImage()
         
-        // Do any additional setup after loading the view.
+       
     }
     
     func loadInfo() {
@@ -72,9 +71,7 @@ class HomeViewController: StandardVC, UITableViewDelegate, UITableViewDataSource
         username.text = UserDefaults.standard.value(forKey: "username") as? String
         age.text = UserDefaults.standard.value(forKey: "age") as? String
         profilePicUrlString = UserDefaults.standard.value(forKey: "profilePicURL") as! String
-       
-        
-        
+     
     }
 
     override func didReceiveMemoryWarning() {
@@ -84,7 +81,6 @@ class HomeViewController: StandardVC, UITableViewDelegate, UITableViewDataSource
     override func viewDidAppear(_ animated: Bool) {
         challengeData.removeAll()
         fetchChallenge()
-        
         loadImage()
         self.challengeList.reloadData()
         
@@ -142,11 +138,8 @@ class HomeViewController: StandardVC, UITableViewDelegate, UITableViewDataSource
     {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as! clcell
-        
         let challenge = challengeData[indexPath.row]
         
-        
-            
         if (challenge.status == "pending"){
             cell.challenge?.textColor = UIColor.darkGray
             cell.challenge?.text = challenge.challenge!
@@ -175,11 +168,7 @@ class HomeViewController: StandardVC, UITableViewDelegate, UITableViewDataSource
             cell.challenge?.text = "No Challenges"
             cell.complete.isHidden = true
             }
-            
-        
-    
-            
-        
+
         return cell
     }
     
@@ -206,9 +195,7 @@ class HomeViewController: StandardVC, UITableViewDelegate, UITableViewDataSource
                     if (results == "ChallengeDeleted"){
                         self.fetchChallenge()
                     }
-                }
-
-                
+                }                
                 print("Declined Challenge")
             }))
             refreshAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action: UIAlertAction!) in
@@ -227,7 +214,7 @@ class HomeViewController: StandardVC, UITableViewDelegate, UITableViewDataSource
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         let challenge = challengeData[indexPath.row]
         if (editingStyle == UITableViewCellEditingStyle.delete) {
-            let refreshAlert = UIAlertController(title: "Remove Friend", message: "Do you want to delelte friend?" , preferredStyle: UIAlertControllerStyle.alert)
+            let refreshAlert = UIAlertController(title: "Remove Friend", message: "Do you want to delelte challenge?" , preferredStyle: UIAlertControllerStyle.alert)
             
             refreshAlert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { (action: UIAlertAction!) in
                 self.cDB.deleteChallenge(challengeID: challenge.challengeKey, creatorID: challenge.creatorID, challengerID: challenge.challengerID) {
@@ -240,10 +227,9 @@ class HomeViewController: StandardVC, UITableViewDelegate, UITableViewDataSource
             }))
             refreshAlert.addAction(UIAlertAction(title: "No", style: .default, handler: { (action: UIAlertAction) in
                 //Do not remove
-                print("Kept")
+                print("Not Deleted")
             }))
-            
-            
+      
             present(refreshAlert, animated: true, completion: nil)
             
         }
