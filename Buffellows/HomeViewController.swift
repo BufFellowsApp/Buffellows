@@ -174,7 +174,7 @@ class HomeViewController: StandardVC, UITableViewDelegate, UITableViewDataSource
    
             
         }
-        else if (challenge.status == "completed") {
+        else if (challenge.status == "complete") {
             cell.challenge.text = challenge.challenge + " has been completed!"
         }
         else {
